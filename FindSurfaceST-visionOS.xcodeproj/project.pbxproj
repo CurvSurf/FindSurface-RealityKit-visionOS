@@ -1,0 +1,685 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F30A5DB32C19717700E9AC75 /* FindSurfaceST_visionOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30A5DB22C19717700E9AC75 /* FindSurfaceST_visionOSApp.swift */; };
+		F30A5DB52C19717700E9AC75 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30A5DB42C19717700E9AC75 /* ContentView.swift */; };
+		F30A5DB72C19717700E9AC75 /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30A5DB62C19717700E9AC75 /* ImmersiveView.swift */; };
+		F30A5DB92C19717800E9AC75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F30A5DB82C19717800E9AC75 /* Assets.xcassets */; };
+		F30A5DBC2C19717800E9AC75 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F30A5DBB2C19717800E9AC75 /* Preview Assets.xcassets */; };
+		F31271652C2A89E50022C965 /* PlaneEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31271642C2A89E50022C965 /* PlaneEntity.swift */; };
+		F31271672C2A8B3E0022C965 /* SphereEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31271662C2A8B3E0022C965 /* SphereEntity.swift */; };
+		F31271692C2A8C300022C965 /* CylinderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31271682C2A8C300022C965 /* CylinderEntity.swift */; };
+		F312716B2C2A8CE80022C965 /* ConeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716A2C2A8CE80022C965 /* ConeEntity.swift */; };
+		F312716D2C2A8F930022C965 /* TorusEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716C2C2A8F930022C965 /* TorusEntity.swift */; };
+		F312716F2C2A99A60022C965 /* GeometryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716E2C2A99A60022C965 /* GeometryEntity.swift */; };
+		F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */; };
+		F3F0FDE52C205B4D00E0E029 /* RestartGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDE42C205B4D00E0E029 /* RestartGuideView.swift */; };
+		F3F0FDE72C205E8200E0E029 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDE62C205E8200E0E029 /* SessionManager.swift */; };
+		F3F0FDE92C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDE82C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift */; };
+		F3F0FDEC2C205FE700E0E029 /* SceneIDProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDEB2C205FE700E0E029 /* SceneIDProtocol.swift */; };
+		F3F0FDEF2C20608700E0E029 /* TrackingScenePhaseModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDEE2C20608700E0E029 /* TrackingScenePhaseModifier.swift */; };
+		F3F0FDF22C20618D00E0E029 /* TrackerLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDF12C20618D00E0E029 /* TrackerLocation.swift */; };
+		F3F0FDF42C20622700E0E029 /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDF32C20622700E0E029 /* Hand.swift */; };
+		F3F0FDF72C20635C00E0E029 /* GeometrySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDF62C20635C00E0E029 /* GeometrySource.swift */; };
+		F3F0FDFA2C20637400E0E029 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = F3F0FDF92C20637400E0E029 /* Algorithms */; };
+		F3F0FDFC2C2063A700E0E029 /* MeshResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDFB2C2063A700E0E029 /* MeshResource.swift */; };
+		F3F0FDFE2C206E3800E0E029 /* ModelEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDFD2C206E3800E0E029 /* ModelEntity.swift */; };
+		F3F0FE002C206E8C00E0E029 /* MeshAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDFF2C206E8C00E0E029 /* MeshAnchor.swift */; };
+		F3F0FE022C206EFF00E0E029 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE012C206EFF00E0E029 /* Material.swift */; };
+		F3F0FE042C20702E00E0E029 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE032C20702E00E0E029 /* Extensions.swift */; };
+		F3F0FE062C20706700E0E029 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE052C20706700E0E029 /* Binding.swift */; };
+		F3F0FE082C2070BF00E0E029 /* DeviceAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE072C2070BF00E0E029 /* DeviceAnchor.swift */; };
+		F3F0FE0A2C2070E500E0E029 /* simd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE092C2070E500E0E029 /* simd.swift */; };
+		F3F0FE162C20780800E0E029 /* ImageButtonPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE152C20780800E0E029 /* ImageButtonPicker.swift */; };
+		F3F0FE182C2153DF00E0E029 /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE172C2153DF00E0E029 /* AppStorage.swift */; };
+		F3F0FE1A2C2154EF00E0E029 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE192C2154EF00E0E029 /* AppState.swift */; };
+		F3F0FE1C2C2158AE00E0E029 /* PersistentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE1B2C2158AE00E0E029 /* PersistentObject.swift */; };
+		F3F0FE1F2C216BC400E0E029 /* ResultMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE1E2C216BC400E0E029 /* ResultMessage.swift */; };
+		F3F0FE212C216FBF00E0E029 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE202C216FBF00E0E029 /* ResultView.swift */; };
+		F3F0FE232C216FD200E0E029 /* TypewriterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE222C216FD200E0E029 /* TypewriterView.swift */; };
+		F3F0FE252C21738300E0E029 /* ResultMessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE242C21738300E0E029 /* ResultMessageListView.swift */; };
+		F3F0FE272C2173A200E0E029 /* ResultSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE262C2173A200E0E029 /* ResultSectionHeader.swift */; };
+		F3F0FE2A2C2174B200E0E029 /* FeatureTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE292C2174B200E0E029 /* FeatureTypePicker.swift */; };
+		F3F0FE2C2C21758700E0E029 /* NumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE2B2C21758700E0E029 /* NumericTextField.swift */; };
+		F3F0FE2E2C2176B100E0E029 /* LevelSteppers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE2D2C2176B100E0E029 /* LevelSteppers.swift */; };
+		F3F0FE302C21784500E0E029 /* ShowHideToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE2F2C21784500E0E029 /* ShowHideToggle.swift */; };
+		F3F0FE322C21787C00E0E029 /* ControlSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE312C21787C00E0E029 /* ControlSectionHeader.swift */; };
+		F3F0FE342C21789A00E0E029 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE332C21789A00E0E029 /* ControlView.swift */; };
+		F3F0FE362C217C9C00E0E029 /* ClearSceneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE352C217C9C00E0E029 /* ClearSceneButton.swift */; };
+		F3F0FE382C217EA900E0E029 /* ResultAttachmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE372C217EA900E0E029 /* ResultAttachmentView.swift */; };
+		F3F0FE3A2C2181CB00E0E029 /* ErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE392C2181CB00E0E029 /* ErrorCode.swift */; };
+		F3F0FE3D2C218BF000E0E029 /* ErrorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE3C2C218BF000E0E029 /* ErrorDetailView.swift */; };
+		F3F0FE3F2C218D9D00E0E029 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE3E2C218D9D00E0E029 /* ErrorView.swift */; };
+		F3F0FE412C2193BD00E0E029 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE402C2193BD00E0E029 /* PanelView.swift */; };
+		F3F0FE432C21948500E0E029 /* SpatialTapGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE422C21948500E0E029 /* SpatialTapGesture.swift */; };
+		F3F0FE492C21B6EE00E0E029 /* SeedAreaIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE482C21B6EE00E0E029 /* SeedAreaIndicator.swift */; };
+		F3F0FE752C24388B00E0E029 /* FailSignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FE742C24388B00E0E029 /* FailSignView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F30A5DAB2C19717700E9AC75 /* FindSurfaceST-visionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FindSurfaceST-visionOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F30A5DB22C19717700E9AC75 /* FindSurfaceST_visionOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindSurfaceST_visionOSApp.swift; sourceTree = "<group>"; };
+		F30A5DB42C19717700E9AC75 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F30A5DB62C19717700E9AC75 /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
+		F30A5DB82C19717800E9AC75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F30A5DBB2C19717800E9AC75 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F30A5DBD2C19717800E9AC75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F31271642C2A89E50022C965 /* PlaneEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneEntity.swift; sourceTree = "<group>"; };
+		F31271662C2A8B3E0022C965 /* SphereEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SphereEntity.swift; sourceTree = "<group>"; };
+		F31271682C2A8C300022C965 /* CylinderEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CylinderEntity.swift; sourceTree = "<group>"; };
+		F312716A2C2A8CE80022C965 /* ConeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeEntity.swift; sourceTree = "<group>"; };
+		F312716C2C2A8F930022C965 /* TorusEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusEntity.swift; sourceTree = "<group>"; };
+		F312716E2C2A99A60022C965 /* GeometryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryEntity.swift; sourceTree = "<group>"; };
+		F3F0FDE42C205B4D00E0E029 /* RestartGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartGuideView.swift; sourceTree = "<group>"; };
+		F3F0FDE62C205E8200E0E029 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		F3F0FDE82C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenePhaseTrackerProtocol.swift; sourceTree = "<group>"; };
+		F3F0FDEB2C205FE700E0E029 /* SceneIDProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneIDProtocol.swift; sourceTree = "<group>"; };
+		F3F0FDEE2C20608700E0E029 /* TrackingScenePhaseModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingScenePhaseModifier.swift; sourceTree = "<group>"; };
+		F3F0FDF12C20618D00E0E029 /* TrackerLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerLocation.swift; sourceTree = "<group>"; };
+		F3F0FDF32C20622700E0E029 /* Hand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
+		F3F0FDF62C20635C00E0E029 /* GeometrySource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometrySource.swift; sourceTree = "<group>"; };
+		F3F0FDFB2C2063A700E0E029 /* MeshResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshResource.swift; sourceTree = "<group>"; };
+		F3F0FDFD2C206E3800E0E029 /* ModelEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelEntity.swift; sourceTree = "<group>"; };
+		F3F0FDFF2C206E8C00E0E029 /* MeshAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshAnchor.swift; sourceTree = "<group>"; };
+		F3F0FE012C206EFF00E0E029 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
+		F3F0FE032C20702E00E0E029 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F3F0FE052C20706700E0E029 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
+		F3F0FE072C2070BF00E0E029 /* DeviceAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAnchor.swift; sourceTree = "<group>"; };
+		F3F0FE092C2070E500E0E029 /* simd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simd.swift; sourceTree = "<group>"; };
+		F3F0FE152C20780800E0E029 /* ImageButtonPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButtonPicker.swift; sourceTree = "<group>"; };
+		F3F0FE172C2153DF00E0E029 /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
+		F3F0FE192C2154EF00E0E029 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		F3F0FE1B2C2158AE00E0E029 /* PersistentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentObject.swift; sourceTree = "<group>"; };
+		F3F0FE1E2C216BC400E0E029 /* ResultMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultMessage.swift; sourceTree = "<group>"; };
+		F3F0FE202C216FBF00E0E029 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
+		F3F0FE222C216FD200E0E029 /* TypewriterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypewriterView.swift; sourceTree = "<group>"; };
+		F3F0FE242C21738300E0E029 /* ResultMessageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultMessageListView.swift; sourceTree = "<group>"; };
+		F3F0FE262C2173A200E0E029 /* ResultSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSectionHeader.swift; sourceTree = "<group>"; };
+		F3F0FE292C2174B200E0E029 /* FeatureTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureTypePicker.swift; sourceTree = "<group>"; };
+		F3F0FE2B2C21758700E0E029 /* NumericTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericTextField.swift; sourceTree = "<group>"; };
+		F3F0FE2D2C2176B100E0E029 /* LevelSteppers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSteppers.swift; sourceTree = "<group>"; };
+		F3F0FE2F2C21784500E0E029 /* ShowHideToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowHideToggle.swift; sourceTree = "<group>"; };
+		F3F0FE312C21787C00E0E029 /* ControlSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlSectionHeader.swift; sourceTree = "<group>"; };
+		F3F0FE332C21789A00E0E029 /* ControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
+		F3F0FE352C217C9C00E0E029 /* ClearSceneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearSceneButton.swift; sourceTree = "<group>"; };
+		F3F0FE372C217EA900E0E029 /* ResultAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultAttachmentView.swift; sourceTree = "<group>"; };
+		F3F0FE392C2181CB00E0E029 /* ErrorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCode.swift; sourceTree = "<group>"; };
+		F3F0FE3C2C218BF000E0E029 /* ErrorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDetailView.swift; sourceTree = "<group>"; };
+		F3F0FE3E2C218D9D00E0E029 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		F3F0FE402C2193BD00E0E029 /* PanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
+		F3F0FE422C21948500E0E029 /* SpatialTapGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpatialTapGesture.swift; sourceTree = "<group>"; };
+		F3F0FE482C21B6EE00E0E029 /* SeedAreaIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedAreaIndicator.swift; sourceTree = "<group>"; };
+		F3F0FE742C24388B00E0E029 /* FailSignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailSignView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F30A5DA82C19717700E9AC75 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3F0FDFA2C20637400E0E029 /* Algorithms in Frameworks */,
+				F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F30A5DA22C19717700E9AC75 = {
+			isa = PBXGroup;
+			children = (
+				F30A5DAD2C19717700E9AC75 /* FindSurfaceST-visionOS */,
+				F30A5DAC2C19717700E9AC75 /* Products */,
+				F31271DC2C2AB7EC0022C965 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F30A5DAC2C19717700E9AC75 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F30A5DAB2C19717700E9AC75 /* FindSurfaceST-visionOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F30A5DAD2C19717700E9AC75 /* FindSurfaceST-visionOS */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FDE12C205AA100E0E029 /* App */,
+				F3F0FDE02C205A9B00E0E029 /* Views */,
+				F3F0FDE22C205AA800E0E029 /* Utilities */,
+				F30A5DB22C19717700E9AC75 /* FindSurfaceST_visionOSApp.swift */,
+				F30A5DB82C19717800E9AC75 /* Assets.xcassets */,
+				F30A5DBD2C19717800E9AC75 /* Info.plist */,
+				F30A5DBA2C19717800E9AC75 /* Preview Content */,
+			);
+			path = "FindSurfaceST-visionOS";
+			sourceTree = "<group>";
+		};
+		F30A5DBA2C19717800E9AC75 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				F30A5DBB2C19717800E9AC75 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F31271632C2A89CF0022C965 /* GeometryEntity */ = {
+			isa = PBXGroup;
+			children = (
+				F312716E2C2A99A60022C965 /* GeometryEntity.swift */,
+				F31271642C2A89E50022C965 /* PlaneEntity.swift */,
+				F31271662C2A8B3E0022C965 /* SphereEntity.swift */,
+				F31271682C2A8C300022C965 /* CylinderEntity.swift */,
+				F312716A2C2A8CE80022C965 /* ConeEntity.swift */,
+				F312716C2C2A8F930022C965 /* TorusEntity.swift */,
+			);
+			path = GeometryEntity;
+			sourceTree = "<group>";
+		};
+		F31271DC2C2AB7EC0022C965 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F3F0FDE02C205A9B00E0E029 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FE3B2C218BDD00E0E029 /* ErrorView */,
+				F3F0FE282C21749B00E0E029 /* ControlView */,
+				F3F0FE1D2C216BB700E0E029 /* ResultView */,
+				F30A5DB42C19717700E9AC75 /* ContentView.swift */,
+				F30A5DB62C19717700E9AC75 /* ImmersiveView.swift */,
+				F3F0FE402C2193BD00E0E029 /* PanelView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F3F0FDE12C205AA100E0E029 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F31271632C2A89CF0022C965 /* GeometryEntity */,
+				F3F0FE1B2C2158AE00E0E029 /* PersistentObject.swift */,
+				F3F0FE192C2154EF00E0E029 /* AppState.swift */,
+				F3F0FE172C2153DF00E0E029 /* AppStorage.swift */,
+				F3F0FE1E2C216BC400E0E029 /* ResultMessage.swift */,
+				F3F0FE032C20702E00E0E029 /* Extensions.swift */,
+				F3F0FE392C2181CB00E0E029 /* ErrorCode.swift */,
+				F3F0FE482C21B6EE00E0E029 /* SeedAreaIndicator.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F3F0FDE22C205AA800E0E029 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FE6F2C22B66800E0E029 /* Entities */,
+				F3F0FE142C2077EC00E0E029 /* View */,
+				F3F0FDF52C20634A00E0E029 /* Extensions */,
+				F3F0FDEA2C205FD600E0E029 /* ScenePhaseTracking */,
+				F3F0FDE62C205E8200E0E029 /* SessionManager.swift */,
+				F3F0FE422C21948500E0E029 /* SpatialTapGesture.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		F3F0FDEA2C205FD600E0E029 /* ScenePhaseTracking */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FDED2C20601F00E0E029 /* Protocols */,
+				F3F0FDEE2C20608700E0E029 /* TrackingScenePhaseModifier.swift */,
+			);
+			path = ScenePhaseTracking;
+			sourceTree = "<group>";
+		};
+		F3F0FDED2C20601F00E0E029 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FDE82C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift */,
+				F3F0FDEB2C205FE700E0E029 /* SceneIDProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		F3F0FDF52C20634A00E0E029 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FDF62C20635C00E0E029 /* GeometrySource.swift */,
+				F3F0FDFB2C2063A700E0E029 /* MeshResource.swift */,
+				F3F0FDFF2C206E8C00E0E029 /* MeshAnchor.swift */,
+				F3F0FE012C206EFF00E0E029 /* Material.swift */,
+				F3F0FDFD2C206E3800E0E029 /* ModelEntity.swift */,
+				F3F0FE052C20706700E0E029 /* Binding.swift */,
+				F3F0FE092C2070E500E0E029 /* simd.swift */,
+				F3F0FE072C2070BF00E0E029 /* DeviceAnchor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F3F0FE142C2077EC00E0E029 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FDE42C205B4D00E0E029 /* RestartGuideView.swift */,
+				F3F0FE152C20780800E0E029 /* ImageButtonPicker.swift */,
+				F3F0FE222C216FD200E0E029 /* TypewriterView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F3F0FE1D2C216BB700E0E029 /* ResultView */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FE202C216FBF00E0E029 /* ResultView.swift */,
+				F3F0FE242C21738300E0E029 /* ResultMessageListView.swift */,
+				F3F0FE262C2173A200E0E029 /* ResultSectionHeader.swift */,
+				F3F0FE372C217EA900E0E029 /* ResultAttachmentView.swift */,
+				F3F0FE742C24388B00E0E029 /* FailSignView.swift */,
+			);
+			path = ResultView;
+			sourceTree = "<group>";
+		};
+		F3F0FE282C21749B00E0E029 /* ControlView */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FE332C21789A00E0E029 /* ControlView.swift */,
+				F3F0FE292C2174B200E0E029 /* FeatureTypePicker.swift */,
+				F3F0FE2B2C21758700E0E029 /* NumericTextField.swift */,
+				F3F0FE2D2C2176B100E0E029 /* LevelSteppers.swift */,
+				F3F0FE2F2C21784500E0E029 /* ShowHideToggle.swift */,
+				F3F0FE312C21787C00E0E029 /* ControlSectionHeader.swift */,
+				F3F0FE352C217C9C00E0E029 /* ClearSceneButton.swift */,
+			);
+			path = ControlView;
+			sourceTree = "<group>";
+		};
+		F3F0FE3B2C218BDD00E0E029 /* ErrorView */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FE3C2C218BF000E0E029 /* ErrorDetailView.swift */,
+				F3F0FE3E2C218D9D00E0E029 /* ErrorView.swift */,
+			);
+			path = ErrorView;
+			sourceTree = "<group>";
+		};
+		F3F0FE6F2C22B66800E0E029 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				F3F0FDF12C20618D00E0E029 /* TrackerLocation.swift */,
+				F3F0FDF32C20622700E0E029 /* Hand.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F30A5DAA2C19717700E9AC75 /* FindSurfaceST-visionOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F30A5DC02C19717800E9AC75 /* Build configuration list for PBXNativeTarget "FindSurfaceST-visionOS" */;
+			buildPhases = (
+				F30A5DA72C19717700E9AC75 /* Sources */,
+				F30A5DA82C19717700E9AC75 /* Frameworks */,
+				F30A5DA92C19717700E9AC75 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FindSurfaceST-visionOS";
+			packageProductDependencies = (
+				F3F0FDF92C20637400E0E029 /* Algorithms */,
+				F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */,
+			);
+			productName = "FindSurfaceST-visionOS";
+			productReference = F30A5DAB2C19717700E9AC75 /* FindSurfaceST-visionOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F30A5DA32C19717700E9AC75 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					F30A5DAA2C19717700E9AC75 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = F30A5DA62C19717700E9AC75 /* Build configuration list for PBXProject "FindSurfaceST-visionOS" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F30A5DA22C19717700E9AC75;
+			packageReferences = (
+				F3F0FDF82C20637400E0E029 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				F3CB63A12C2ECDFD00993887 /* XCRemoteSwiftPackageReference "FindSurface-visionOS" */,
+			);
+			productRefGroup = F30A5DAC2C19717700E9AC75 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F30A5DAA2C19717700E9AC75 /* FindSurfaceST-visionOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F30A5DA92C19717700E9AC75 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F30A5DBC2C19717800E9AC75 /* Preview Assets.xcassets in Resources */,
+				F30A5DB92C19717800E9AC75 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F30A5DA72C19717700E9AC75 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F30A5DB52C19717700E9AC75 /* ContentView.swift in Sources */,
+				F3F0FE1F2C216BC400E0E029 /* ResultMessage.swift in Sources */,
+				F3F0FE212C216FBF00E0E029 /* ResultView.swift in Sources */,
+				F3F0FDEC2C205FE700E0E029 /* SceneIDProtocol.swift in Sources */,
+				F3F0FE2A2C2174B200E0E029 /* FeatureTypePicker.swift in Sources */,
+				F3F0FE2E2C2176B100E0E029 /* LevelSteppers.swift in Sources */,
+				F31271692C2A8C300022C965 /* CylinderEntity.swift in Sources */,
+				F312716B2C2A8CE80022C965 /* ConeEntity.swift in Sources */,
+				F3F0FDEF2C20608700E0E029 /* TrackingScenePhaseModifier.swift in Sources */,
+				F3F0FE1A2C2154EF00E0E029 /* AppState.swift in Sources */,
+				F3F0FE002C206E8C00E0E029 /* MeshAnchor.swift in Sources */,
+				F3F0FE322C21787C00E0E029 /* ControlSectionHeader.swift in Sources */,
+				F3F0FE082C2070BF00E0E029 /* DeviceAnchor.swift in Sources */,
+				F3F0FDF72C20635C00E0E029 /* GeometrySource.swift in Sources */,
+				F3F0FE182C2153DF00E0E029 /* AppStorage.swift in Sources */,
+				F30A5DB32C19717700E9AC75 /* FindSurfaceST_visionOSApp.swift in Sources */,
+				F3F0FE3D2C218BF000E0E029 /* ErrorDetailView.swift in Sources */,
+				F3F0FE2C2C21758700E0E029 /* NumericTextField.swift in Sources */,
+				F3F0FE3A2C2181CB00E0E029 /* ErrorCode.swift in Sources */,
+				F31271672C2A8B3E0022C965 /* SphereEntity.swift in Sources */,
+				F3F0FE382C217EA900E0E029 /* ResultAttachmentView.swift in Sources */,
+				F3F0FE342C21789A00E0E029 /* ControlView.swift in Sources */,
+				F3F0FE302C21784500E0E029 /* ShowHideToggle.swift in Sources */,
+				F31271652C2A89E50022C965 /* PlaneEntity.swift in Sources */,
+				F3F0FE432C21948500E0E029 /* SpatialTapGesture.swift in Sources */,
+				F3F0FE412C2193BD00E0E029 /* PanelView.swift in Sources */,
+				F30A5DB72C19717700E9AC75 /* ImmersiveView.swift in Sources */,
+				F3F0FE3F2C218D9D00E0E029 /* ErrorView.swift in Sources */,
+				F3F0FE362C217C9C00E0E029 /* ClearSceneButton.swift in Sources */,
+				F3F0FE232C216FD200E0E029 /* TypewriterView.swift in Sources */,
+				F3F0FDFC2C2063A700E0E029 /* MeshResource.swift in Sources */,
+				F3F0FE752C24388B00E0E029 /* FailSignView.swift in Sources */,
+				F3F0FDE72C205E8200E0E029 /* SessionManager.swift in Sources */,
+				F3F0FE162C20780800E0E029 /* ImageButtonPicker.swift in Sources */,
+				F3F0FDE52C205B4D00E0E029 /* RestartGuideView.swift in Sources */,
+				F312716D2C2A8F930022C965 /* TorusEntity.swift in Sources */,
+				F3F0FE0A2C2070E500E0E029 /* simd.swift in Sources */,
+				F3F0FE272C2173A200E0E029 /* ResultSectionHeader.swift in Sources */,
+				F3F0FE022C206EFF00E0E029 /* Material.swift in Sources */,
+				F3F0FE492C21B6EE00E0E029 /* SeedAreaIndicator.swift in Sources */,
+				F312716F2C2A99A60022C965 /* GeometryEntity.swift in Sources */,
+				F3F0FE062C20706700E0E029 /* Binding.swift in Sources */,
+				F3F0FE042C20702E00E0E029 /* Extensions.swift in Sources */,
+				F3F0FE252C21738300E0E029 /* ResultMessageListView.swift in Sources */,
+				F3F0FDE92C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift in Sources */,
+				F3F0FE1C2C2158AE00E0E029 /* PersistentObject.swift in Sources */,
+				F3F0FDFE2C206E3800E0E029 /* ModelEntity.swift in Sources */,
+				F3F0FDF22C20618D00E0E029 /* TrackerLocation.swift in Sources */,
+				F3F0FDF42C20622700E0E029 /* Hand.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F30A5DBE2C19717800E9AC75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = xros;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				XROS_DEPLOYMENT_TARGET = 1.2;
+			};
+			name = Debug;
+		};
+		F30A5DBF2C19717800E9AC75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = xros;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 1.2;
+			};
+			name = Release;
+		};
+		F30A5DC12C19717800E9AC75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"FindSurfaceST-visionOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 2YNVZ7G6L3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "(Debug)FindSurface-visionOS";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "CurvSurf.FindSurfaceST-visionOS.Debug";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.2;
+			};
+			name = Debug;
+		};
+		F30A5DC22C19717800E9AC75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"FindSurfaceST-visionOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 2YNVZ7G6L3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "FindSurface-visionOS";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "CurvSurf.FindSurfaceST-visionOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F30A5DA62C19717700E9AC75 /* Build configuration list for PBXProject "FindSurfaceST-visionOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30A5DBE2C19717800E9AC75 /* Debug */,
+				F30A5DBF2C19717800E9AC75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F30A5DC02C19717800E9AC75 /* Build configuration list for PBXNativeTarget "FindSurfaceST-visionOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F30A5DC12C19717800E9AC75 /* Debug */,
+				F30A5DC22C19717800E9AC75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F3CB63A12C2ECDFD00993887 /* XCRemoteSwiftPackageReference "FindSurface-visionOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CurvSurf/FindSurface-visionOS";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		F3F0FDF82C20637400E0E029 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F3CB63A12C2ECDFD00993887 /* XCRemoteSwiftPackageReference "FindSurface-visionOS" */;
+			productName = "FindSurface-visionOS";
+		};
+		F3F0FDF92C20637400E0E029 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F3F0FDF82C20637400E0E029 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = F30A5DA32C19717700E9AC75 /* Project object */;
+}
