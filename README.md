@@ -36,7 +36,7 @@ For detailed explanations of the parameters, please refer to [FindSurface](https
 
 ### Results window
 
-Whenever you invoke FindSurface and it succeeded, the information about the resulting geometry will be displayed in this window and in a small info panel floating near the geometry.
+Whenever you invoke FindSurface and it succeeds, the information about the resulting geometry will be displayed in this window and in a small info panel floating near the geometry.
 
 For simplicity, the information consists of numbers only, of which meaning can be interpreted as follows:
 
