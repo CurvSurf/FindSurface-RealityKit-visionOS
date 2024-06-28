@@ -16,6 +16,8 @@ After starting the app, the floating panels (below) will appear on your right si
 
 ![panels](images/panels.png)
 
+### Controls window for parameters
+
 This panels provide you ways to control the app's behavior and information about geometries you've found. With the panels, you can perform the following actions:
 
 - Touching your right middle finger and thumb together will bring the panel near your hand.
@@ -31,3 +33,19 @@ This panels provide you ways to control the app's behavior and information about
 - `Clear Scene` removes all detected shapes.
 
 For detailed explanations of the parameters, please refer to [FindSurface](https://github.com/CurvSurf/FindSurface#how-does-it-work).
+
+### Results window
+
+Whenever you invoke FindSurface and it succeeded, the information about the resulting geometry will be displayed in this window and in a small info panel floating near the geometry.
+
+For simplicity, the information consists of numbers only, of which meaning can be interpreted as follows:
+
+- Plane: width, height, (position), (normal), RMS error
+- Sphere: radius, (position), RMS error
+- Cylinder: radius, height, (position), (axis), RMS error
+- Cone: top radius, bottom radius, height, (position), (axis), RMS error
+- Torus: mean radius, tube radius, (position), (axis), angle, RMS error
+
+* All lengths are in centimeter, including positions, except for directional vectors, in which units do not have meaning.
+
+You can remove geometries separately by clicking the trash can button in the corner of the info panel. 
