@@ -24,15 +24,15 @@ struct ControlView: View {
                 VStack(alignment: .leading) {
                     FeatureTypePicker(type: $findSurface.targetFeature)
                     
-                    NumericTextField(label: "Accuracy: ", value: $findSurface.measurementAccuracy, minValue: 0.001, maxValue: 0.10)
+                    NumericTextField(label: "Accuracy [cm]: ", value: $findSurface.measurementAccuracy, minValue: 0.001, maxValue: 0.10)
                         .accessibilityLabel("Accuracy")
                         .accessibilityInputLabels(["Measurement Accuracy", "Accuracy"])
                     
-                    NumericTextField(label: "Avg. Distance: ", value: $findSurface.meanDistance, minValue: 0.001, maxValue: 0.50)
+                    NumericTextField(label: "Avg. Distance [cm]: ", value: $findSurface.meanDistance, minValue: 0.001, maxValue: 0.50)
                         .accessibilityLabel("Distance")
                         .accessibilityInputLabels(["Mean Distance", "Average Distance", "Distance"])
                     
-                    NumericTextField(label: "Touch Radius: ", value: $findSurface.seedRadius, minValue: 0.001, maxValue: 0.75)
+                    NumericTextField(label: "Touch Radius [cm]: ", value: $findSurface.seedRadius, minValue: 0.001, maxValue: 0.75)
                         .accessibilityLabel("Touch Radius")
                         .accessibilityInputLabels(["Touch Radius", "Seed Radius"])
                     
@@ -51,33 +51,6 @@ struct ControlView: View {
                         .accessibilityLabel("Outline")
                     
                     ClearSceneButton { state.reset() }
-                    
-//                    Button("Small Radius") {
-//                        findSurface.seedRadius = 0.15
-//                        print("Foo")
-//                    }
-//                    .opacity(0.0001)
-////                    .hidden()
-//                    .accessibilityLabel("Small Radius")
-//                    .accessibilityInputLabels(["Small Radius", "Small"])
-//                    
-//                    Button("Medium Radius") {
-//                        findSurface.seedRadius = 0.30
-//                        print("Bar")
-//                    }
-//                    .opacity(0.0001)
-////                    .hidden()
-//                    .accessibilityLabel("Medium Radius")
-//                    .accessibilityInputLabels(["Medium Radius", "Medium"])
-//                    
-//                    Button("Large Radius") {
-//                        findSurface.seedRadius = 0.45
-//                        print("Foobar")
-//                    }
-//                    .opacity(0.0001)
-////                    .hidden()
-//                    .accessibilityLabel("Large Radius")
-//                    .accessibilityInputLabels(["Large Radius", "Large"])
                 }
             } header: {
                 ControlSectionHeader(isExpanded: $state.showResultPanel)

@@ -27,7 +27,8 @@ struct NumericTextField<Label: View>: View {
     
     var body: some View {
         HStack {
-            label().allowsHitTesting(false)
+            label().lineLimit(1)
+                .minimumScaleFactor(0.5).allowsHitTesting(false)
                 .accessibilityHidden(true)
             TextField("", value: $value.convertFromMeterToCentimeter(),
                       formatter: .centimeterWithMillimeterFraction) { finished in

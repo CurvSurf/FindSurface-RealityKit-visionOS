@@ -40,16 +40,16 @@ fileprivate extension String.StringInterpolation {
     mutating func appendInterpolation(_ level: SearchLevel) {
         let literal = switch level {
         case .off:  "off"
-        case .lv1:  "Lv.1 (moderate)"
+        case .lv1:  "Lv.1"
         case .lv2:  "Lv.2"
         case .lv3:  "Lv.3"
         case .lv4:  "Lv.4"
-        case .lv5:  "Lv.5 (default)"
+        case .lv5:  "Lv.5"
         case .lv6:  "Lv.6"
         case .lv7:  "Lv.7"
         case .lv8:  "Lv.8"
         case .lv9:  "Lv.9"
-        case .lv10:  "Lv.10 (radical)"
+        case .lv10:  "Lv.10"
         }
         appendLiteral(literal)
     }

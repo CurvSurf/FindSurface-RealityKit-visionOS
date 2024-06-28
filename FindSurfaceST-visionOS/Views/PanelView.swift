@@ -30,4 +30,8 @@ import FindSurface_visionOS
     PanelView()
         .environment(AppState())
         .environment(FindSurface.instance)
+        .onAppear {
+            FindSurface.instance.measurementAccuracy = 0.012
+            FindSurface.instance.meanDistance = 0.30
+        }
 }
