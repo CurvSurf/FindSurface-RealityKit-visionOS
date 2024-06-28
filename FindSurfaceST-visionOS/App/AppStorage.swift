@@ -47,7 +47,7 @@ extension FindSurface {
     
     func loadFromAppStorage() {
         let storage = UserDefaults.standard
-        measurementAccuracy = storage.floatValue(forKey: .measurementAccuracy) ?? 0.002
+        measurementAccuracy = storage.floatValue(forKey: .measurementAccuracy) ?? 0.012
         meanDistance = storage.floatValue(forKey: .meanDistance) ?? 0.3
         seedRadius = storage.floatValue(forKey: .touchRadius) ?? 0.3
         lateralExtension = storage.enumValue(forKey: .lateralExtension) ?? .lv6
