@@ -40,29 +40,10 @@ extension GeometryEntity {
             return ConeEntity(topRadius: cone.topRadius, bottomRadius: cone.bottomRadius, height: cone.height, shape: .surface) as GeometryEntity
         }()
         case let .torus(_, torus, inliers, _): {
-            let projected = inliers.map { point in
-                normalize(simd_float2(point.x, point.z))
-            }
-            var projectedCenter = projected.reduce(.zero, +) / Float(projected.count)
-            
-            if length(projectedCenter) < 0.1 {
+            let (begin, end) = torus.calcAngleRange(from: inliers)
+            if begin == .zero && end == .degrees(360) {
                 return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius) as GeometryEntity
             }
-            projectedCenter = normalize(projectedCenter)
-            
-            let baseAngle = angleBetween(.init(1, 0), projectedCenter)
-            
-            let angles = projected.map {
-                return angleBetween($0, projectedCenter) - baseAngle
-            }
-            
-            guard let (beginAngle, endAngle) = angles.minAndMax() else {
-                return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius) as GeometryEntity
-            }
-            
-            let begin = Angle(radians: Double(beginAngle))
-            let end = Angle(radians: Double(endAngle))
-            
             return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius, shape: .partialSurface(begin, end))
         }()
         }
@@ -80,4 +61,45 @@ fileprivate func angle(_ a: simd_float2) -> Float {
 
 fileprivate func angleBetween(_ a: simd_float2, _ b: simd_float2) -> Float {
     return angle(b) - angle(a)
+}
+
+import FindSurface_visionOS
+
+extension Torus {
+    func calcAngleRange(from inliers: [simd_float3]) -> (begin: Angle, end: Angle) {
+        let projected = inliers.map { point in
+            normalize(simd_float2(point.x, point.z))
+        }
+        var projectedCenter = projected.reduce(.zero, +) / Float(projected.count)
+        
+        if length(projectedCenter) < 0.1 {
+            return (begin: .zero, end: .degrees(360))
+        }
+        projectedCenter = normalize(projectedCenter)
+        
+        let baseAngle = angleBetween(.init(1, 0), projectedCenter)
+        
+        let angles = projected.map {
+            return angleBetween($0, projectedCenter) - baseAngle
+        }
+        
+        guard let (beginAngle, endAngle) = angles.minAndMax() else {
+            return (begin: .zero, end: .degrees(360))
+        }
+        
+        var begin = Angle(radians: Double(beginAngle))
+        var end = Angle(radians: Double(endAngle))
+        
+        while begin.degrees < 0 {
+            begin = Angle(degrees: begin.degrees + 360)
+        }
+        begin = Angle(degrees: begin.degrees.truncatingRemainder(dividingBy: 360))
+        
+        while end.degrees < 0 {
+            end = Angle(degrees: end.degrees + 360)
+        }
+        end = Angle(degrees: end.degrees.truncatingRemainder(dividingBy: 360))
+        
+        return (begin: begin, end: end)
+    }
 }

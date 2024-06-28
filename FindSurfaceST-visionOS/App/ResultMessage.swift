@@ -32,8 +32,10 @@ fileprivate extension PersistentObject {
             return "\(name): \(length: cylinder.radius), \(length: cylinder.height), \(position: cylinder.center), \(direction: cylinder.axis), \(length: rmsError)"
         case let .cone(name, cone, _, rmsError):
             return "\(name): \(length: cone.topRadius), \(length: cone.bottomRadius), \(length: cone.height), \(position: cone.center), \(direction: cone.axis), \(length: rmsError)"
-        case let .torus(name, torus, _, rmsError):
-            return "\(name): \(length: torus.meanRadius), \(length: torus.tubeRadius), \(position: torus.center), \(direction: torus.axis), \(length: rmsError)"
+        case let .torus(name, torus, inliers, rmsError):
+            let (begin, end) = torus.calcAngleRange(from: inliers)
+            let angle = String(format: "%.1", end.degrees - begin.degrees)
+            return "\(name): \(length: torus.meanRadius), \(length: torus.tubeRadius), \(position: torus.center), \(direction: torus.axis), \(angle), \(length: rmsError)"
         }
     }
 }

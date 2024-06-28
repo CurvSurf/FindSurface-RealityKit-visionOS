@@ -47,5 +47,6 @@ For simplicity, the information consists of numbers only, of which meaning can b
 - Torus: mean radius, tube radius, (position), (axis), angle, RMS error
 
 * All lengths are in centimeter, including positions, except for directional vectors, in which units do not have meaning.
+* Angle in torus is in degrees.
 
 You can remove geometries separately by clicking the trash can button in the corner of the info panel. 
