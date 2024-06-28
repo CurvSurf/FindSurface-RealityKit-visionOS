@@ -22,7 +22,7 @@ This panels provide you ways to control the app's behavior and information about
 - The button at the top right corner of the Controls window hides or shows the Results window.
 - The button at the top right corner of the Results window hides all panels. you can bring them back with the gesture mentioned above.
 - Shape icons: In order, they represent plane, sphere, cylinder, cone, and torus. Choose one of these to specify the type of shape to be found using FindSurface.
-- You can click the text fields to modify values of the following three parameters.
+- You can click the text fields to modify values of the following three parameters. All numerical values representing length are in centimeters and are displayed to one decimal place (millimeters).
 - `Accuracy` represents the average error of the points in the orthogonal direction to the surface.
 - `Avg. Distance` represents the average distance between the points.
 - `Touch Radius` specifies the approximate radius of the area of the object to be detected. You can adjust this value by touching the thumb and index finger of both hands together and moving your hands apart or closer.
