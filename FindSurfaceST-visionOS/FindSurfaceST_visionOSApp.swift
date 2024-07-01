@@ -13,6 +13,7 @@ enum SceneID: String, SceneIDProtocol {
     case mainWindow = "Main Window"
     case immersiveSpace = "Immersive Space"
     case errorWindow = "Error Window"
+    case userGuideWindow = "User Guide Window"
 }
 
 @Observable
@@ -73,6 +74,13 @@ struct FindSurfaceST_visionOSApp: App {
                 ErrorView(errorCode: errorCode)
                     .glassBackgroundEffect()
             }
+        }
+        .windowResizability(.contentSize)
+        .windowStyle(.plain)
+        
+        WindowGroup(sceneID: SceneID.userGuideWindow) {
+            UserGuideView()
+                .glassBackgroundEffect()
         }
         .windowResizability(.contentSize)
         .windowStyle(.plain)

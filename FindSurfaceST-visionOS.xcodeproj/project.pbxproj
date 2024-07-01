@@ -19,6 +19,10 @@
 		F312716D2C2A8F930022C965 /* TorusEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716C2C2A8F930022C965 /* TorusEntity.swift */; };
 		F312716F2C2A99A60022C965 /* GeometryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716E2C2A99A60022C965 /* GeometryEntity.swift */; };
 		F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */; };
+		F3CB63B22C32A40200993887 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63AE2C32A3CF00993887 /* README.md */; };
+		F3CB63CC2C32B9A900993887 /* images in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63CB2C32B9A900993887 /* images */; };
+		F3CB63CF2C32B9E900993887 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63CE2C32B9E900993887 /* MarkdownUI */; };
+		F3CB63D12C32BF9600993887 /* UserGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CB63D02C32BF9600993887 /* UserGuideView.swift */; };
 		F3F0FDE52C205B4D00E0E029 /* RestartGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDE42C205B4D00E0E029 /* RestartGuideView.swift */; };
 		F3F0FDE72C205E8200E0E029 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDE62C205E8200E0E029 /* SessionManager.swift */; };
 		F3F0FDE92C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F0FDE82C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift */; };
@@ -76,6 +80,10 @@
 		F312716A2C2A8CE80022C965 /* ConeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeEntity.swift; sourceTree = "<group>"; };
 		F312716C2C2A8F930022C965 /* TorusEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusEntity.swift; sourceTree = "<group>"; };
 		F312716E2C2A99A60022C965 /* GeometryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryEntity.swift; sourceTree = "<group>"; };
+		F3CB63AD2C32A3CF00993887 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		F3CB63AE2C32A3CF00993887 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		F3CB63CB2C32B9A900993887 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
+		F3CB63D02C32BF9600993887 /* UserGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGuideView.swift; sourceTree = "<group>"; };
 		F3F0FDE42C205B4D00E0E029 /* RestartGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartGuideView.swift; sourceTree = "<group>"; };
 		F3F0FDE62C205E8200E0E029 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		F3F0FDE82C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenePhaseTrackerProtocol.swift; sourceTree = "<group>"; };
@@ -123,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3CB63CF2C32B9E900993887 /* MarkdownUI in Frameworks */,
 				F3F0FDFA2C20637400E0E029 /* Algorithms in Frameworks */,
 				F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */,
 			);
@@ -135,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				F30A5DAD2C19717700E9AC75 /* FindSurfaceST-visionOS */,
+				F3CB63AC2C32A39600993887 /* Miscellaneous */,
 				F30A5DAC2C19717700E9AC75 /* Products */,
 				F31271DC2C2AB7EC0022C965 /* Frameworks */,
 			);
@@ -190,6 +200,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F3CB63AC2C32A39600993887 /* Miscellaneous */ = {
+			isa = PBXGroup;
+			children = (
+				F3CB63CB2C32B9A900993887 /* images */,
+				F3CB63AD2C32A3CF00993887 /* LICENSE */,
+				F3CB63AE2C32A3CF00993887 /* README.md */,
+			);
+			name = Miscellaneous;
+			path = "FindSurfaceST-visionOS";
+			sourceTree = "<group>";
+		};
 		F3F0FDE02C205A9B00E0E029 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +220,7 @@
 				F30A5DB42C19717700E9AC75 /* ContentView.swift */,
 				F30A5DB62C19717700E9AC75 /* ImmersiveView.swift */,
 				F3F0FE402C2193BD00E0E029 /* PanelView.swift */,
+				F3CB63D02C32BF9600993887 /* UserGuideView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -337,6 +359,7 @@
 			packageProductDependencies = (
 				F3F0FDF92C20637400E0E029 /* Algorithms */,
 				F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */,
+				F3CB63CE2C32B9E900993887 /* MarkdownUI */,
 			);
 			productName = "FindSurfaceST-visionOS";
 			productReference = F30A5DAB2C19717700E9AC75 /* FindSurfaceST-visionOS.app */;
@@ -369,6 +392,7 @@
 			packageReferences = (
 				F3F0FDF82C20637400E0E029 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				F3CB63A12C2ECDFD00993887 /* XCRemoteSwiftPackageReference "FindSurface-visionOS" */,
+				F3CB63CD2C32B9E900993887 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
 			productRefGroup = F30A5DAC2C19717700E9AC75 /* Products */;
 			projectDirPath = "";
@@ -384,6 +408,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3CB63CC2C32B9A900993887 /* images in Resources */,
+				F3CB63B22C32A40200993887 /* README.md in Resources */,
 				F30A5DBC2C19717800E9AC75 /* Preview Assets.xcassets in Resources */,
 				F30A5DB92C19717800E9AC75 /* Assets.xcassets in Resources */,
 			);
@@ -418,6 +444,7 @@
 				F31271672C2A8B3E0022C965 /* SphereEntity.swift in Sources */,
 				F3F0FE382C217EA900E0E029 /* ResultAttachmentView.swift in Sources */,
 				F3F0FE342C21789A00E0E029 /* ControlView.swift in Sources */,
+				F3CB63D12C32BF9600993887 /* UserGuideView.swift in Sources */,
 				F3F0FE302C21784500E0E029 /* ShowHideToggle.swift in Sources */,
 				F31271652C2A89E50022C965 /* PlaneEntity.swift in Sources */,
 				F3F0FE432C21948500E0E029 /* SpatialTapGesture.swift in Sources */,
@@ -658,6 +685,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		F3CB63CD2C32B9E900993887 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
 		F3F0FDF82C20637400E0E029 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
@@ -673,6 +708,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F3CB63A12C2ECDFD00993887 /* XCRemoteSwiftPackageReference "FindSurface-visionOS" */;
 			productName = "FindSurface-visionOS";
+		};
+		F3CB63CE2C32B9E900993887 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F3CB63CD2C32B9E900993887 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
 		};
 		F3F0FDF92C20637400E0E029 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;

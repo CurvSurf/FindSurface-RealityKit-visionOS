@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealityKit
+import MarkdownUI
 
 struct ContentView: View {
 
@@ -15,6 +16,7 @@ struct ContentView: View {
     
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
+    @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     
@@ -40,16 +42,22 @@ struct ContentView: View {
                 .frame(width: 400)
                 .fixedSize(horizontal: false, vertical: true)
             
-            Button("Enter") {
-                Task {
-                    switch await openImmersiveSpace(sceneID: SceneID.immersiveSpace) {
-                    case .opened:
-                        dismiss()
-                    case .error:
-                        await dismissImmersiveSpace()
-                        state.errorCode = .openImmersiveSpaceFailed
-                    case .userCancelled: break
-                    @unknown default: break
+            HStack {
+                Button("User Guide") {
+                    openWindow(sceneID: SceneID.userGuideWindow)
+                }
+                
+                Button("Enter") {
+                    Task {
+                        switch await openImmersiveSpace(sceneID: SceneID.immersiveSpace) {
+                        case .opened:
+                            dismiss()
+                        case .error:
+                            await dismissImmersiveSpace()
+                            state.errorCode = .openImmersiveSpaceFailed
+                        case .userCancelled: break
+                        @unknown default: break
+                        }
                     }
                 }
             }
