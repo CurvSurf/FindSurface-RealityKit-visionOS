@@ -183,6 +183,10 @@ final class AppState {
         
         if let geometry = geometryEntities[anchor.id] {
             geometry.transform = transform
+            if var object = geometry.components[PersistentComponent.self]?.object {
+                object.object.extrinsics = transform.matrix
+                geometry.components.set(PersistentComponent(object: object))
+            }
         }
         
         if let attachment = attachmentEntities[anchor.id] {
@@ -281,58 +285,79 @@ final class AppState {
     }
     
     private func orient(_ attachment: ViewAttachmentEntity, with plane: Plane, towards deviceLocation: simd_float3) async {
-        let isHorizontalPlane = abs(plane.normal.y) > cos(.pi / 12)
+        let normal = plane.normal
+        let center = plane.center
+        
+        let isHorizontalPlane = abs(normal.y) > cos(.pi / 12)
         if isHorizontalPlane {
-            let position = plane.center + 0.20 * plane.normal
+            let position = center + 0.20 * normal
             await attachment.look(at: deviceLocation, from: position, relativeTo: nil, forward: .positiveZ)
         } else {
-            let at = plane.center + plane.normal
-            let position = plane.center + 0.20 * plane.normal
+            let at = center + normal
+            let position = center + 0.20 * normal
             await attachment.look(at: at, from: position, relativeTo: nil, forward: .positiveZ)
         }
     }
     
     private func orient(_ attachment: ViewAttachmentEntity, with sphere: Sphere, towards deviceLocation: simd_float3) async {
-        let position = sphere.position + (0.15 + sphere.radius) * normalize(deviceLocation - sphere.center)
+        let radius = sphere.radius
+        let center = sphere.center
+        
+        let position = center + (0.15 + radius) * normalize(deviceLocation - center)
         await attachment.look(at: deviceLocation, from: position, relativeTo: nil, forward: .positiveZ)
     }
     
     private func orient(_ attachment: ViewAttachmentEntity, with cylinder: Cylinder, towards deviceLocation: simd_float3) async {
-        let isLyingDown = abs(cylinder.axis.y) * sqrt(2.0) < 1
-        let isAboveEyeLevel = cylinder.top.y > deviceLocation.y + 0.10
+        let center = cylinder.center
+        let axis = cylinder.axis
+        let top = cylinder.top
+        let radius = cylinder.radius
+        
+        let isLyingDown = abs(axis.y) * sqrt(2.0) < 1
+        let isAboveEyeLevel = top.y > deviceLocation.y + 0.10
         if isLyingDown || isAboveEyeLevel {
-            let position = cylinder.center + (0.15 + cylinder.radius) * normalize(deviceLocation - cylinder.center)
+            let position = center + (0.15 + radius) * normalize(deviceLocation - center)
             await attachment.look(at: deviceLocation, from: position, relativeTo: nil, forward: .positiveZ)
         } else {
-            let position = cylinder.top + 0.15 * cylinder.axis
+            let position = top + 0.15 * axis
             await attachment.look(at: deviceLocation, from: position, relativeTo: nil, forward: .positiveZ)
         }
     }
     
     private func orient(_ attachment: ViewAttachmentEntity, with cone: Cone, towards deviceLocation: simd_float3) async {
-        let isLyingDown = abs(cone.axis.y) * sqrt(2.0) < 1
-        let isAboveEyeLevel = cone.top.y > deviceLocation.y + 0.10
+        let axis = cone.axis
+        let top = cone.top
+        let bottom = cone.bottom
+        let center = cone.center
+        let bottomRadius = cone.bottomRadius
+        
+        let isLyingDown = abs(axis.y) * sqrt(2.0) < 1
+        let isAboveEyeLevel = top.y > deviceLocation.y + 0.10
         if isLyingDown || isAboveEyeLevel {
-            let position = cone.center + (0.15 + cone.bottomRadius) * normalize(deviceLocation - cone.center)
+            let position = center + (0.15 + bottomRadius) * normalize(deviceLocation - center)
             await attachment.look(at: deviceLocation, from: position, relativeTo: nil, forward: .positiveZ)
         } else {
-            let isUpsideDown = cone.axis.y < 0
-            let position = isUpsideDown ? cone.bottom - 0.15 * cone.axis : cone.top + 0.15 * cone.axis
+            let isUpsideDown = axis.y < 0
+            let position = isUpsideDown ? bottom - 0.15 * axis : top + 0.15 * axis
             await attachment.look(at: deviceLocation, from: position, relativeTo: nil, forward: .positiveZ)
         }
     }
     
     private func orient(_ attachment: ViewAttachmentEntity, with torus: Torus, towards deviceLocation: simd_float3) async {
-        let isLyingDown = abs(torus.axis.y) * sqrt(2.0) < 1
-        let isAboveEyeLevel = torus.center.y + torus.tubeRadius > deviceLocation.y + 0.10
+        let axis = torus.axis
+        let center = torus.center
+        let tubeRadius = torus.tubeRadius
+        let meanRadius = torus.meanRadius
+        
+        let isLyingDown = abs(axis.y) * sqrt(2.0) < 1
+        let isAboveEyeLevel = center.y + tubeRadius > deviceLocation.y + 0.10
         if isLyingDown || isAboveEyeLevel {
-            let position = torus.center + (0.15 + torus.meanRadius + torus.tubeRadius) * normalize(deviceLocation - torus.center)
+            let position = center + (0.15 + meanRadius + tubeRadius) * normalize(deviceLocation - center)
             await attachment.look(at: deviceLocation, from: position, relativeTo: nil, forward: .positiveZ)
         } else {
-            let position = torus.center + (0.15 + torus.tubeRadius) * torus.axis
+            let position = center + (0.15 + tubeRadius) * axis
             await attachment.look(at: deviceLocation, from: position, relativeTo: nil, forward: .positiveZ)
         }
-        
     }
     
     // hand

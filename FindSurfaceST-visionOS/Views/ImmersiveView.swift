@@ -70,11 +70,9 @@ struct ImmersiveView: View {
                 guard let attachment = attachments.entity(for: key) else { continue }
                 
                 attachment.isEnabled = true
-                if !state.attachmentEntities.keys.contains(key) {
-                    attachment.removeFromParent()
-                    state.attachmentEntity.addChild(attachment)
-                    state.attachmentEntities[key] = attachment
-                }
+                attachment.removeFromParent()
+                state.attachmentEntity.addChild(attachment)
+                state.attachmentEntities[key] = attachment
             }
             
             if let failSign = attachments.entity(for: Attachments.failSign) {
@@ -261,6 +259,6 @@ struct ImmersiveView: View {
     }
 }
 
-#Preview(immersionStyle: .mixed) {
-    ImmersiveView()
-}
+//#Preview(immersionStyle: .mixed) {
+//    ImmersiveView()
+//}
