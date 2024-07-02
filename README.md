@@ -4,7 +4,7 @@
 
 ## Overview
 
-This demo app demonstrates a basic usage of [FindSurface-visionOS](https://github.com/CurvSurf/FindSurface-visionOS/tree/main) package to search vertex points, which ARKit provides as a `MeshAnchor`, for geometry shapes.
+This demo app demonstrates a basic usage of [FindSurface-visionOS](https://github.com/CurvSurf/FindSurface-visionOS/tree/main) package to search vertex points (provided by ARKit as `MeshAnchor`s) for geometry shapes.
 
 ## Requirements
 
@@ -25,9 +25,9 @@ This panels provide you ways to control the app's behavior and information about
 - The button at the top right corner of the Results window hides all panels. you can bring them back with the gesture mentioned above.
 - Shape icons: In order, they represent plane, sphere, cylinder, cone, and torus. Choose one of these to specify the type of shape to be found using FindSurface.
 - You can click the text fields to modify values of the following three parameters. All numerical values representing length are in centimeters and are displayed to one decimal place (millimeters).
-- `Accuracy` represents the average error of the points in the orthogonal direction to the surface.
-- `Avg. Distance` represents the average distance between the points.
-- `Touch Radius` specifies the approximate radius of the area of the object to be detected. You can adjust this value by touching the thumb and index finger of both hands together and moving your hands apart or closer.
+- `Accuracy` represents the *a priori* root-mean-squared error of vertices of meshes.
+- `Avg. Distance` represents the average distance between the vertices.
+- `Touch Radius` specifies the approximate radius of the region of interest (depending on the estimated size of the object to be detected). You can adjust this value by touching the thumb and index finger of both hands together and moving your hands apart or closer.
 - `Show inlier points` visualizes the set of points that contribute to the detection of the shape.
 - `Show geometry outline` enhances the visibility of the shape by highlighting its outline.
 - `Clear Scene` removes all detected shapes.
@@ -49,4 +49,4 @@ For simplicity, the information consists of numbers only, of which meaning can b
 * All lengths are in centimeter, including positions, except for directional vectors, in which units do not have meaning.
 * Angle in torus is in degrees.
 
-You can remove geometries separately by clicking the trash can button in the corner of the info panel. 
+You can remove geometries separately by clicking the trash can button in the corner of the info panel.
