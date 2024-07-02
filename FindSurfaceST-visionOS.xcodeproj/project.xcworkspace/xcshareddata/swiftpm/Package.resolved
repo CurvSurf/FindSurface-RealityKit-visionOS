@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CurvSurf/FindSurface-visionOS",
       "state" : {
-        "revision" : "d54f116465f7dd9a222afc74510fd972b7ab9a23",
-        "version" : "1.0.0"
+        "revision" : "c5ce018ad4fef89dd3c7110171d1318a73b7c390",
+        "version" : "1.0.1"
       }
     },
     {
