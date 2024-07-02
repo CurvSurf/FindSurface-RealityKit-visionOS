@@ -4,7 +4,7 @@
 
 ## Overview
 
-This demo app demonstrates a basic usage of FindSurface to search vertex points, which ARKit provides as a `MeshAnchor`, for geometry shapes.
+This demo app demonstrates a basic usage of [FindSurface-visionOS](https://github.com/CurvSurf/FindSurface-visionOS/tree/main) package to search vertex points, which ARKit provides as a `MeshAnchor`, for geometry shapes.
 
 ## Requirements
 
