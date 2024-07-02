@@ -527,7 +527,7 @@ final class AppState {
         seedAreaIndicator.isEnabled = false
         rootEntity.addChild(seedAreaIndicator)
         
-        let seedAreaControl = SeedAreaIndicator()
+        let seedAreaControl = SeedAreaControl()
         seedAreaControl.isEnabled = false
         rootEntity.addChild(seedAreaControl)
         
@@ -569,18 +569,7 @@ final class AppState {
     }
     
     let seedAreaIndicator: SeedAreaIndicator
-    let seedAreaControl: SeedAreaIndicator
-    var diameterLabel: ViewAttachmentEntity? = nil {
-        didSet {
-            if let oldValue {
-                oldValue.removeFromParent()
-                rootEntity.removeChild(oldValue)
-            }
-            if let diameterLabel {
-                rootEntity.addChild(diameterLabel)
-            }
-        }
-    }
+    let seedAreaControl: SeedAreaControl
     
     @ObservationIgnored var animationSubscription: AnyCancellable? = nil
     

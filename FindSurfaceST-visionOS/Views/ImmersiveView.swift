@@ -11,16 +11,6 @@ import RealityKit
 
 import FindSurface_visionOS
 
-fileprivate struct DiameterLabel: View {
-    @Environment(FindSurface.self) private var findSurface
-    var body: some View {
-        let diameter = String(format: "%.1f", findSurface.seedRadius * 200) // diameter(2) * centimeter(100)
-        Text("\(diameter) cm")
-            .padding()
-            .glassBackgroundEffect()
-    }
-}
-
 fileprivate struct WarningView: View {
     var body: some View {
         VStack {
@@ -80,9 +70,8 @@ struct ImmersiveView: View {
                 state.failSign = failSign
             }
             
-            if let radiusText = attachments.entity(for: Attachments.radius) {
-                radiusText.isEnabled = false
-                state.diameterLabel = radiusText
+            if let radiusLabel = attachments.entity(for: Attachments.radius) {
+                state.seedAreaControl.label = radiusLabel
             }
             
             if let warningView = attachments.entity(for: Attachments.warning) {
@@ -129,7 +118,7 @@ struct ImmersiveView: View {
             }
             
             Attachment(id: Attachments.radius) {
-                DiameterLabel()
+                RadiusLabel()
                     .environment(findSurface)
             }
             
@@ -205,19 +194,15 @@ struct ImmersiveView: View {
                         }
                     }
                     state.seedAreaControl.isEnabled = true
-                    state.diameterLabel?.isEnabled = true
                     
-                    if let device = state.deviceAnchor,
-                       let radiusText = state.diameterLabel {
+                    if let device = state.deviceAnchor {
                         let indicator = state.seedAreaControl
-                        indicator.normal = normalize(device.position - indicator.position)
+                        indicator.look(at: device.position, from: indicator.position, relativeTo: nil, forward: .positiveZ)
                         findSurface.seedRadius = max(min(initialRadius * Float(value.magnification), 0.75), 0.001)
-                        radiusText.look(at: device.position, from: indicator.position + 0.05 * indicator.normal, relativeTo: nil, forward: .positiveZ)
                     }
                 }
                 .onEnded { value in
                     state.seedAreaControl.isEnabled = false
-                    state.diameterLabel?.isEnabled = false
                     magnifyingStarted = false
                 }
         )

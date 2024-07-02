@@ -18,6 +18,7 @@
 		F312716B2C2A8CE80022C965 /* ConeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716A2C2A8CE80022C965 /* ConeEntity.swift */; };
 		F312716D2C2A8F930022C965 /* TorusEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716C2C2A8F930022C965 /* TorusEntity.swift */; };
 		F312716F2C2A99A60022C965 /* GeometryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716E2C2A99A60022C965 /* GeometryEntity.swift */; };
+		F35DCE8D2C33ECAF00C0ED79 /* SeedAreaControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */; };
 		F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */; };
 		F3CB63B22C32A40200993887 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63AE2C32A3CF00993887 /* README.md */; };
 		F3CB63CC2C32B9A900993887 /* images in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63CB2C32B9A900993887 /* images */; };
@@ -80,6 +81,7 @@
 		F312716A2C2A8CE80022C965 /* ConeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConeEntity.swift; sourceTree = "<group>"; };
 		F312716C2C2A8F930022C965 /* TorusEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusEntity.swift; sourceTree = "<group>"; };
 		F312716E2C2A99A60022C965 /* GeometryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryEntity.swift; sourceTree = "<group>"; };
+		F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedAreaControl.swift; sourceTree = "<group>"; };
 		F3CB63AD2C32A3CF00993887 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		F3CB63AE2C32A3CF00993887 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		F3CB63CB2C32B9A900993887 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
@@ -236,6 +238,7 @@
 				F3F0FE032C20702E00E0E029 /* Extensions.swift */,
 				F3F0FE392C2181CB00E0E029 /* ErrorCode.swift */,
 				F3F0FE482C21B6EE00E0E029 /* SeedAreaIndicator.swift */,
+				F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				F3F0FE322C21787C00E0E029 /* ControlSectionHeader.swift in Sources */,
 				F3F0FE082C2070BF00E0E029 /* DeviceAnchor.swift in Sources */,
 				F3F0FDF72C20635C00E0E029 /* GeometrySource.swift in Sources */,
+				F35DCE8D2C33ECAF00C0ED79 /* SeedAreaControl.swift in Sources */,
 				F3F0FE182C2153DF00E0E029 /* AppStorage.swift in Sources */,
 				F30A5DB32C19717700E9AC75 /* FindSurfaceST_visionOSApp.swift in Sources */,
 				F3F0FE3D2C218BF000E0E029 /* ErrorDetailView.swift in Sources */,
