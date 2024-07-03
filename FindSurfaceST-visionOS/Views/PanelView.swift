@@ -31,7 +31,10 @@ import FindSurface_visionOS
         .environment(AppState())
         .environment(FindSurface.instance)
         .onAppear {
-            FindSurface.instance.measurementAccuracy = 0.012
-            FindSurface.instance.meanDistance = 0.30
+            FindSurface.instance.measurementAccuracy = 0.015
+            FindSurface.instance.meanDistance = 0.10
+            FindSurface.instance.seedRadius = 0.15
+            FindSurface.instance.lateralExtension = .lv10
+            FindSurface.instance.radialExpansion = .lv5
         }
 }
