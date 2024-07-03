@@ -34,6 +34,8 @@ This panels provide you ways to control the app's behavior and information about
 
 For detailed explanations of the parameters, please refer to [FindSurface](https://github.com/CurvSurf/FindSurface#how-does-it-work).
 
+For the recommended preset of the parameters, please refer to [Optimal Parameter Set for Apple Vision Pro](https://github.com/CurvSurf/FindSurface-visionOS#optimal-parameter-set-for-apple-vision-pro). In this app, the preset values are already set as the defaults (See [AppStorage.swift](FindSurfaceST-visionOS/App/AppStorage.swift) file.)
+
 #### Voice Control Supports (experimental)
 
 Thanks to Apple's built-in accessibility supports in visionOS, it is possible to interact with some of UIs using voice commands.
