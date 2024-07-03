@@ -35,7 +35,7 @@ struct ContentView: View {
             
             Text("PROCLAIMER")
                 .font(.footnote.bold())
-            Text("This app uses the vertex data extracted from MeshAnchor, so it may not detect or accurately detect objects with a size (approximate diameter) of 50 cm or less.")
+            Text("This app uses the vertex data extracted from MeshAnchor, so it may not detect or accurately detect objects with a size (approximate diameter or width) less than 1 meter.")
                 .font(.caption)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 30)
