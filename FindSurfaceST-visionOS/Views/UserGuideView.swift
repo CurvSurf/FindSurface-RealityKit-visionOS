@@ -88,7 +88,11 @@ fileprivate struct ResourceImageProvider: ImageProvider {
             if let imageURL = Bundle.main.url(forResource: fileName,
                                               withExtension: fileExtension,
                                               subdirectory: filePath) {
-                AsyncImage(url: imageURL)
+                AsyncImage(url: imageURL) { result in
+                    result.image?
+                        .resizable()
+                        .scaledToFit()
+                }
             } else {
                 Text("[Image not available]")
             }

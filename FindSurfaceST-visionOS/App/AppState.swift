@@ -15,11 +15,11 @@ import AVKit
 
 import FindSurface_visionOS
 
-fileprivate let safetyDistance: Float = 5.0
-fileprivate let safetyHeight: Float = 1.0
-fileprivate let alertBoundary: Float = 0.75
-fileprivate let alertShowingDistance: Float = max(safetyDistance - alertBoundary, 0)
-fileprivate let boundaryShowingDistance: Float = max(alertShowingDistance - alertBoundary, 0)
+let safetyDistance: Float = 5.0
+let safetyHeight: Float = 1.0
+let alertBoundary: Float = 0.75
+let alertShowingDistance: Float = max(safetyDistance - alertBoundary, 0)
+let boundaryShowingDistance: Float = max(alertShowingDistance - alertBoundary, 0)
 
 @Observable
 final class AppState {
@@ -88,7 +88,7 @@ final class AppState {
     @MainActor
     private func anchorAdded(_ anchor: MeshAnchor) async {
         let position = anchor.originFromAnchorTransform.position
-        guard distance(position, simd_float3(0, position.y, 0)) < 5 else { return }
+        guard distance(position, simd_float3(0, position.y, 0)) < safetyDistance else { return }
         guard let entity = await ModelEntity.generateWireframe(from: anchor) else { return }
         meshEntity.addChild(entity)
         meshEntities[anchor.id] = entity
@@ -232,7 +232,7 @@ final class AppState {
             let distance = distance(anchor.position, simd_float3(0, anchor.position.y, 0))
             if distance > boundaryShowingDistance {
                 boundary.isEnabled = true
-                let opacity = min(max((distance - boundaryShowingDistance) / alertBoundary, 0.0), 1.0) * 0.5
+                let opacity = min(max((distance - boundaryShowingDistance) / alertBoundary, 0.0), 1.0) * 0.2
                 boundary.components.set(OpacityComponent(opacity: opacity))
             } else {
                 boundary.isEnabled = false
@@ -376,7 +376,6 @@ final class AppState {
             }
             
             let hand = hands[anchor.chirality]
-//            hand.transform = Transform(matrix: anchor.originFromAnchorTransform)
             let originFromAnchorTransform = anchor.originFromAnchorTransform
             
             for location in TrackerLocation.allCases {

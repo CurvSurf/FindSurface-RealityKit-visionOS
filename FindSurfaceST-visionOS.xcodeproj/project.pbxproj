@@ -19,6 +19,7 @@
 		F312716D2C2A8F930022C965 /* TorusEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716C2C2A8F930022C965 /* TorusEntity.swift */; };
 		F312716F2C2A99A60022C965 /* GeometryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716E2C2A99A60022C965 /* GeometryEntity.swift */; };
 		F35DCE8D2C33ECAF00C0ED79 /* SeedAreaControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */; };
+		F35DCE902C355F3B00C0ED79 /* BoundaryWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */; };
 		F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */; };
 		F3CB63B22C32A40200993887 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63AE2C32A3CF00993887 /* README.md */; };
 		F3CB63CC2C32B9A900993887 /* images in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63CB2C32B9A900993887 /* images */; };
@@ -82,6 +83,7 @@
 		F312716C2C2A8F930022C965 /* TorusEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TorusEntity.swift; sourceTree = "<group>"; };
 		F312716E2C2A99A60022C965 /* GeometryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryEntity.swift; sourceTree = "<group>"; };
 		F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedAreaControl.swift; sourceTree = "<group>"; };
+		F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundaryWarningView.swift; sourceTree = "<group>"; };
 		F3CB63AD2C32A3CF00993887 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		F3CB63AE2C32A3CF00993887 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		F3CB63CB2C32B9A900993887 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
@@ -223,6 +225,7 @@
 				F30A5DB62C19717700E9AC75 /* ImmersiveView.swift */,
 				F3F0FE402C2193BD00E0E029 /* PanelView.swift */,
 				F3CB63D02C32BF9600993887 /* UserGuideView.swift */,
+				F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				F31271692C2A8C300022C965 /* CylinderEntity.swift in Sources */,
 				F312716B2C2A8CE80022C965 /* ConeEntity.swift in Sources */,
 				F3F0FDEF2C20608700E0E029 /* TrackingScenePhaseModifier.swift in Sources */,
+				F35DCE902C355F3B00C0ED79 /* BoundaryWarningView.swift in Sources */,
 				F3F0FE1A2C2154EF00E0E029 /* AppState.swift in Sources */,
 				F3F0FE002C206E8C00E0E029 /* MeshAnchor.swift in Sources */,
 				F3F0FE322C21787C00E0E029 /* ControlSectionHeader.swift in Sources */,

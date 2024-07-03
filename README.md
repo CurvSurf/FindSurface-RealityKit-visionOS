@@ -82,3 +82,15 @@ For simplicity, the information consists of numbers only, of which meaning can b
 * Angle in torus is in degrees.
 
 You can remove geometries separately by clicking the trash can button in the corner of the info panel.
+
+### App Scanning Boundary
+
+This app limits the scanning range to a radius of 5 meters from the origin, which is the ground location where the app starts.
+
+During our tests, we found that there can be performance issues when `RealityKit` has to render an excessive number of mesh entities. FindSurface can detect and measure shapes without rendering the meshes as long as it gets point clouds as inputs. However, we render them as a visual feedback for users to indicate whether `SceneReconstructionProvider` has sufficiently scanned the surrounding environment. We think that as the number of the entities increases, `RealityKit` might have to take excessive time to handle the entities for mesh visualization, leading to stuttering and an unpleasant user experience.
+
+![boundary.png](images/boundary.png)
+
+For a smooth experience in our demo app, we exclude `MeshAnchor` data if the anchor's position is beyond a certain range from the origin. The excluded data is not rendered nor included in FindSurface's input point cloud. When users approaches within 1.5 meters of this boundary, an orange fence of 1 meter height will be visualized. Moreover, if they get within 75 cm, a small warning message appears at the top of their sight (see the image above). These mechanisms are intended to ensure this app's rendering performance and appropriate level of user experiences and NOT related to user safety, despite the term `safety` being used in the source code.
+
+These specific ranges are defined by several variables, including `safetyDistance`, at the top of the `AppState.swift` file. In case you need to bypass this artificial limitation, you can change these values as needed or set them to very large numbers to effectively disable this feature.

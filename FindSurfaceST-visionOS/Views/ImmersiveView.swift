@@ -11,21 +11,6 @@ import RealityKit
 
 import FindSurface_visionOS
 
-fileprivate struct WarningView: View {
-    var body: some View {
-        VStack {
-            Text("⚠️ WARNING ⚠️")
-                .font(.title)
-            Text("This app limits the scan range to a radius of 5 meters from the point where the app is launched. The app will not function properly outside of this area.")
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .frame(width: 400)
-        .padding()
-        .glassBackgroundEffect()
-    }
-}
-
 @MainActor
 struct ImmersiveView: View {
 
