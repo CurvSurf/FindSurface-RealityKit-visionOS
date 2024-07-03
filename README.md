@@ -55,8 +55,8 @@ Here is what you can do with voice commands in the app:
    - `Torus`: "Tap torus" or "Tap donut"
 - Say the following commands to open dialog to edit parameter values of:
    - `Accuracy`: "Tap accuracy"
-   - `Avg. Distance`: "Tap average distance", "Tap mean distance", or "Tap distance"
-   - `Touch Radius`: "Tap touch radius" or "Tap seed radius"
+   - `Mean Distance`: "Tap average distance", "Tap mean distance", or "Tap distance"
+   - `Seed Radius`: "Tap touch radius" or "Tap seed radius"
 - Say the following commands to change the state of the toggle:
    - `Show Inlier Points`: "Tap inlier"
    - `Show Geometry Outline`: "Tap outline"
