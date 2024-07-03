@@ -20,7 +20,7 @@ struct TypewriterView: View {
     
     init(text: String,
          font: Font? = .subheadline.bold().monospaced(),
-         timeInterval: TimeInterval = 0.05,
+         timeInterval: TimeInterval = 0.030,
          completedHandler: @escaping () async -> Void = {}) {
         self.text = text
         self.font = font
