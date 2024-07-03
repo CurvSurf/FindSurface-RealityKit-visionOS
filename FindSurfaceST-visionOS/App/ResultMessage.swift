@@ -34,8 +34,11 @@ fileprivate extension PersistentObject {
             return "\(name): \(length: cone.topRadius), \(length: cone.bottomRadius), \(length: cone.height), \(position: cone.center), \(direction: cone.axis), \(length: rmsError)"
         case let .torus(name, torus, inliers, rmsError):
             let (begin, end) = torus.calcAngleRange(from: inliers)
-            let angle = String(format: "%.1", end.degrees - begin.degrees)
-            return "\(name): \(length: torus.meanRadius), \(length: torus.tubeRadius), \(position: torus.center), \(direction: torus.axis), \(angle), \(length: rmsError)"
+            let beginAngle = begin.degrees
+            let endAngle = end.degrees
+            let angle = beginAngle > endAngle ? endAngle - (beginAngle - 360) : endAngle - beginAngle
+            let angleText = String(format: "%.1f", angle)
+            return "\(name): \(length: torus.meanRadius), \(length: torus.tubeRadius), \(position: torus.center), \(direction: torus.axis), \(angleText), \(length: rmsError)"
         }
     }
 }
