@@ -28,12 +28,12 @@ struct ControlView: View {
                         .accessibilityLabel("Accuracy")
                         .accessibilityInputLabels(["Measurement Accuracy", "Accuracy"])
                     
-                    NumericTextField(label: "Avg. Distance [cm]: ", value: $findSurface.meanDistance, minValue: 0.001, maxValue: 0.50)
+                    NumericTextField(label: "Mean Distance [cm]: ", value: $findSurface.meanDistance, minValue: 0.001, maxValue: 0.50)
                         .accessibilityLabel("Distance")
                         .accessibilityInputLabels(["Mean Distance", "Average Distance", "Distance"])
                     
-                    NumericTextField(label: "Touch Radius [cm]: ", value: $findSurface.seedRadius, minValue: 0.001, maxValue: 0.75)
-                        .accessibilityLabel("Touch Radius")
+                    NumericTextField(label: "Seed Radius [cm]: ", value: $findSurface.seedRadius, minValue: 0.001, maxValue: 0.75)
+                        .accessibilityLabel("Seed Radius")
                         .accessibilityInputLabels(["Touch Radius", "Seed Radius"])
                     
                     LateralExtensionStepper(level: $findSurface.lateralExtension).padding(.vertical, -4)

@@ -8,6 +8,7 @@
 import Foundation
 import RealityKit
 import SwiftUI
+import Combine
 import _RealityKit_SwiftUI
 
 import FindSurface_visionOS
@@ -33,7 +34,9 @@ final class SeedAreaControl: Entity {
                 self.isEnabled = false
                 return
             }
-            self.isEnabled = true
+            if oldValue < 0 && radius > 0 {
+                self.isEnabled = true
+            }
             line.transform.scale = .init(radius, 1, 1)
             line.transform.translation = .init(radius * 0.5, 0, 0)
             ring.model?.mesh = .generateTorus(meanRadius: radius, tubeRadius: 0.005)

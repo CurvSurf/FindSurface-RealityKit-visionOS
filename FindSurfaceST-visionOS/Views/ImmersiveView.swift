@@ -148,7 +148,7 @@ struct ImmersiveView: View {
             Task {
                 do {
                     let result = try await findSurface.perform {
-                        await state.flashAreaIndicator(at: location, touchRadius: findSurface.seedRadius)
+                        await state.flashAreaIndicator(at: location, seedRadius: findSurface.seedRadius)
                         let points = state.visiblePoints
                         let index = points.enumerated().map { k, point in
                             (k, distance_squared(location, point))
@@ -198,7 +198,10 @@ struct ImmersiveView: View {
                     if let device = state.deviceAnchor {
                         let indicator = state.seedAreaControl
                         indicator.look(at: device.position, from: indicator.position, relativeTo: nil, forward: .positiveZ)
-                        findSurface.seedRadius = max(min(initialRadius * Float(value.magnification), 0.75), 0.001)
+                        let radius = max(min(initialRadius * Float(value.magnification), 0.75), 0.001)
+                        findSurface.seedRadius = radius
+                        state.seedAreaIndicator.radius = radius
+                        state.seedAreaControl.radius = radius
                     }
                 }
                 .onEnded { value in
@@ -206,13 +209,11 @@ struct ImmersiveView: View {
                     magnifyingStarted = false
                 }
         )
-        .onChange(of: findSurface.seedRadius, initial: true) { _, radius in
-            state.seedAreaIndicator.radius = radius
-            state.seedAreaControl.radius = radius
-        }
         .onAppear {
             state.loadFromAppStorage()
             findSurface.loadFromAppStorage()
+            state.seedAreaIndicator.radius = findSurface.seedRadius
+            state.seedAreaControl.radius = findSurface.seedRadius
             do {
                 state.persistentObjects = try .load()
             } catch {

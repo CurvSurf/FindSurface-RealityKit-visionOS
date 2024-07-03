@@ -422,7 +422,6 @@ final class AppState {
     
     @MainActor
     private func recognizeGestures() async {
-        
         if hands.rightHand.contacts(.thumbTip, .middleFingerTip) {
             rightHandMiddleFingerPinchingFrameCount = min(rightHandMiddleFingerPinchingFrameCount + 1, 5)
         } else {
@@ -574,7 +573,7 @@ final class AppState {
     @ObservationIgnored var animationSubscription: AnyCancellable? = nil
     
     @MainActor
-    func flashAreaIndicator(at location: simd_float3, touchRadius: Float) async {
+    func flashAreaIndicator(at location: simd_float3, seedRadius: Float) async {
         
         guard let deviceAnchor else { return }
         
@@ -589,7 +588,7 @@ final class AppState {
         seedAreaIndicator.isEnabled = true
         seedAreaIndicator.position = result.position
         seedAreaIndicator.normal = result.normal
-        seedAreaIndicator.radius = touchRadius
+        seedAreaIndicator.radius = seedRadius
         let flashing = FromToByAnimation<Float>(name: "flashing",
                                                 from: 0.8,
                                                 to: 0.0,

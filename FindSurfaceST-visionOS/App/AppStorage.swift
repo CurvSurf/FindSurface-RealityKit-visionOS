@@ -12,7 +12,7 @@ import FindSurface_visionOS
 fileprivate extension String {
     static var measurementAccuracy: String { "measurement-accuracy" }
     static var meanDistance: String { "mean-distance" }
-    static var touchRadius: String { "touch-radius" }
+    static var seedRadius: String { "seed-radius" }
     static var lateralExtension: String { "lateral-extension" }
     static var radialExpansion: String { "radial-expansion" }
     static var allowsConeToCylinderConversion: String { "allows-cone-to-cylinder-conversion" }
@@ -47,11 +47,11 @@ extension FindSurface {
     
     func loadFromAppStorage() {
         let storage = UserDefaults.standard
-        measurementAccuracy = storage.floatValue(forKey: .measurementAccuracy) ?? 0.012
-        meanDistance = storage.floatValue(forKey: .meanDistance) ?? 0.3
-        seedRadius = storage.floatValue(forKey: .touchRadius) ?? 0.3
-        lateralExtension = storage.enumValue(forKey: .lateralExtension) ?? .lv6
-        radialExpansion = storage.enumValue(forKey: .radialExpansion) ?? .lv6
+        measurementAccuracy = storage.floatValue(forKey: .measurementAccuracy) ?? 0.015
+        meanDistance = storage.floatValue(forKey: .meanDistance) ?? 0.10
+        seedRadius = storage.floatValue(forKey: .seedRadius) ?? 0.15
+        lateralExtension = storage.enumValue(forKey: .lateralExtension) ?? .lv10
+        radialExpansion = storage.enumValue(forKey: .radialExpansion) ?? .lv5
         var options = ConversionOptions()
         if storage.boolValue(forKey: .allowsConeToCylinderConversion) ?? true {
             options.insert(.coneToCylinder)
@@ -69,7 +69,7 @@ extension FindSurface {
         let storage = UserDefaults.standard
         storage.set(measurementAccuracy, forKey: .measurementAccuracy)
         storage.set(meanDistance, forKey: .meanDistance)
-        storage.set(seedRadius, forKey: .touchRadius)
+        storage.set(seedRadius, forKey: .seedRadius)
         storage.set(lateralExtension, forKey: .lateralExtension)
         storage.set(radialExpansion, forKey: .radialExpansion)
         storage.set(conversionOptions.contains(.coneToCylinder), forKey: .allowsConeToCylinderConversion)
