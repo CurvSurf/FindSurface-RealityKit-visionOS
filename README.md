@@ -26,8 +26,8 @@ This panels provide you ways to control the app's behavior and information about
 - Shape icons: In order, they represent plane, sphere, cylinder, cone, and torus. Choose one of these to specify the type of shape to be found using FindSurface.
 - You can click the text fields to modify values of the following three parameters. All numerical values representing length are in centimeters and are displayed to one decimal place (millimeters).
 - `Accuracy` represents the *a priori* root-mean-squared error of vertices of meshes.
-- `Avg. Distance` represents the average distance between the vertices.
-- `Touch Radius` specifies the approximate radius of the region of interest (depending on the estimated size of the object to be detected). You can adjust this value by tapping the thumb and index finger of both hands together and moving your hands apart or closer.
+- `Mean Distance` represents the average distance between the vertices.
+- `Seed Radius` specifies the approximate radius of the region of interest (depending on the estimated size of the object to be detected). You can adjust this value by tapping the thumb and index finger of both hands together and moving your hands apart or closer.
 - `Show inlier points` visualizes the set of points that contribute to the detection of the shape.
 - `Show geometry outline` enhances the visibility of the shape by highlighting its outline.
 - `Clear Scene` removes all detected shapes.
