@@ -28,6 +28,8 @@ This panels provide you ways to control the app's behavior and information about
 - `Accuracy` represents the *a priori* root-mean-squared error of vertices of meshes.
 - `Mean Distance` represents the average distance between the vertices.
 - `Seed Radius` specifies the approximate radius of the region of interest (depending on the estimated size of the object to be detected). You can adjust this value by tapping the thumb and index finger of both hands together and moving your hands apart or closer.
+- `Lat. Ext.` (Lateral Extension) represents the tendency for the algorithm to spread its search space in lateral (tangential) direction of the surface to be detected or measured.
+- `Rad. Exp.` (Radial Expansion) represents the tendency for the algorithm to thicken/thin its search space in normal direction of the surface to be detected or measured.
 - `Show inlier points` visualizes the set of points that contribute to the detection of the shape.
 - `Show geometry outline` enhances the visibility of the shape by highlighting its outline.
 - `Clear Scene` removes all detected shapes.
