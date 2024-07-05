@@ -54,13 +54,6 @@ extension Submesh {
         let h = height * 0.5
         let d = thickness * 0.5
         
-        let faceTexcoords = [
-            simd_float2(0, 0),
-            simd_float2(1, 0),
-            simd_float2(0, 1),
-            simd_float2(1, 1)
-        ]
-        
         let ulf = simd_float3(-w, +h, +d)
         let urf = simd_float3(+w, +h, +d)
         let llf = simd_float3(-w, -h, +d)
