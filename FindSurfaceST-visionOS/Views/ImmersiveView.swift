@@ -187,21 +187,22 @@ struct ImmersiveView: View {
                                                                   targetFeature: targetFeature,
                                                                   foundFeature: .cylinder,
                                                                   dialogLocation: location)
+                            return
                         } else if targetFeature == .torus && allowCylinderInsteadOfTorus {
                             state.pendingResults[.init()] = .init(result: result,
                                                                 targetFeature: targetFeature,
                                                                 foundFeature: .cylinder,
                                                                   dialogLocation: location)
+                            return
                         }
-                        return
                     case .foundSphere:
                         if targetFeature == .torus && allowSphereInsteadOfTorus {
                             state.pendingResults[.init()] = .init(result: result,
                                                                   targetFeature: targetFeature,
                                                                   foundFeature: .sphere,
                                                                   dialogLocation: location)
+                            return
                         }
-                        return
                     default: break
                     }
                     
