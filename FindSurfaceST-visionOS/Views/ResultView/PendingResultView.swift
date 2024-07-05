@@ -23,7 +23,7 @@ struct PendingResultView: View {
                 .font(.title)
                 .padding(.bottom)
             
-            Text("FindSurface has detected \(pendingResult.foundFeature) instead of \(pendingResult.targetFeature).")
+            Text(try! AttributedString(markdown: "FindSurface has detected **\(pendingResult.foundFeature)** instead of **\(pendingResult.targetFeature)**."))
                 .font(.subheadline)
             Text("Do you want to keep it?")
             
