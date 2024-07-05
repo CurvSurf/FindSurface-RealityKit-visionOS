@@ -20,6 +20,7 @@
 		F312716F2C2A99A60022C965 /* GeometryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F312716E2C2A99A60022C965 /* GeometryEntity.swift */; };
 		F35DCE8D2C33ECAF00C0ED79 /* SeedAreaControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */; };
 		F35DCE902C355F3B00C0ED79 /* BoundaryWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */; };
+		F35DCF2C2C37CC3100C0ED79 /* PendingResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCF2B2C37CC3100C0ED79 /* PendingResultView.swift */; };
 		F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */; };
 		F3CB63B22C32A40200993887 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63AE2C32A3CF00993887 /* README.md */; };
 		F3CB63CC2C32B9A900993887 /* images in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63CB2C32B9A900993887 /* images */; };
@@ -84,6 +85,7 @@
 		F312716E2C2A99A60022C965 /* GeometryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryEntity.swift; sourceTree = "<group>"; };
 		F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedAreaControl.swift; sourceTree = "<group>"; };
 		F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundaryWarningView.swift; sourceTree = "<group>"; };
+		F35DCF2B2C37CC3100C0ED79 /* PendingResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingResultView.swift; sourceTree = "<group>"; };
 		F3CB63AD2C32A3CF00993887 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		F3CB63AE2C32A3CF00993887 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		F3CB63CB2C32B9A900993887 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
@@ -310,6 +312,7 @@
 				F3F0FE262C2173A200E0E029 /* ResultSectionHeader.swift */,
 				F3F0FE372C217EA900E0E029 /* ResultAttachmentView.swift */,
 				F3F0FE742C24388B00E0E029 /* FailSignView.swift */,
+				F35DCF2B2C37CC3100C0ED79 /* PendingResultView.swift */,
 			);
 			path = ResultView;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				F3F0FE382C217EA900E0E029 /* ResultAttachmentView.swift in Sources */,
 				F3F0FE342C21789A00E0E029 /* ControlView.swift in Sources */,
 				F3CB63D12C32BF9600993887 /* UserGuideView.swift in Sources */,
+				F35DCF2C2C37CC3100C0ED79 /* PendingResultView.swift in Sources */,
 				F3F0FE302C21784500E0E029 /* ShowHideToggle.swift in Sources */,
 				F31271652C2A89E50022C965 /* PlaneEntity.swift in Sources */,
 				F3F0FE432C21948500E0E029 /* SpatialTapGesture.swift in Sources */,

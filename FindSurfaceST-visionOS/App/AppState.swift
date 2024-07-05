@@ -264,6 +264,12 @@ final class AppState {
     private func orientAttachments(to anchor: DeviceAnchor) async {
         
         for (key, attachment) in attachmentEntities {
+            
+            if pendingResults.keys.contains(where: { $0 == key }) {
+                attachment.look(at: anchor.position, from: attachment.position, relativeTo: nil, forward: .positiveZ)
+                continue
+            }
+            
             guard let geometry = geometryEntities[key],
                   let object = geometry.components[PersistentComponent.self]?.object else { continue }
             
@@ -651,6 +657,15 @@ final class AppState {
                 self?.failSignAnimationSubscription = nil
             }
     }
+    
+    struct PendingResult {
+        let result: FindSurface.Result
+        let targetFeature: FeatureType
+        let foundFeature: FeatureType
+        let dialogLocation: simd_float3
+    }
+    
+    var pendingResults: [UUID: PendingResult] = [:]
     
     @MainActor
     func process(_ result: FindSurface.Result) async throws {

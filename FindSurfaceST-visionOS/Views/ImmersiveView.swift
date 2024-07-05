@@ -81,6 +81,18 @@ struct ImmersiveView: View {
                 }
             }
             
+            for (key, pendingResult) in state.pendingResults {
+                guard let attachment = attachments.entity(for: key) else { continue }
+                
+                attachment.isEnabled = true
+                let offset = 0.15 * (state.deviceAnchor?.backward ?? .init(0, 1, 0))
+                attachment.position = pendingResult.dialogLocation + offset
+                if !state.attachmentEntities.keys.contains(key) {
+                    state.attachmentEntity.addChild(attachment)
+                    state.attachmentEntities[key] = attachment
+                }
+            }
+            
         } attachments: {
             
             Attachment(id: Attachments.panels) {
@@ -88,12 +100,14 @@ struct ImmersiveView: View {
                     .environment(state)
             }
             
-            ForEach(Array(state.geometryEntities.keys), id: \.self) { key in
-                if let entity = state.geometryEntities[key],
-                   let object = entity.components[PersistentComponent.self]?.object {
-                    Attachment(id: key) {
-                        ResultAttachmentView(id: key, messageItem: .init(from: object))
-                            .environment(state)
+            if !state.geometryEntities.isEmpty {
+                ForEach(Array(state.geometryEntities.keys), id: \.self) { key in
+                    if let entity = state.geometryEntities[key],
+                       let object = entity.components[PersistentComponent.self]?.object {
+                        Attachment(id: key) {
+                            ResultAttachmentView(id: key, messageItem: .init(from: object))
+                                .environment(state)
+                        }
                     }
                 }
             }
@@ -109,6 +123,15 @@ struct ImmersiveView: View {
             
             Attachment(id: Attachments.warning) {
                 WarningView()
+            }
+            
+            if !state.pendingResults.isEmpty {
+                ForEach(Array(state.pendingResults), id: \.key) { (key, pendingResult) in
+                    Attachment(id: key) {
+                        PendingResultView(key: key, pendingResult: pendingResult)
+                            .environment(state)
+                    }
+                }
             }
         }
         .upperLimbVisibility(.visible)
@@ -132,6 +155,7 @@ struct ImmersiveView: View {
         .onSpatialTapGesture { location, entity in
             Task {
                 do {
+                    let targetFeature = findSurface.targetFeature
                     let result = try await findSurface.perform {
                         await state.flashAreaIndicator(at: location, seedRadius: findSurface.seedRadius)
                         let points = state.visiblePoints
@@ -149,9 +173,39 @@ struct ImmersiveView: View {
                     if case let .none(rmsError) = result {
                         state.resultMessages.append(.init("Failed: \(rmsError)"))
                         await state.showFailSign(at: location)
-                    } else {
-                        try await state.process(result)
+                        return
                     }
+                    
+                    let allowCylinderInsteadOfCone = findSurface.conversionOptions.contains(.coneToCylinder)
+                    let allowCylinderInsteadOfTorus = findSurface.conversionOptions.contains(.torusToCylinder)
+                    let allowSphereInsteadOfTorus = findSurface.conversionOptions.contains(.torusToSphere)
+                    
+                    switch result {
+                    case .foundCylinder:
+                        if targetFeature == .cone && allowCylinderInsteadOfCone {
+                            state.pendingResults[.init()] = .init(result: result,
+                                                                  targetFeature: targetFeature,
+                                                                  foundFeature: .cylinder,
+                                                                  dialogLocation: location)
+                        } else if targetFeature == .torus && allowCylinderInsteadOfTorus {
+                            state.pendingResults[.init()] = .init(result: result,
+                                                                targetFeature: targetFeature,
+                                                                foundFeature: .cylinder,
+                                                                  dialogLocation: location)
+                        }
+                        return
+                    case .foundSphere:
+                        if targetFeature == .torus && allowSphereInsteadOfTorus {
+                            state.pendingResults[.init()] = .init(result: result,
+                                                                  targetFeature: targetFeature,
+                                                                  foundFeature: .sphere,
+                                                                  dialogLocation: location)
+                        }
+                        return
+                    default: break
+                    }
+                    
+                    try await state.process(result)
                     
                 } catch let error as FindSurface.Failure {
                     switch error {
@@ -159,8 +213,14 @@ struct ImmersiveView: View {
                     case let .invalidArgument(reason):  state.errorCode = .findSurfaceError(reason)
                     case let .invalidOperation(reason): state.errorCode = .findSurfaceError(reason)
                     }
-                } catch let error as WorldTrackingProvider.Error {
-                    
+                } catch _ as WorldTrackingProvider.Error {
+                    // TODO: make it handle WorldTrackingProvider.Error
+                    //       What state.process(_:) can throw is
+                    //       an exception saying that `WorldTrackingProvider` failed to add world anchor.
+                    //       We don't know why it happens and what to do.
+                    //       Also there is not much information about it in the documentation.
+                    //       So we don't do anything about it until we figure out
+                    //        what causes it and what we can do not to make it happen.
                 } catch {
                     state.errorCode = .findSurfaceError("\(error)")
                 }
