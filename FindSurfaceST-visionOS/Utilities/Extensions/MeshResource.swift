@@ -650,29 +650,10 @@ extension Submesh {
     }
     
     static func generateToricSurface(meanRadius: Float, tubeRadius: Float,
-                                     beginAngle: Angle = .degrees(0),
-                                     endAngle: Angle = .degrees(360),
+                                     angle: Angle = .degrees(360),
                                      toroidalSubdivisions: Int = 36,
                                      poloidalSubdivisions: Int = 36,
                                      useClockwiseTriangleWinding: Bool = false) -> Submesh {
-        
-        var _beginAngle = beginAngle.degrees
-        while _beginAngle < 0 {
-            _beginAngle += 360
-        }
-        let beginAngle = Angle(degrees: _beginAngle.truncatingRemainder(dividingBy: 360))
-        
-        var _endAngle = endAngle.degrees
-        while _endAngle < 0 {
-            _endAngle += 360
-        }
-        let endAngle = Angle(degrees: _endAngle.truncatingRemainder(dividingBy: 360))
-        
-        var _angle = endAngle.degrees - beginAngle.degrees
-        if _angle < 0 {
-            _angle += 360
-        }
-        let angle = Angle(degrees: _angle)
         
         let ratio = Float(angle.degrees) / 360
         let sectionalToroidalSubdivisions: Int = max(Int(Float(toroidalSubdivisions) * ratio), 1)
@@ -743,11 +724,12 @@ extension MeshResource {
     
     static func generateTorus(meanRadius: Float, tubeRadius: Float,
                               beginAngle: Angle = .degrees(0),
-                              endAngle: Angle = .degrees(360),
+                              deltaAngle: Angle = .degrees(360),
                               toroidalSubdivisions: Int = 36,
                               poloidalSubdivisions: Int = 36,
                               useClockwiseTriangleWinding: Bool = false) -> MeshResource {
-        if beginAngle == .degrees(0) && endAngle == .degrees(360) {
+        let deltaAngle = deltaAngle.radians < 0 ? -deltaAngle : deltaAngle
+        if deltaAngle >= .degrees(360) {
             let submesh = Submesh.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius,
                                                 toroidalSubdivisions: toroidalSubdivisions,
                                                 poloidalSubdivisions: poloidalSubdivisions,
@@ -768,6 +750,7 @@ extension MeshResource {
             }
             beginCircle.texcoords = beginCircle.texcoords.map { $0 * 0.5 }
             
+            let endAngle = beginAngle + deltaAngle
             let endCircleDirection = simd_float3(cos(Float(endAngle.radians)), 0, sin(Float(endAngle.radians)))
             let endCirclePosition = meanRadius * endCircleDirection
             let endCircleNormal = normalize(cross(endCircleDirection, .init(0, 1, 0)))
@@ -783,7 +766,7 @@ extension MeshResource {
             endCircle.texcoords = endCircle.texcoords.map { $0 * 0.5 + simd_float2(0.5, 0) }
             
             var surface = Submesh.generateToricSurface(meanRadius: meanRadius, tubeRadius: tubeRadius,
-                                                       beginAngle: beginAngle, endAngle: endAngle,
+                                                       angle: deltaAngle,
                                                        toroidalSubdivisions: toroidalSubdivisions,
                                                        poloidalSubdivisions: poloidalSubdivisions,
                                                        useClockwiseTriangleWinding: useClockwiseTriangleWinding)
@@ -800,11 +783,12 @@ extension MeshResource {
 
     static func generateToricSurface(meanRadius: Float, tubeRadius: Float,
                                      beginAngle: Angle = .degrees(0),
-                                     endAngle: Angle = .degrees(360),
+                                     deltaAngle: Angle = .degrees(360),
                                      toroidalSubdivisions: Int = 36,
                                      poloidalSubdivisions: Int = 36,
                                      useClockwiseTriangleWinding: Bool = false) -> MeshResource {
-        if beginAngle == .degrees(0) && endAngle == .degrees(360) {
+        let deltaAngle = deltaAngle.radians < 0 ? -deltaAngle : deltaAngle
+        if deltaAngle >= .degrees(360) {
             let submesh = Submesh.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius,
                                                 toroidalSubdivisions: toroidalSubdivisions,
                                                 poloidalSubdivisions: poloidalSubdivisions,
@@ -815,7 +799,7 @@ extension MeshResource {
             
             let rotation = simd_quatf(from: .init(1, 0, 0), to: beginCircleDirection)
             var submesh = Submesh.generateToricSurface(meanRadius: meanRadius, tubeRadius: tubeRadius,
-                                                       beginAngle: beginAngle, endAngle: endAngle,
+                                                       angle: deltaAngle,
                                                        toroidalSubdivisions: toroidalSubdivisions,
                                                        poloidalSubdivisions: poloidalSubdivisions,
                                                        useClockwiseTriangleWinding: useClockwiseTriangleWinding)
@@ -830,13 +814,14 @@ extension MeshResource {
     
     static func generateVolumetricToricSurface(meanRadius: Float, tubeRadius: Float,
                                                beginAngle: Angle = .degrees(0),
-                                               endAngle: Angle = .degrees(360),
+                                               deltaAngle: Angle = .degrees(360),
                                                thickness: Float = 0.001,
                                                toroidalSubdivisions: Int = 36,
                                                poloidalSubdivisions: Int = 36,
                                                defineCircularTexcoordsOnCovers: Bool = false,
                                                useClockwiseTriangleWinding: Bool = false) -> MeshResource {
-        if beginAngle == .degrees(0) && endAngle == .degrees(360) {
+        let deltaAngle = deltaAngle.radians < 0 ? -deltaAngle : deltaAngle
+        if deltaAngle >= .degrees(360) {
             let submesh = Submesh.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius,
                                                 toroidalSubdivisions: toroidalSubdivisions,
                                                 poloidalSubdivisions: poloidalSubdivisions,
@@ -860,6 +845,7 @@ extension MeshResource {
             }
             beginCircle.texcoords = beginCircle.texcoords.map { $0 * 0.5 }
             
+            let endAngle = beginAngle + deltaAngle
             let endCircleDirection = simd_float3(cos(Float(endAngle.radians)), 0, sin(Float(endAngle.radians)))
             let endCirclePosition = meanRadius * endCircleDirection
             let endCircleNormal = normalize(cross(endCircleDirection, .init(0, 1, 0)))
@@ -877,7 +863,7 @@ extension MeshResource {
             let surfaceRotation = simd_quatf(from: .init(1, 0, 0), to: beginCircleDirection)
             
             var outerSurface = Submesh.generateToricSurface(meanRadius: meanRadius, tubeRadius: outerTubeRadius,
-                                                            beginAngle: beginAngle, endAngle: endAngle,
+                                                            angle: deltaAngle,
                                                             toroidalSubdivisions: toroidalSubdivisions,
                                                             poloidalSubdivisions: poloidalSubdivisions,
                                                             useClockwiseTriangleWinding: useClockwiseTriangleWinding)
@@ -888,7 +874,7 @@ extension MeshResource {
             outerSurface.texcoords = outerSurface.texcoords.map { $0 * simd_float2(1, 0.5) + simd_float2(0, 0.5) }
             
             var innerSurface = Submesh.generateToricSurface(meanRadius: meanRadius, tubeRadius: innerTubeRadius,
-                                                            beginAngle: beginAngle, endAngle: endAngle,
+                                                            angle: deltaAngle,
                                                             toroidalSubdivisions: toroidalSubdivisions,
                                                             poloidalSubdivisions: poloidalSubdivisions,
                                                             useClockwiseTriangleWinding: !useClockwiseTriangleWinding)

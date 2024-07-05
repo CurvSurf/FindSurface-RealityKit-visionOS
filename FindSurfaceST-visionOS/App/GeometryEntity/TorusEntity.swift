@@ -109,11 +109,11 @@ final class TorusEntity: GeometryEntity {
         let tubeRadius = intrinsics.tubeRadius
         let outlineWidth = intrinsics.outlineWidth
         var shape = intrinsics.shape
-        if case let .partialVolume(begin, end) = shape,
-           abs(end.degrees - begin.degrees) > 360 {
+        if case let .partialVolume(_, delta) = shape,
+           delta >= .degrees(360) {
             shape = .fullVolume
-        } else if case let .partialSurface(begin, end) = shape,
-                  abs(end.degrees - begin.degrees) > 360 {
+        } else if case let .partialSurface(_, delta) = shape,
+                  delta >= .degrees(360) {
             shape = .fullVolume
         }
         
@@ -126,26 +126,26 @@ final class TorusEntity: GeometryEntity {
             outline.model?.mesh = .generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius + outlineWidth,
                                                  useClockwiseTriangleWinding: true)
             
-        case let .partialVolume(beginAngle, endAngle):
+        case let .partialVolume(beginAngle, deltaAngle):
             occlusion.model?.mesh = .generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius - 0.001,
-                                                   beginAngle: Angle(degrees: beginAngle.degrees + 1), endAngle: Angle(degrees: endAngle.degrees - 1))
+                                                   beginAngle: beginAngle + .degrees(1), deltaAngle: deltaAngle - .degrees(2))
             let mesh = MeshResource.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius,
-                                                  beginAngle: beginAngle, endAngle: endAngle)
+                                                  beginAngle: beginAngle, deltaAngle: deltaAngle)
             wireframe.model?.mesh = mesh
             surface.model?.mesh = mesh
             outline.model?.mesh = .generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius + outlineWidth,
-                                                 beginAngle: Angle(degrees: beginAngle.degrees - 1), endAngle: Angle(degrees: endAngle.degrees + 1),
+                                                 beginAngle: beginAngle - .degrees(1), deltaAngle: deltaAngle + .degrees(2),
                                                  useClockwiseTriangleWinding: true)
-        case let .partialSurface(beginAngle, endAngle):
+        case let .partialSurface(beginAngle, deltaAngle):
             occlusion.model?.mesh = .generateVolumetricToricSurface(meanRadius: meanRadius, tubeRadius: tubeRadius - 0.001,
-                                                                    beginAngle: Angle(degrees: beginAngle.degrees + 1), endAngle: Angle(degrees: endAngle.degrees - 1),
+                                                                    beginAngle: beginAngle + .degrees(1), deltaAngle: deltaAngle - .degrees(2),
                                                                     thickness: 0.001)
             let mesh = MeshResource.generateToricSurface(meanRadius: meanRadius, tubeRadius: tubeRadius,
-                                                         beginAngle: beginAngle, endAngle: endAngle)
+                                                         beginAngle: beginAngle, deltaAngle: deltaAngle)
             wireframe.model?.mesh = mesh
             surface.model?.mesh = mesh
             outline.model?.mesh = .generateVolumetricToricSurface(meanRadius: meanRadius, tubeRadius: tubeRadius,
-                                                                  beginAngle: Angle(degrees: beginAngle.degrees - 1), endAngle: Angle(degrees: endAngle.degrees + 1),
+                                                                  beginAngle: beginAngle - .degrees(1), deltaAngle: deltaAngle + .degrees(2),
                                                                   thickness: outlineWidth,
                                                                   useClockwiseTriangleWinding: true)
         }
