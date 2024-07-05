@@ -56,7 +56,12 @@ extension GeometryEntity {
 }
 
 fileprivate func angle(_ a: simd_float2) -> Float {
-    return atan2f(a.x, a.y)
+    let angle = atan2f(a.x, a.y)
+    if angle < 0 {
+        return angle + .pi * 2.0
+    } else {
+        return angle
+    }
 }
 
 fileprivate func angleBetween(_ a: simd_float2, _ b: simd_float2) -> Float {
@@ -67,6 +72,7 @@ import FindSurface_visionOS
 
 extension Torus {
     func calcAngleRange(from inliers: [simd_float3]) -> (begin: Angle, end: Angle) {
+        
         let projected = inliers.map { point in
             normalize(simd_float2(point.x, point.z))
         }
