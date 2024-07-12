@@ -535,6 +535,11 @@ final class AppState {
         seedAreaControl.isEnabled = false
         rootEntity.addChild(seedAreaControl)
         
+        let pickedPointIndicator = ModelEntity(mesh: .generateBox(size: 0.01, cornerRadius: 0.003),
+                                               materials: [SimpleMaterial(color: .red, roughness: 0.75, isMetallic: true)])
+        pickedPointIndicator.isEnabled = false
+        rootEntity.addChild(pickedPointIndicator)
+        
         self.rootEntity = rootEntity
         self.meshEntity = meshEntity
         self.geometryEntity = geometryEntity
@@ -544,6 +549,7 @@ final class AppState {
         self.seedAreaIndicator = seedAreaIndicator
         self.seedAreaControl = seedAreaControl
         self.boundary = boundary
+        self.pickedPointIndicator = pickedPointIndicator
     }
     
     @MainActor
@@ -599,7 +605,7 @@ final class AppState {
                                                 to: 0.0,
                                                 duration: 1.0,
                                                 timing: .easeInOut,
-                                                bindTarget:.opacity)
+                                                bindTarget: .opacity)
         let animation = try! AnimationResource.generate(with: flashing)
         let handle = seedAreaIndicator.playAnimation(animation)
         animationSubscription = seedAreaIndicator.scene?.publisher(for: AnimationEvents.PlaybackCompleted.self)
@@ -621,6 +627,32 @@ final class AppState {
             }
         }
     }
+    
+    @ObservationIgnored var flashPickedPointAnimationSubscription: AnyCancellable? = nil
+    private let pickedPointIndicator: ModelEntity
+    
+    @MainActor
+    func flashPickedPoint(at location: simd_float3) async {
+        
+        pickedPointIndicator.isEnabled = true
+        pickedPointIndicator.position = location
+        
+        let flashing = FromToByAnimation<Float>(name: "flashingFiveSeconds",
+                                                from: 1.0,
+                                                to: 0.0,
+                                                duration: 5.0,
+                                                timing: .easeInOut,
+                                                bindTarget: .opacity)
+        let animation = try! AnimationResource.generate(with: flashing)
+        let handle = pickedPointIndicator.playAnimation(animation)
+        flashPickedPointAnimationSubscription = pickedPointIndicator.scene?.publisher(for: AnimationEvents.PlaybackCompleted.self)
+            .filter { $0.playbackController == handle }
+            .sink { [weak self] _ in
+                self?.pickedPointIndicator.isEnabled = false
+                self?.flashPickedPointAnimationSubscription = nil
+            }
+    }
+    
     @ObservationIgnored var failSignAnimationSubscription: AnyCancellable? = nil
     
     @MainActor

@@ -165,6 +165,9 @@ struct ImmersiveView: View {
                         
                         guard let index,
                               distance(points[index], location) < 0.30 else { return nil }
+                        
+                        await state.flashPickedPoint(at: points[index])
+                        
                         return (points, index)
                     }
                     
