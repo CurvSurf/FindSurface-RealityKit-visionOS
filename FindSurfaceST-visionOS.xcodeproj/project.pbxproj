@@ -21,6 +21,7 @@
 		F35DCE8D2C33ECAF00C0ED79 /* SeedAreaControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */; };
 		F35DCE902C355F3B00C0ED79 /* BoundaryWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */; };
 		F35DCF2C2C37CC3100C0ED79 /* PendingResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCF2B2C37CC3100C0ED79 /* PendingResultView.swift */; };
+		F370F9602C4110870047F1C8 /* BarycentricCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370F95F2C4110870047F1C8 /* BarycentricCoordinate.swift */; };
 		F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */; };
 		F3CB63B22C32A40200993887 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63AE2C32A3CF00993887 /* README.md */; };
 		F3CB63CC2C32B9A900993887 /* images in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63CB2C32B9A900993887 /* images */; };
@@ -86,6 +87,7 @@
 		F35DCE8C2C33ECAF00C0ED79 /* SeedAreaControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedAreaControl.swift; sourceTree = "<group>"; };
 		F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundaryWarningView.swift; sourceTree = "<group>"; };
 		F35DCF2B2C37CC3100C0ED79 /* PendingResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingResultView.swift; sourceTree = "<group>"; };
+		F370F95F2C4110870047F1C8 /* BarycentricCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarycentricCoordinate.swift; sourceTree = "<group>"; };
 		F3CB63AD2C32A3CF00993887 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		F3CB63AE2C32A3CF00993887 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		F3CB63CB2C32B9A900993887 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
@@ -257,6 +259,7 @@
 				F3F0FDEA2C205FD600E0E029 /* ScenePhaseTracking */,
 				F3F0FDE62C205E8200E0E029 /* SessionManager.swift */,
 				F3F0FE422C21948500E0E029 /* SpatialTapGesture.swift */,
+				F370F95F2C4110870047F1C8 /* BarycentricCoordinate.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				F3F0FE3F2C218D9D00E0E029 /* ErrorView.swift in Sources */,
 				F3F0FE362C217C9C00E0E029 /* ClearSceneButton.swift in Sources */,
 				F3F0FE232C216FD200E0E029 /* TypewriterView.swift in Sources */,
+				F370F9602C4110870047F1C8 /* BarycentricCoordinate.swift in Sources */,
 				F3F0FDFC2C2063A700E0E029 /* MeshResource.swift in Sources */,
 				F3F0FE752C24388B00E0E029 /* FailSignView.swift in Sources */,
 				F3F0FDE72C205E8200E0E029 /* SessionManager.swift in Sources */,
@@ -621,7 +625,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "(Debug)FindSurface-visionOS";
+				INFOPLIST_KEY_CFBundleDisplayName = "(debug)FindSurface-visionOS";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -649,13 +653,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "FindSurface-visionOS";
+				INFOPLIST_KEY_CFBundleDisplayName = "(test)FindSurface-visionOS";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "CurvSurf.FindSurfaceST-visionOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "-test-CurvSurf.FindSurfaceST-visionOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -73,12 +73,6 @@ extension Torus {
             normalize(simd_float3(point.x, 0, point.z))
         }
         var projectedCenter = projected.reduce(.zero, +) / Float(projected.count)
-//        
-//        print("""
-//let projected = [
-//\t\(projected.map { "simd_float2(\($0.x), \($0.y))" }.joined(separator: ",\n"))
-//]
-//""")
         
         if length(projectedCenter) < 0.1 {
             return (begin: .zero, delta: .degrees(360))

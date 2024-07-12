@@ -152,24 +152,28 @@ struct ImmersiveView: View {
         .task {
             await state.processHandAnchorUpdates()
         }
-        .onSpatialTapGesture { location, entity in
+        .onSpatialTapGesture(target: state.meshEntity) { location, entity in
             Task {
                 do {
                     let targetFeature = findSurface.targetFeature
                     let result = try await findSurface.perform {
                         await state.flashAreaIndicator(at: location, seedRadius: findSurface.seedRadius)
-                        let points = state.visiblePoints
-                        let index = points.enumerated().map { k, point in
-                            (k, distance_squared(location, point))
-                        }.min { $0.1 < $1.1 }?.0
                         
-                        guard let index,
-                              distance(points[index], location) < 0.30 else { return nil }
-                        
+                        guard let i = state.pickPoint(near: location, entity: entity) else { return nil }
+                        let id = UUID(uuidString: entity.name)
+                        let points = state.generateVisiblePoints(id, i)
+//                        
+//                        let index = points.enumerated().map { k, point in
+//                            (k, distance_squared(location, point))
+//                        }.min { $0.1 < $1.1 }?.0
+//                        
+//                        guard let index,
+//                              distance(points[index], location) < 0.30 else { return nil }
+//                        
+                        await state.flashPickedPoint(at: points[0])
                         await state.flashGesturePoint(at: location)
-                        await state.flashPickedPoint(at: points[index])
                         
-                        return (points, index)
+                        return (points, 0)
                     }
                     
                     guard let result else { return }
