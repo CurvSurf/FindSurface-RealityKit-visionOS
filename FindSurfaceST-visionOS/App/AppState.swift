@@ -540,6 +540,11 @@ final class AppState {
         pickedPointIndicator.isEnabled = false
         rootEntity.addChild(pickedPointIndicator)
         
+        let gesturePointIndicator = ModelEntity(mesh: .generateBox(size: 0.01, cornerRadius: 0.003),
+                                                materials: [SimpleMaterial(color: .green, roughness: 0.75, isMetallic: true)])
+        gesturePointIndicator.isEnabled = false
+        rootEntity.addChild(gesturePointIndicator)
+        
         self.rootEntity = rootEntity
         self.meshEntity = meshEntity
         self.geometryEntity = geometryEntity
@@ -550,6 +555,7 @@ final class AppState {
         self.seedAreaControl = seedAreaControl
         self.boundary = boundary
         self.pickedPointIndicator = pickedPointIndicator
+        self.gesturePointIndicator = gesturePointIndicator
     }
     
     @MainActor
@@ -650,6 +656,31 @@ final class AppState {
             .sink { [weak self] _ in
                 self?.pickedPointIndicator.isEnabled = false
                 self?.flashPickedPointAnimationSubscription = nil
+            }
+    }
+    
+    @ObservationIgnored var flashGesturePointAnimationSubscription: AnyCancellable? = nil
+    private let gesturePointIndicator: ModelEntity
+    
+    @MainActor
+    func flashGesturePoint(at location: simd_float3) async {
+    
+        gesturePointIndicator.isEnabled = true
+        gesturePointIndicator.position = location
+        
+        let flashing = FromToByAnimation<Float>(name: "flashingFiveSeconds",
+                                                from: 1.0,
+                                                to: 0.0,
+                                                duration: 5.0,
+                                                timing: .easeInOut,
+                                                bindTarget: .opacity)
+        let animation = try! AnimationResource.generate(with: flashing)
+        let handle = gesturePointIndicator.playAnimation(animation)
+        flashGesturePointAnimationSubscription = gesturePointIndicator.scene?.publisher(for: AnimationEvents.PlaybackCompleted.self)
+            .filter { $0.playbackController == handle }
+            .sink { [weak self] _ in
+                self?.gesturePointIndicator.isEnabled = false
+                self?.flashGesturePointAnimationSubscription = nil
             }
     }
     

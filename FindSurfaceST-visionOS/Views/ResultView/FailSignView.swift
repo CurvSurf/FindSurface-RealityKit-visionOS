@@ -16,5 +16,6 @@ struct FailSignView: View {
         .padding()
         .background(.gray.opacity(0.3))
         .border(.white, width: 2)
+        .allowsHitTesting(false)
     }
 }
