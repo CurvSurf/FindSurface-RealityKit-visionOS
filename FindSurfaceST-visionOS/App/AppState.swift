@@ -85,7 +85,7 @@ final class AppState {
         
         let origin = deviceAnchor.position
         let direction = deviceAnchor.forward
-        var results = points.filter { point in
+        let results = points.filter { point in
             let pointDirection = point - origin
             let pointDirectionXZ = normalize(simd_float2(pointDirection.x, pointDirection.z))
             let pointDirectionYZ = normalize(simd_float2(pointDirection.y, pointDirection.z))
@@ -255,6 +255,10 @@ final class AppState {
         for (_, entity) in geometryEntities {
             entity.enableOutline(showGeometryOutline)
         }
+    }
+    
+    func exportAsUSD() async {
+        
     }
     
     private let inlierPointsEntity: Entity
@@ -664,12 +668,12 @@ final class AppState {
         seedAreaControl.isEnabled = false
         rootEntity.addChild(seedAreaControl)
         
-        let pickedPointIndicator = ModelEntity(mesh: .generateBox(size: 0.01, cornerRadius: 0.003),
+        let pickedPointIndicator = ModelEntity(mesh: .generateBox(size: 0.02, cornerRadius: 0.005),
                                                materials: [SimpleMaterial(color: .red, roughness: 0.75, isMetallic: true)])
         pickedPointIndicator.isEnabled = false
         rootEntity.addChild(pickedPointIndicator)
         
-        let gesturePointIndicator = ModelEntity(mesh: .generateBox(size: 0.01, cornerRadius: 0.003),
+        let gesturePointIndicator = ModelEntity(mesh: .generateBox(size: 0.02, cornerRadius: 0.005),
                                                 materials: [SimpleMaterial(color: .green, roughness: 0.75, isMetallic: true)])
         gesturePointIndicator.isEnabled = false
         rootEntity.addChild(gesturePointIndicator)

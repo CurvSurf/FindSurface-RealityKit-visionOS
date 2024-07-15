@@ -162,21 +162,14 @@ struct ImmersiveView: View {
                         guard let i = state.pickPoint(near: location, entity: entity) else { return nil }
                         let id = UUID(uuidString: entity.name)
                         let points = state.generateVisiblePoints(id, i)
-//                        
-//                        let index = points.enumerated().map { k, point in
-//                            (k, distance_squared(location, point))
-//                        }.min { $0.1 < $1.1 }?.0
-//                        
-//                        guard let index,
-//                              distance(points[index], location) < 0.30 else { return nil }
-//                        
+
                         await state.flashPickedPoint(at: points[0])
                         await state.flashGesturePoint(at: location)
                         
-                        return (points, 0)
+                        return ([location] + points, 0)
                     }
                     
-                    guard let result else { return }
+                    guard var result else { return }
                     
                     if case let .none(rmsError) = result {
                         state.resultMessages.append(.init("Failed: \(rmsError)"))
@@ -187,6 +180,18 @@ struct ImmersiveView: View {
                     let allowCylinderInsteadOfCone = findSurface.conversionOptions.contains(.coneToCylinder)
                     let allowCylinderInsteadOfTorus = findSurface.conversionOptions.contains(.torusToCylinder)
                     let allowSphereInsteadOfTorus = findSurface.conversionOptions.contains(.torusToSphere)
+                    
+                    let predicate = { (point: simd_float3) -> Bool in
+                        return point != location
+                    }
+                    result = switch result {
+                    case let .foundPlane(plane, inliers, rmsError): .foundPlane(plane, inliers.filter(predicate), rmsError)
+                    case let .foundSphere(sphere, inliers, rmsError): .foundSphere(sphere, inliers.filter(predicate), rmsError)
+                    case let .foundCylinder(cylinder, inliers, rmsError): .foundCylinder(cylinder, inliers.filter(predicate), rmsError)
+                    case let .foundCone(cone, inliers, rmsError): .foundCone(cone, inliers.filter(predicate), rmsError)
+                    case let .foundTorus(torus, inliers, rmsError): .foundTorus(torus, inliers.filter(predicate), rmsError)
+                    default: result
+                    }
                     
                     switch result {
                     case .foundCylinder:

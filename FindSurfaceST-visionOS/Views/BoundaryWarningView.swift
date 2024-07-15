@@ -20,6 +20,7 @@ struct WarningView: View {
         .frame(width: 400)
         .padding()
         .glassBackgroundEffect()
+        .allowsHitTesting(false)
     }
 }
 
