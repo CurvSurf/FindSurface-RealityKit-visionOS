@@ -25,7 +25,9 @@ extension MeshResource {
         var descriptor = name.isEmpty ? MeshDescriptor() : MeshDescriptor(name: name)
         descriptor.positions = MeshBuffer(submesh.positions)
         descriptor.normals = MeshBuffer(submesh.normals)
-        descriptor.textureCoordinates = MeshBuffer(submesh.texcoords)
+        if !submesh.texcoords.isEmpty {
+            descriptor.textureCoordinates = MeshBuffer(submesh.texcoords)
+        }
         descriptor.primitives = .triangles(submesh.triangleIndices)
         
         return try! MeshResource.generate(from: [descriptor])
@@ -176,12 +178,77 @@ extension Submesh {
         
         return .init(positions: positions, normals: normals, texcoords: texcoords, triangleIndices: triangleIndices)
     }
+    
+    static func generateOctahedronExpandedSphere(radius: Float, subdivisions: Int = 4, useClockwiseTriangleWinding: Bool = false) -> Submesh {
+        
+        var positions = [simd_float3]()
+        var triangleIndices = [Int]()
+        
+        positions.append(contentsOf: [
+            simd_float3(1, 0, 0), simd_float3(-1, 0, 0),
+            simd_float3(0, 1, 0), simd_float3(0, -1, 0),
+            simd_float3(0, 0, 1), simd_float3(0, 0, -1)
+        ])
+        
+        subdivide(2, 4, 0, subdivisions, &positions, &triangleIndices)
+        subdivide(2, 0, 5, subdivisions, &positions, &triangleIndices)
+        subdivide(2, 5, 1, subdivisions, &positions, &triangleIndices)
+        subdivide(2, 1, 5, subdivisions, &positions, &triangleIndices)
+        subdivide(3, 0, 4, subdivisions, &positions, &triangleIndices)
+        subdivide(3, 5, 0, subdivisions, &positions, &triangleIndices)
+        subdivide(3, 1, 5, subdivisions, &positions, &triangleIndices)
+        subdivide(3, 4, 1, subdivisions, &positions, &triangleIndices)
+        
+        var normals = positions
+        positions = positions.map { $0 * radius }
+        
+        if useClockwiseTriangleWinding {
+            triangleIndices.reverse()
+            normals = normals.map { $0 * -1 }
+        }
+        
+        return .init(positions: positions, normals: positions, texcoords: [], triangleIndices: triangleIndices.map { UInt32($0) })
+    }
+}
+
+fileprivate func subdivide(_ i0: Int, _ i1: Int, _ i2: Int, _ level: Int, 
+                           _ positions: inout [simd_float3], _ triangleIndices: inout [Int]) {
+    
+    guard level > 1 else {
+        triangleIndices.append(contentsOf: [i0, i1, i2])
+        return
+    }
+    
+    let p0 = positions[i0]
+    let p1 = positions[i1]
+    let p2 = positions[i2]
+    
+    let p01 = (p0 + p1) * 0.5
+    let p12 = (p1 + p2) * 0.5
+    let p20 = (p2 + p0) * 0.5
+    
+    positions.append(contentsOf: [p01, p12, p20])
+    
+    let i01 = positions.count - 3;
+    let i12 = i01 + 1
+    let i20 = i12 + 1
+    
+    subdivide(i0, i01, i20, level - 1, &positions, &triangleIndices)
+    subdivide(i01, i1, i12, level - 1, &positions, &triangleIndices)
+    subdivide(i01, i12, i20, level - 1, &positions, &triangleIndices)
+    subdivide(i20, i12, i2, level - 1, &positions, &triangleIndices)
 }
 
 extension MeshResource {
     static func generateLowPolySphere(radius: Float, subdivisions: Int = 36, useClockwiseTriangleWinding: Bool = false) -> MeshResource {
         let submesh = Submesh.generateLowPolySphere(radius: radius, subdivisions: subdivisions,
                                                     useClockwiseTriangleWinding: useClockwiseTriangleWinding)
+        return .generate(from: submesh)
+    }
+    
+    static func generateOctahedronExpandedSphere(radius: Float, subdivisions: Int = 4, useClockwiseTriangleWinding: Bool = false) -> MeshResource {
+        let submesh = Submesh.generateOctahedronExpandedSphere(radius: radius, subdivisions: subdivisions, 
+                                                               useClockwiseTriangleWinding: useClockwiseTriangleWinding)
         return .generate(from: submesh)
     }
 }
@@ -803,10 +870,10 @@ extension MeshResource {
                                                        toroidalSubdivisions: toroidalSubdivisions,
                                                        poloidalSubdivisions: poloidalSubdivisions,
                                                        useClockwiseTriangleWinding: useClockwiseTriangleWinding)
-            let surfaceRotation = simd_quatf(from: .init(1, 0, 0), to: beginCircleDirection)
+            
             if rotation.angle != 0 {
-                submesh.positions = submesh.positions.map { surfaceRotation.act($0) }
-                submesh.normals = submesh.normals.map { surfaceRotation.act($0) }
+                submesh.positions = submesh.positions.map { rotation.act($0) }
+                submesh.normals = submesh.normals.map { rotation.act($0) }
             }
             return .generate(from: submesh)
         }

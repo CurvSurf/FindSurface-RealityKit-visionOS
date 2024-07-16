@@ -28,7 +28,7 @@ final class PlaneEntity: GeometryEntity {
             self.shape = shape
         }
     }
-    private var intrinsics = Intrinsics()
+    private(set) var intrinsics = Intrinsics()
     
     private let occlusion: ModelEntity
     private let surface: ModelEntity

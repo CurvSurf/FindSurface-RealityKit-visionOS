@@ -22,6 +22,7 @@
 		F35DCE902C355F3B00C0ED79 /* BoundaryWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */; };
 		F35DCF2C2C37CC3100C0ED79 /* PendingResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35DCF2B2C37CC3100C0ED79 /* PendingResultView.swift */; };
 		F370F9602C4110870047F1C8 /* BarycentricCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370F95F2C4110870047F1C8 /* BarycentricCoordinate.swift */; };
+		F370F9622C44F3C80047F1C8 /* usda.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370F9612C44F3C80047F1C8 /* usda.swift */; };
 		F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */; };
 		F3CB63B22C32A40200993887 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63AE2C32A3CF00993887 /* README.md */; };
 		F3CB63CC2C32B9A900993887 /* images in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63CB2C32B9A900993887 /* images */; };
@@ -88,6 +89,7 @@
 		F35DCE8F2C355F3B00C0ED79 /* BoundaryWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundaryWarningView.swift; sourceTree = "<group>"; };
 		F35DCF2B2C37CC3100C0ED79 /* PendingResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingResultView.swift; sourceTree = "<group>"; };
 		F370F95F2C4110870047F1C8 /* BarycentricCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarycentricCoordinate.swift; sourceTree = "<group>"; };
+		F370F9612C44F3C80047F1C8 /* usda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = usda.swift; sourceTree = "<group>"; };
 		F3CB63AD2C32A3CF00993887 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		F3CB63AE2C32A3CF00993887 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		F3CB63CB2C32B9A900993887 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
@@ -293,6 +295,7 @@
 				F3F0FE052C20706700E0E029 /* Binding.swift */,
 				F3F0FE092C2070E500E0E029 /* simd.swift */,
 				F3F0FE072C2070BF00E0E029 /* DeviceAnchor.swift */,
+				F370F9612C44F3C80047F1C8 /* usda.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				F312716B2C2A8CE80022C965 /* ConeEntity.swift in Sources */,
 				F3F0FDEF2C20608700E0E029 /* TrackingScenePhaseModifier.swift in Sources */,
 				F35DCE902C355F3B00C0ED79 /* BoundaryWarningView.swift in Sources */,
+				F370F9622C44F3C80047F1C8 /* usda.swift in Sources */,
 				F3F0FE1A2C2154EF00E0E029 /* AppState.swift in Sources */,
 				F3F0FE002C206E8C00E0E029 /* MeshAnchor.swift in Sources */,
 				F3F0FE322C21787C00E0E029 /* ControlSectionHeader.swift in Sources */,

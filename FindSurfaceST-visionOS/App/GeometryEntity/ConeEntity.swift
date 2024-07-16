@@ -30,7 +30,7 @@ final class ConeEntity: GeometryEntity {
             self.shape = shape
         }
     }
-    private var intrinsics = Intrinsics()
+    private(set) var intrinsics = Intrinsics()
     
     private let occlusion: ModelEntity
     private let wireframe: ModelEntity

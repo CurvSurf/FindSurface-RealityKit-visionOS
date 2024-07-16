@@ -257,8 +257,8 @@ final class AppState {
         }
     }
     
-    func exportAsUSD() async {
-        
+    func exportAsUSD() async -> String {
+        return await export(geometryEntities.values.map { $0 })
     }
     
     private let inlierPointsEntity: Entity
@@ -333,18 +333,23 @@ final class AppState {
     
     @MainActor
     private func anchorRemoved(_ anchor: WorldAnchor) async {
+        await anchorRemoved(worldAnchorID: anchor.id)
+    }
+    
+    @MainActor
+    private func anchorRemoved(worldAnchorID: UUID) async {
         
-        if let geometry = geometryEntities.removeValue(forKey: anchor.id) {
+        if let geometry = geometryEntities.removeValue(forKey: worldAnchorID) {
             geometry.removeFromParent()
             geometryEntity.removeChild(geometry)
         }
         
-        if let attachment = attachmentEntities.removeValue(forKey: anchor.id) {
+        if let attachment = attachmentEntities.removeValue(forKey: worldAnchorID) {
             attachment.removeFromParent()
             attachmentEntity.removeChild(attachment)
         }
         
-        if let inlierPoints = inlierPointsEntities.removeValue(forKey: anchor.id) {
+        if let inlierPoints = inlierPointsEntities.removeValue(forKey: worldAnchorID) {
             inlierPoints.removeFromParent()
             inlierPointsEntity.removeChild(inlierPoints)
         }
@@ -707,7 +712,9 @@ final class AppState {
         guard persistentObjects.removeValue(forKey: id) != nil else { return }
         do {
             try await worldTrackingProvider.removeAnchor(forID: id)
-        } catch {}
+        } catch {
+            await anchorRemoved(worldAnchorID: id)
+        }
     }
     
     var centerOfBothIndexFingerTips: simd_float3? {
@@ -875,7 +882,7 @@ final class AppState {
         let object: PersistentObject = switch result {
         case .foundPlane(var plane, let inliers, let rmsError): {
             plane.align(withCamera: deviceAnchor!.position)
-            let name = "Plane\(persistentObjects.count)"
+            let name = "Plane\(persistentObjects.count + pendingObjects.count)"
             let transform = plane.transform
             let inliers = inliers.map { simd_make_float3(transform * simd_float4($0, 1)) }
             return .plane(name, plane, inliers, rmsError)

@@ -19,7 +19,7 @@ final class SphereEntity: GeometryEntity {
             self.outlineWidth = outlineWidth
         }
     }
-    private var intrinsics = Intrinsics()
+    private(set) var intrinsics = Intrinsics()
     
     private let occlusion: ModelEntity
     private let wireframe: ModelEntity

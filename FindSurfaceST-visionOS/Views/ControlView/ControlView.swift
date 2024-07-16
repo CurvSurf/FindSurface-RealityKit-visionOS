@@ -15,6 +15,8 @@ struct ControlView: View {
     @Environment(AppState.self) private var state
     @Environment(FindSurface.self) private var findSurface
     
+    @Environment(\.openWindow) private var openWindow
+    
     var body: some View {
         @Bindable var state = state
         @Bindable var findSurface = findSurface
@@ -50,7 +52,19 @@ struct ControlView: View {
                     ShowHideToggle(label: "Show geometry outline: ", show: $state.showGeometryOutline)
                         .accessibilityLabel("Outline")
                     
-                    ClearSceneButton { state.reset() }
+                    HStack {
+                        ClearSceneButton { state.reset() }
+                        Button("Export") {
+                            Task {
+                                let content = await state.exportAsUSD()
+                                
+                                let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("find-surface-results.usda")
+                                try? content.write(to: fileURL, atomically: true, encoding: .utf8)
+                                openWindow(sceneID: SceneID.shareWindow, value: fileURL)
+                            }
+                        }
+                        .disabled(state.geometryEntities.isEmpty)
+                    }
                 }
             } header: {
                 ControlSectionHeader(isExpanded: $state.showResultPanel)
@@ -66,5 +80,26 @@ struct ControlView: View {
         .frame(width: 300, height: 490, alignment: .top)
         .background(.clear.opacity(0))
         .border(Color.white)
+    }
+}
+
+struct ShareView: UIViewControllerRepresentable {
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    let url: URL
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let viewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        
+        viewController.completionWithItemsHandler = { activity, success, items, error in
+            dismiss()
+        }
+        
+        return viewController
+    }
+    
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+        
     }
 }

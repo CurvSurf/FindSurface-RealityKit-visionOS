@@ -14,6 +14,7 @@ enum SceneID: String, SceneIDProtocol {
     case immersiveSpace = "Immersive Space"
     case errorWindow = "Error Window"
     case userGuideWindow = "User Guide Window"
+    case shareWindow = "Share Window"
 }
 
 @Observable
@@ -81,6 +82,16 @@ struct FindSurfaceST_visionOSApp: App {
         WindowGroup(sceneID: SceneID.userGuideWindow) {
             UserGuideView()
                 .glassBackgroundEffect()
+        }
+        .windowResizability(.contentSize)
+        .windowStyle(.plain)
+        
+        WindowGroup(sceneID: SceneID.shareWindow, for: URL.self) { url in
+            if let url = url.wrappedValue {
+                ShareView(url: url)
+                    .frame(width: 600)
+                    .glassBackgroundEffect()
+            }
         }
         .windowResizability(.contentSize)
         .windowStyle(.plain)

@@ -32,7 +32,7 @@ final class TorusEntity: GeometryEntity {
             self.shape = shape
         }
     }
-    private var intrinsics = Intrinsics()
+    private(set) var intrinsics = Intrinsics()
     
     let occlusion: ModelEntity
     let wireframe: ModelEntity
