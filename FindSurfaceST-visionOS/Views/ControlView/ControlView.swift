@@ -14,8 +14,12 @@ struct ControlView: View {
     
     @Environment(AppState.self) private var state
     @Environment(FindSurface.self) private var findSurface
+    @Environment(ScenePhaseTracker.self) private var scenePhaseTracker
     
     @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+    
+    @State private var showMesh: Bool = true
     
     var body: some View {
         @Bindable var state = state
@@ -53,13 +57,21 @@ struct ControlView: View {
                         .accessibilityLabel("Outline")
                     
                     HStack {
-                        ClearSceneButton { state.reset() }
+                        ClearSceneButton {
+                            if scenePhaseTracker.activeScene.contains(.shareWindow) {
+                                dismissWindow(sceneID: SceneID.shareWindow)
+                            }
+                            state.reset()
+                        }
                         Button("Export") {
                             Task {
                                 let content = await state.exportAsUSD()
                                 
                                 let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("find-surface-results.usda")
                                 try? content.write(to: fileURL, atomically: true, encoding: .utf8)
+                                if scenePhaseTracker.activeScene.contains(.shareWindow) {
+                                    dismissWindow(sceneID: SceneID.shareWindow)
+                                }
                                 openWindow(sceneID: SceneID.shareWindow, value: fileURL)
                             }
                         }
@@ -67,7 +79,11 @@ struct ControlView: View {
                     }
                 }
             } header: {
-                ControlSectionHeader(isExpanded: $state.showResultPanel)
+                ControlSectionHeader(isExpanded: $state.showResultPanel,
+                                     showMesh: $showMesh)
+                .onChange(of: showMesh) {
+                    state.meshEntity.isEnabled = showMesh
+                }
             }
         }
         .onChange(of: state.showGeometryOutline, initial: true) { _, newValue in
@@ -80,26 +96,5 @@ struct ControlView: View {
         .frame(width: 300, height: 490, alignment: .top)
         .background(.clear.opacity(0))
         .border(Color.white)
-    }
-}
-
-struct ShareView: UIViewControllerRepresentable {
-    
-    @Environment(\.dismiss) private var dismiss
-    
-    let url: URL
-    
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let viewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        
-        viewController.completionWithItemsHandler = { activity, success, items, error in
-            dismiss()
-        }
-        
-        return viewController
-    }
-    
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-        
     }
 }

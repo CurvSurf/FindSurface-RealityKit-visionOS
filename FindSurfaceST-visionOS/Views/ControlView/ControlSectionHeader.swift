@@ -11,6 +11,7 @@ import SwiftUI
 struct ControlSectionHeader: View {
     
     @Binding var isExpanded: Bool
+    @Binding var showMesh: Bool
     
     var body: some View {
         HStack {
@@ -18,7 +19,11 @@ struct ControlSectionHeader: View {
                 .font(.title)
             
             Spacer()
-            
+            Button {
+                showMesh.toggle()
+            } label: {
+                Image(systemName: showMesh ? "eye" : "eye.slash")
+            }
             Button {
                 withAnimation {
                     isExpanded.toggle()

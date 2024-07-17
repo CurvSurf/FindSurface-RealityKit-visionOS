@@ -18,7 +18,7 @@ enum SceneID: String, SceneIDProtocol {
 }
 
 @Observable
-fileprivate final class ScenePhaseTracker: ScenePhaseTrackerProtocol {
+final class ScenePhaseTracker: ScenePhaseTrackerProtocol {
     var activeScene: Set<SceneID> = []
 }
 
@@ -62,6 +62,7 @@ struct FindSurfaceST_visionOSApp: App {
                 .environment(appState)
                 .environment(sessionManager)
                 .environment(findSurface)
+                .environment(scenePhaseTracker)
                 .trackingScenePhase(by: scenePhaseTracker, sceneID: .immersiveSpace)
                 .onChange(of: appState.errorCode) { _, errorCode in
                     guard let errorCode,
@@ -73,6 +74,7 @@ struct FindSurfaceST_visionOSApp: App {
         WindowGroup(sceneID: SceneID.errorWindow, for: ErrorCode.self) { errorCode in
             if let errorCode = errorCode.wrappedValue {
                 ErrorView(errorCode: errorCode)
+                    .trackingScenePhase(by: scenePhaseTracker, sceneID: .errorWindow)
                     .glassBackgroundEffect()
             }
         }
@@ -81,6 +83,8 @@ struct FindSurfaceST_visionOSApp: App {
         
         WindowGroup(sceneID: SceneID.userGuideWindow) {
             UserGuideView()
+                .environment(scenePhaseTracker)
+                .trackingScenePhase(by: scenePhaseTracker, sceneID: .userGuideWindow)
                 .glassBackgroundEffect()
         }
         .windowResizability(.contentSize)
@@ -89,7 +93,9 @@ struct FindSurfaceST_visionOSApp: App {
         WindowGroup(sceneID: SceneID.shareWindow, for: URL.self) { url in
             if let url = url.wrappedValue {
                 ShareView(url: url)
-                    .frame(width: 600)
+                    .environment(scenePhaseTracker)
+                    .trackingScenePhase(by: scenePhaseTracker, sceneID: .shareWindow)
+                    .frame(width: 600, height: 420)
                     .glassBackgroundEffect()
             }
         }

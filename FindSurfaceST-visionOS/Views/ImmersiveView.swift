@@ -10,6 +10,7 @@ import ARKit
 import RealityKit
 
 import FindSurface_visionOS
+import simd
 
 @MainActor
 struct ImmersiveView: View {
@@ -24,8 +25,10 @@ struct ImmersiveView: View {
     @Environment(AppState.self) private var state
     @Environment(SessionManager.self) private var sessionManager
     @Environment(FindSurface.self) private var findSurface
+    @Environment(ScenePhaseTracker.self) private var scenePhaseTracker
     
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.dismissWindow) private var dismissWindow
     
     @State private var magnifyingStarted: Bool = false
     @State private var initialRadius: Float = 0.01
@@ -296,14 +299,11 @@ struct ImmersiveView: View {
             if scenePhase != .active {
                 state.saveToAppStorage()
                 findSurface.saveToAppStorage()
+
+                if scenePhaseTracker.activeScene.contains(.shareWindow) {
+                    dismissWindow(sceneID: SceneID.shareWindow)
+                }
             }
         }
-//        .onChange(of: findSurface.seedRadius, initial: true) { _, seedRadius in
-//            state.seedAreaIndicator.radius = seedRadius
-//        }
     }
 }
-
-//#Preview(immersionStyle: .mixed) {
-//    ImmersiveView()
-//}

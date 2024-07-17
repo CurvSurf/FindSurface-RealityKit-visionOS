@@ -40,6 +40,9 @@ fileprivate struct LoadingFailedView: View {
 
 struct UserGuideView: View {
     
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.openWindow) private var openWindow
+    @Environment(ScenePhaseTracker.self) private var scenePhaseTracker
     @State private var content: String? = nil
     @State private var isLoading: Bool = true
     
@@ -64,6 +67,13 @@ struct UserGuideView: View {
             isLoading = true
             await loadContent()
             isLoading = false
+        }
+        .onChange(of: scenePhase) {
+            if scenePhase == .inactive &&
+                !scenePhaseTracker.activeScene.contains(.immersiveSpace) &&
+                !scenePhaseTracker.activeScene.contains(.mainWindow) {
+                openWindow(sceneID: SceneID.mainWindow)
+            }
         }
     }
     
