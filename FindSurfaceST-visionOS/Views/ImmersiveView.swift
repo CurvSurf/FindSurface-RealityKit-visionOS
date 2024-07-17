@@ -162,11 +162,7 @@ struct ImmersiveView: View {
                     let result = try await findSurface.perform {
                         await state.flashAreaIndicator(at: location, seedRadius: findSurface.seedRadius)
                         
-                        guard let i = state.pickPoint(near: location, entity: entity) else { return nil }
-                        let id = UUID(uuidString: entity.name)
-                        let points = state.generateVisiblePoints(id, i)
-
-                        await state.flashPickedPoint(at: points[0])
+                        let points = state.visiblePoints
                         await state.flashGesturePoint(at: location)
                         
                         return ([location] + points, 0)
