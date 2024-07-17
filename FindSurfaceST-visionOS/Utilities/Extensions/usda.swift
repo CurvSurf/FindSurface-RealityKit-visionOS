@@ -565,7 +565,7 @@ extension TorusEntity: USDAExportable {
         
         return USDXForm(name: name, metadata: metadata) {
             let deltaAngle = tubeAngle.radians < 0 ? -tubeAngle : tubeAngle
-            let toricSurface = if deltaAngle.degrees > 360 {
+            let toricSurface = if deltaAngle.degrees > 270 {
                 Submesh.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius)
             } else {
                 rotatedSubmesh(meanRadius: meanRadius, tubeRadius: tubeRadius, beginAngle: beginAngle, tubeAngle: deltaAngle)

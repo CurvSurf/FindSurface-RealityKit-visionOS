@@ -904,10 +904,19 @@ final class AppState {
         }()
             
         case .foundCone(let cone, let inliers, let rmsError): {
+            let newCone = cone.topRadius * 10 <= cone.bottomRadius ? {
+                let slope = cone.height / (cone.bottomRadius - cone.topRadius)
+                let newHeight = cone.bottomRadius * slope
+                let displacement = abs(newHeight - cone.height)
+                let translate = Transform(translation: -cone.axis * displacement * 0.5).matrix
+                return Cone(height: newHeight, topRadius: 0, bottomRadius: cone.bottomRadius, extrinsics: translate * cone.extrinsics)
+            }() : cone
+            
+            
             let name = "Cone\(persistentObjects.count)"
-            let transform = cone.transform
+            let transform = newCone.transform
             let inliers = inliers.map { simd_make_float3(transform * simd_float4($0, 1)) }
-            return .cone(name, cone, inliers, rmsError)
+            return .cone(name, newCone, inliers, rmsError)
         }()
             
         case .foundTorus(var torus, let inliers, let rmsError): {

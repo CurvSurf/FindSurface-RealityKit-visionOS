@@ -41,7 +41,7 @@ extension GeometryEntity {
         }()
         case let .torus(_, torus, inliers, _): {
             let (begin, delta) = torus.calcAngleRange(from: inliers)
-            if delta >= .degrees(360) {
+            if delta >= .degrees(270) {
                 return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius) as GeometryEntity
             }
             return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius, shape: .partialSurface(begin, delta))

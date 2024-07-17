@@ -147,11 +147,16 @@ final class ConeEntity: GeometryEntity {
                 let lateralRatio = diff / length
                 let radiusOutline = radialRatio * outlineWidth
                 let heightOutline = lateralRatio * outlineWidth * 2
-                outline.model?.mesh = .generateVolumetricConicalSurface(topRadius: topRadius,
-                                                                        bottomRadius: bottomRadius,
-                                                                        height: height + heightOutline,
+                let slope = height / diff
+                let outlineTopRadius = topRadius - radiusOutline
+                let exceededHeight = outlineTopRadius > 0 ? 0 : -outlineTopRadius * slope
+                let outlineBottomRadius = bottomRadius + radiusOutline
+                outline.model?.mesh = .generateVolumetricConicalSurface(topRadius: max(0, outlineTopRadius),
+                                                                        bottomRadius: outlineBottomRadius,
+                                                                        height: height + heightOutline - exceededHeight,
                                                                         thickness: radiusOutline * 2,
                                                                         useClockwiseTriangleWinding: true)
+                outline.transform.translation = .init(0, -0.5 * exceededHeight, 0)
             }
         }
         
