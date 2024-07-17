@@ -21,6 +21,7 @@ After starting the app, the floating panels (below) will appear on your right si
 This panels provide you ways to control the app's behavior and information about geometries you've found. With the panels, you can perform the following actions:
 
 - Tap your right middle finger and thumb together will bring the panel near your hand.
+- The eye button at the top right corner of the Controls window hides or shows the meshes around your environment. This feature allows users to interact with windows by hiding the meshes when the window is buried inside it. However, while the meshes are hidden, interactions that rely on the mesh (such as invoking FindSurface, seed radius gesture, etc.) are disabled.
 - The button at the top right corner of the Controls window hides or shows the Results window.
 - The button at the top right corner of the Results window hides all panels. You can bring them back with the gesture mentioned above.
 - Shape icons: In order, they represent plane, sphere, cylinder, cone, and torus. Choose one of these to specify the type of shape to be found using FindSurface.
@@ -33,6 +34,7 @@ This panels provide you ways to control the app's behavior and information about
 - `Show inlier points` visualizes the set of points that contribute to the detection of the shape.
 - `Show geometry outline` enhances the visibility of the shape by highlighting its outline.
 - `Clear Scene` removes all detected shapes.
+- `Export` button allows you to export the currently detected geometries into a `.usda` file. This feature is experimental. Since we didn't use libraries such as OpenUSD to implement it, its implementation may change or be removed in the future. This is merely a visual representation intended for viewing the geometries in other viewers that support the `.usda` file format and this app does not support loading it back into the scene.
 
 For detailed explanations of the parameters, please refer to [FindSurface](https://github.com/CurvSurf/FindSurface#how-does-it-work).
 
