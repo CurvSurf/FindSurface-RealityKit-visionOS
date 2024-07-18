@@ -796,7 +796,6 @@ final class AppState {
                 return Cone(height: newHeight, topRadius: 0, bottomRadius: cone.bottomRadius, extrinsics: translate * cone.extrinsics)
             }() : cone
             
-            
             let name = "Cone\(persistentObjects.count)"
             let transform = newCone.transform
             let inliers = inliers.map { simd_make_float3(transform * simd_float4($0, 1)) }

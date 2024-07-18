@@ -184,11 +184,11 @@ struct ImmersiveView: View {
                         return point != location
                     }
                     result = switch result {
-                    case let .foundPlane(plane, inliers, rmsError): .foundPlane(plane, inliers.filter(predicate), rmsError)
-                    case let .foundSphere(sphere, inliers, rmsError): .foundSphere(sphere, inliers.filter(predicate), rmsError)
-                    case let .foundCylinder(cylinder, inliers, rmsError): .foundCylinder(cylinder, inliers.filter(predicate), rmsError)
-                    case let .foundCone(cone, inliers, rmsError): .foundCone(cone, inliers.filter(predicate), rmsError)
-                    case let .foundTorus(torus, inliers, rmsError): .foundTorus(torus, inliers.filter(predicate), rmsError)
+                    case let .foundPlane(plane, inliers, rmsError):         .foundPlane(plane, inliers.filter(predicate), rmsError)
+                    case let .foundSphere(sphere, inliers, rmsError):       .foundSphere(sphere, inliers.filter(predicate), rmsError)
+                    case let .foundCylinder(cylinder, inliers, rmsError):   .foundCylinder(cylinder, inliers.filter(predicate), rmsError)
+                    case let .foundCone(cone, inliers, rmsError):           .foundCone(cone, inliers.filter(predicate), rmsError)
+                    case let .foundTorus(torus, inliers, rmsError):         .foundTorus(torus, inliers.filter(predicate), rmsError)
                     default: result
                     }
                     
