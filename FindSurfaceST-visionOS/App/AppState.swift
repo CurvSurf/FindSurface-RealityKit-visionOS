@@ -526,7 +526,7 @@ final class AppState {
         
         let rootEntity = Entity()
         
-        let boundary = ModelEntity(mesh: .generateCylindricalSurface(radius: safetyDistance, height: safetyHeight, useClockwiseTriangleWinding: true),
+        let boundary = ModelEntity(mesh: .generateCylindricalSurface(radius: safetyDistance, length: safetyHeight, insideOut: true),
                                    materials: [UnlitMaterial(color: .orange)])
         boundary.components.set(OpacityComponent(opacity: 0.0))
         boundary.position = .init(0, safetyHeight * 0.5, 0)

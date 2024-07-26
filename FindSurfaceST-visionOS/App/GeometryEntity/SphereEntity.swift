@@ -8,67 +8,69 @@
 import Foundation
 import RealityKit
 
+fileprivate let sphereOcclusionDepth: Float = 0.0001
+
 @MainActor
 final class SphereEntity: GeometryEntity {
     
-    struct Intrinsics: Equatable {
+    struct Intrinsics: Equatable, Hashable {
+        
         var radius: Float
         var outlineWidth: Float
-        init(radius: Float = 1, outlineWidth: Float = 0.005) {
+        var subdivision: SphereSubdivision
+        init(radius: Float = 1,
+             outlineWidth: Float = 0.005,
+             subdivision: SphereSubdivision = .sphericalCoordinates) {
             self.radius = radius
             self.outlineWidth = outlineWidth
+            self.subdivision = subdivision
         }
     }
-    private(set) var intrinsics = Intrinsics()
+    private(set) var intrinsics: Intrinsics
     
     private let occlusion: ModelEntity
     private let wireframe: ModelEntity
     private let surface: ModelEntity
     private let outline: ModelEntity
     
-    convenience init(radius: Float, outlineWidth: Float = 0.005) {
-        self.init()
-        update { intrinsics in
-            intrinsics.radius = radius
-            intrinsics.outlineWidth = outlineWidth
-        }
-    }
-    
-    override func enableOutline(_ visible: Bool) {
-        occlusion.isEnabled = visible
-        wireframe.isEnabled = visible
-        outline.isEnabled = visible
-    }
-    
     required init() {
         
+        let intrinsics = Intrinsics()
+        let radius = intrinsics.radius
+        let subdivision = intrinsics.subdivision
+        let outlineWidth = intrinsics.outlineWidth
+        
+        let submesh = Submesh.generateSphere(radius: 1.0, subdivision: subdivision)
+        let mesh = MeshResource.generate(from: submesh)
+        
         let occlusion = {
-            let mesh = MeshResource.generateLowPolySphere(radius: 1 - 0.0001)
             let material = OcclusionMaterial()
             return ModelEntity(mesh: mesh, materials: [material])
         }()
+        occlusion.scale = .init(repeating: radius - sphereOcclusionDepth * 2)
         
         let wireframe = {
-            let mesh = MeshResource.generateLowPolySphere(radius: 1)
             var material = UnlitMaterial(color: .black)
             material.triangleFillMode = .lines
             return ModelEntity(mesh: mesh, materials: [material])
         }()
+        wireframe.scale = .init(repeating: radius)
         
         let surface = {
-            let mesh = MeshResource.generateLowPolySphere(radius: 1)
             let material = UnlitMaterial(color: .green.withAlphaComponent(0.2))
             return ModelEntity(mesh: mesh, materials: [material])
         }()
+        surface.scale = wireframe.scale
         
         let outline = {
-            let mesh = MeshResource.generateLowPolySphere(radius: 1, useClockwiseTriangleWinding: true)
+            let mesh = MeshResource.generate(from: submesh.inverted)
             let material = UnlitMaterial(color: .black)
             let model = ModelEntity(mesh: mesh, materials: [material])
-            model.transform = Transform(scale: .init(repeating: 1.0 + 0.005))
             return model
         }()
+        outline.scale = surface.scale + .init(repeating: outlineWidth)
         
+        self.intrinsics = intrinsics
         self.occlusion = occlusion
         self.wireframe = wireframe
         self.surface = surface
@@ -80,7 +82,22 @@ final class SphereEntity: GeometryEntity {
         addChild(surface)
         addChild(outline)
         
-        update(block: { _ in })
+        #if SUPPORT_DEBUG_GESTURE
+        components.set(CollisionComponent(shapes: [.generateSphere(radius: 1.0)]))
+        components.set(InputTargetComponent())
+        components.set(DebugGestureComponent())
+        #endif
+    }
+    
+    convenience init(radius: Float,
+                     outlineWidth: Float = 0.005,
+                     subdivision: SphereSubdivision = .sphericalCoordinates) {
+        self.init()
+        update { intrinsics in
+            intrinsics.radius = radius
+            intrinsics.outlineWidth = outlineWidth
+            intrinsics.subdivision = subdivision
+        }
     }
     
     @MainActor
@@ -93,15 +110,32 @@ final class SphereEntity: GeometryEntity {
         
         let radius = intrinsics.radius
         let outlineWidth = intrinsics.outlineWidth
+        let subdivision = intrinsics.subdivision
         
-        let scale = simd_float3(repeating: radius)
-        let outlineScale = simd_float3(repeating: radius + outlineWidth)
+        occlusion.scale = .init(repeating: radius - sphereOcclusionDepth * 2)
+        wireframe.scale = .init(repeating: radius)
+        surface.scale = wireframe.scale
+        outline.scale = surface.scale + .init(repeating: outlineWidth)
         
-        occlusion.transform.scale = scale
-        wireframe.transform.scale = scale
-        surface.transform.scale = scale
-        outline.transform.scale = outlineScale
+        if subdivision != self.intrinsics.subdivision {
+            let submesh = Submesh.generateSphere(radius: 1, subdivision: subdivision)
+            let mesh = MeshResource.generate(from: submesh)
+            occlusion.model?.mesh = mesh
+            wireframe.model?.mesh = mesh
+            surface.model?.mesh = mesh
+            outline.model?.mesh = .generate(from: submesh.inverted)
+        }
+        
+        #if SUPPORT_DEBUG_GESTURE
+        components.set(CollisionComponent(shapes: [.generateSphere(radius: radius)]))
+        #endif
         
         self.intrinsics = intrinsics
+    }
+    
+    override func enableOutline(_ visible: Bool) {
+        occlusion.isEnabled = visible
+        wireframe.isEnabled = visible
+        outline.isEnabled = visible
     }
 }

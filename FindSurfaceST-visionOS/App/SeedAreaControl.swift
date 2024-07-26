@@ -68,7 +68,7 @@ final class SeedAreaControl: Entity {
         let line = ModelEntity(mesh: lineMesh, materials: [lineMaterial])
         line.transform.translation = .init(0.5, 0, 0)
         
-        let centerMesh = MeshResource.generateLowPolySphere(radius: 0.005)
+        let centerMesh = MeshResource.generateSphere(name: "", radius: 0.005)
         let centerMaterial = UnlitMaterial(color: .black)
         let center = ModelEntity(mesh: centerMesh, materials: [centerMaterial])
         

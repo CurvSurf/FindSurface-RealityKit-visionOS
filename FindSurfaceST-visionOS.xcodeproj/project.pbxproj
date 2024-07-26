@@ -24,6 +24,7 @@
 		F370F9602C4110870047F1C8 /* BarycentricCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370F95F2C4110870047F1C8 /* BarycentricCoordinate.swift */; };
 		F370F9622C44F3C80047F1C8 /* usda.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370F9612C44F3C80047F1C8 /* usda.swift */; };
 		F3719C312C47A39000A19C61 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3719C302C47A39000A19C61 /* ShareView.swift */; };
+		F37D3F9D2C5394F700FEDBDE /* Submesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37D3F9C2C5394F700FEDBDE /* Submesh.swift */; };
 		F3CB63A32C2ECDFD00993887 /* FindSurface-visionOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3CB63A22C2ECDFD00993887 /* FindSurface-visionOS */; };
 		F3CB63B22C32A40200993887 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63AE2C32A3CF00993887 /* README.md */; };
 		F3CB63CC2C32B9A900993887 /* images in Resources */ = {isa = PBXBuildFile; fileRef = F3CB63CB2C32B9A900993887 /* images */; };
@@ -92,6 +93,7 @@
 		F370F95F2C4110870047F1C8 /* BarycentricCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarycentricCoordinate.swift; sourceTree = "<group>"; };
 		F370F9612C44F3C80047F1C8 /* usda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = usda.swift; sourceTree = "<group>"; };
 		F3719C302C47A39000A19C61 /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		F37D3F9C2C5394F700FEDBDE /* Submesh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Submesh.swift; sourceTree = "<group>"; };
 		F3CB63AD2C32A3CF00993887 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		F3CB63AE2C32A3CF00993887 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		F3CB63CB2C32B9A900993887 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
@@ -201,6 +203,8 @@
 				F31271682C2A8C300022C965 /* CylinderEntity.swift */,
 				F312716A2C2A8CE80022C965 /* ConeEntity.swift */,
 				F312716C2C2A8F930022C965 /* TorusEntity.swift */,
+				F3F0FDFB2C2063A700E0E029 /* MeshResource.swift */,
+				F37D3F9C2C5394F700FEDBDE /* Submesh.swift */,
 			);
 			path = GeometryEntity;
 			sourceTree = "<group>";
@@ -291,7 +295,6 @@
 			isa = PBXGroup;
 			children = (
 				F3F0FDF62C20635C00E0E029 /* GeometrySource.swift */,
-				F3F0FDFB2C2063A700E0E029 /* MeshResource.swift */,
 				F3F0FDFF2C206E8C00E0E029 /* MeshAnchor.swift */,
 				F3F0FE012C206EFF00E0E029 /* Material.swift */,
 				F3F0FDFD2C206E3800E0E029 /* ModelEntity.swift */,
@@ -489,6 +492,7 @@
 				F3F0FE492C21B6EE00E0E029 /* SeedAreaIndicator.swift in Sources */,
 				F312716F2C2A99A60022C965 /* GeometryEntity.swift in Sources */,
 				F3F0FE062C20706700E0E029 /* Binding.swift in Sources */,
+				F37D3F9D2C5394F700FEDBDE /* Submesh.swift in Sources */,
 				F3F0FE042C20702E00E0E029 /* Extensions.swift in Sources */,
 				F3F0FE252C21738300E0E029 /* ResultMessageListView.swift in Sources */,
 				F3F0FDE92C205FB600E0E029 /* ScenePhaseTrackerProtocol.swift in Sources */,

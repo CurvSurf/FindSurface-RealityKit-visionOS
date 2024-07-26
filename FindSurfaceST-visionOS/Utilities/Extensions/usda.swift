@@ -419,11 +419,11 @@ func export(_ geometries: [GeometryEntity]) -> String {
             }
             
             USDXForm(name: sphereMeshName) {
-                USDMesh.create(name: "\(sphereMeshName)Mesh", submesh: .generateLowPolySphere(radius: 1.0))
+                USDMesh.create(name: "\(sphereMeshName)Mesh", submesh: .generateSphere(radius: 1.0))
             }
             
             USDXForm(name: cylinderMeshName) {
-                USDMesh.create(name: "\(cylinderMeshName)Mesh", submesh: .generateCylindricalSurface(radius: 1, height: 1))
+                USDMesh.create(name: "\(cylinderMeshName)Mesh", submesh: .generateCylindricalSurface(radius: 1, length: 1))
             }
         }
         
@@ -492,7 +492,7 @@ extension SphereEntity: USDAExportable {
 extension CylinderEntity: USDAExportable {
     fileprivate func export() -> USDXForm {
         let radius = intrinsics.radius
-        let height = intrinsics.height
+        let height = intrinsics.length
         let center = position
         let axis = transform.matrix.basisY
         let orient = transform.rotation
@@ -516,7 +516,7 @@ extension ConeEntity: USDAExportable {
     fileprivate func export() -> USDXForm {
         let topRadius = intrinsics.topRadius
         let bottomRadius = intrinsics.bottomRadius
-        let height = intrinsics.height
+        let height = intrinsics.length
         let center = position
         let axis = transform.matrix.basisY
         let orient = transform.rotation
@@ -533,7 +533,7 @@ extension ConeEntity: USDAExportable {
             
             USDMesh.create(name: "ConeMesh", submesh: .generateConicalSurface(topRadius: topRadius,
                                                                               bottomRadius: bottomRadius,
-                                                                              height: height))
+                                                                              length: height))
             USDMaterialBinding(materialPath: coneMaterialBindingPath)
             USDTransform(orient: orient, translate: center)
         }
@@ -546,13 +546,10 @@ extension TorusEntity: USDAExportable {
     fileprivate func export() -> USDXForm {
         let meanRadius = intrinsics.meanRadius
         let tubeRadius = intrinsics.tubeRadius
+        let tubeBegin = intrinsics.tubeBegin
+        let tubeAngle = intrinsics.tubeAngle
         let center = position
         let axis = transform.matrix.basisY
-        let (beginAngle, tubeAngle): (Angle, Angle) = switch intrinsics.shape {
-        case .fullVolume:                        (Angle(degrees: 0), Angle(degrees: 360))
-        case let .partialSurface(beginAngle, deltaAngle): (beginAngle, deltaAngle)
-        case let .partialVolume(beginAngle, deltaAngle):  (beginAngle, deltaAngle)
-        }
         let orient = transform.rotation
         
         let metadata = USDMetadata(customData: [
@@ -568,7 +565,7 @@ extension TorusEntity: USDAExportable {
             let toricSurface = if deltaAngle.degrees > 270 {
                 Submesh.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius)
             } else {
-                rotatedSubmesh(meanRadius: meanRadius, tubeRadius: tubeRadius, beginAngle: beginAngle, tubeAngle: deltaAngle)
+                Submesh.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius, tubeBegin: tubeBegin, tubeAngle: tubeAngle)
             }
             
             USDMesh.create(name: "TorusMesh", submesh: toricSurface)
@@ -577,18 +574,6 @@ extension TorusEntity: USDAExportable {
             USDTransform(orient: orient, translate: center)
         }
     }
-}
-
-fileprivate func rotatedSubmesh(meanRadius: Float, tubeRadius: Float, beginAngle: Angle, tubeAngle: Angle) -> Submesh {
-    
-    var submesh = Submesh.generateToricSurface(meanRadius: meanRadius, tubeRadius: tubeRadius, angle: tubeAngle)
-    let beginCircleDirection = simd_float3(cos(Float(beginAngle.radians)), 0, sin(Float(beginAngle.radians)))
-    let rotation = simd_quatf(from: .init(1, 0, 0), to: beginCircleDirection)
-    if rotation.angle != 0 {
-        submesh.positions = submesh.positions.map { rotation.act($0) }
-        submesh.normals = submesh.normals.map { rotation.act($0) }
-    }
-    return submesh
 }
 
 fileprivate enum Digits {

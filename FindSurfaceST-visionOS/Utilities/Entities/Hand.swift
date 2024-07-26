@@ -51,7 +51,7 @@ final class Hand: Entity {
     
     required init() {
         
-        let fingerTipMesh = MeshResource.generateLowPolySphere(radius: 0.005)
+        let fingerTipMesh = MeshResource.generateSphere(name: "", radius: 0.005)
         let wristMesh = MeshResource.generateCylinder(height: 0.02, radius: 0.05)
         
         let thumbMat = UnlitMaterial(color: .red)

@@ -34,17 +34,17 @@ extension GeometryEntity {
             return SphereEntity(radius: sphere.radius) as GeometryEntity
         }()
         case let .cylinder(_, cylinder, _, _): {
-            return CylinderEntity(radius: cylinder.radius, height: cylinder.height, shape: .surface) as GeometryEntity
+            return CylinderEntity(radius: cylinder.radius, length: cylinder.height, shape: .surface) as GeometryEntity
         }()
         case let .cone(_, cone, _, _): {
-            return ConeEntity(topRadius: cone.topRadius, bottomRadius: cone.bottomRadius, height: cone.height, shape: .surface) as GeometryEntity
+            return ConeEntity(topRadius: cone.topRadius, bottomRadius: cone.bottomRadius, length: cone.height, shape: .surface) as GeometryEntity
         }()
         case let .torus(_, torus, inliers, _): {
             let (begin, delta) = torus.calcAngleRange(from: inliers)
             if delta >= .degrees(270) {
                 return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius) as GeometryEntity
             }
-            return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius, shape: .partialSurface(begin, delta))
+            return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius, tubeBegin: begin, tubeAngle: delta, shape: .surface)
         }()
         }
             

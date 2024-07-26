@@ -28,7 +28,7 @@ import RealityKit
 
 #Preview(immersionStyle: .mixed) {
     RealityView { content, attachments in
-        let boundary = ModelEntity(mesh: .generateCylindricalSurface(radius: 5, height: 1, useClockwiseTriangleWinding: true),
+        let boundary = ModelEntity(mesh: .generateCylindricalSurface(radius: 5, length: 1, insideOut: true),
                                    materials: [UnlitMaterial(color: .orange.withAlphaComponent(0.2))])
         
         boundary.position = .init(0, 0, 2.6)

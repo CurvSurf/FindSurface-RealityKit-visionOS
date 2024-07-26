@@ -8,6 +8,16 @@
 import Foundation
 import RealityKit
 
+fileprivate let coneOcclusionDepth: Float = 0.0001
+fileprivate let occlusionMaterials = [OcclusionMaterial()]
+fileprivate let wireframeMaterials = {
+    var material = UnlitMaterial(color: .black)
+    material.triangleFillMode = .lines
+    return [material]
+}()
+fileprivate let surfaceMaterials = [UnlitMaterial(color: .cyan.withAlphaComponent(0.2))]
+fileprivate let outlineMaterials = [UnlitMaterial(color: .black)]
+
 @MainActor
 final class ConeEntity: GeometryEntity {
     
@@ -19,71 +29,42 @@ final class ConeEntity: GeometryEntity {
     struct Intrinsics: Equatable {
         var topRadius: Float
         var bottomRadius: Float
-        var height: Float
+        var length: Float
         var outlineWidth: Float
         var shape: Shape
-        init(topRadius: Float = 0, bottomRadius: Float = 1, height: Float = 1, outlineWidth: Float = 0.005, shape: Shape = .volume) {
+        var subdivision: ConeSubdivision
+        init(topRadius: Float = 0,
+             bottomRadius: Float = 1,
+             length: Float = 1,
+             outlineWidth: Float = 0.005,
+             shape: Shape = .volume,
+             subdivision: ConeSubdivision = .both(36, 2)) {
             self.topRadius = topRadius
             self.bottomRadius = bottomRadius
-            self.height = height
+            self.length = length
             self.outlineWidth = outlineWidth
             self.shape = shape
+            self.subdivision = subdivision
         }
     }
-    private(set) var intrinsics = Intrinsics()
+    private(set) var intrinsics: Intrinsics
     
     private let occlusion: ModelEntity
     private let wireframe: ModelEntity
     private let surface: ModelEntity
     private let outline: ModelEntity
     
-    convenience init(topRadius: Float, bottomRadius: Float, height: Float, outlineWidth: Float = 0.005, shape: Shape = .volume) {
-        self.init()
-        update { intrinsics in
-            intrinsics.topRadius = topRadius
-            intrinsics.bottomRadius = bottomRadius
-            intrinsics.height = height
-            intrinsics.outlineWidth = outlineWidth
-            intrinsics.shape = shape
-        }
-    }
-    
-    override func enableOutline(_ visible: Bool) {
-        occlusion.isEnabled = visible
-        wireframe.isEnabled = visible
-        outline.isEnabled = visible
-    }
-    
     required init() {
-    
-        let occlusion = {
-            let mesh = MeshResource.generateCone(topRadius: 0 - 0.0001, bottomRadius: 1 - 0.0001,
-                                                 height: 1 - 0.0002)
-            let material = OcclusionMaterial()
-            return ModelEntity(mesh: mesh, materials: [material])
-        }()
         
-        let wireframe = {
-            let mesh = MeshResource.generateCone(topRadius: 0, bottomRadius: 1, height: 1)
-            var material = UnlitMaterial(color: .black)
-            material.triangleFillMode = .lines
-            return ModelEntity(mesh: mesh, materials: [material])
-        }()
+        let intrinsics = Intrinsics()
+        let dummy = MeshResource.generatePlane(width: 1, height: 1)
+        let occlusion = ModelEntity(mesh: dummy, materials: occlusionMaterials)
+        let wireframe = ModelEntity(mesh: dummy, materials: wireframeMaterials)
+        let surface = ModelEntity(mesh: dummy, materials: surfaceMaterials)
+        let outline = ModelEntity(mesh: dummy, materials: outlineMaterials)
+        updateModelEntities(intrinsics, occlusion, wireframe, surface, outline)
         
-        let surface = {
-            let mesh = MeshResource.generateCone(topRadius: 0, bottomRadius: 1, height: 1)
-            let material = UnlitMaterial(color: .cyan.withAlphaComponent(0.2))
-            return ModelEntity(mesh: mesh, materials: [material])
-        }()
-        
-        let outline = {
-            let mesh = MeshResource.generateCone(topRadius: 0, bottomRadius: 1, height: 1, useClockwiseTriangleWinding: true)
-            let material = UnlitMaterial(color: .black)
-            let model = ModelEntity(mesh: mesh, materials: [material])
-            model.transform.scale = 1.0 + 0.005 * .init(1, 2, 1)
-            return model
-        }()
-        
+        self.intrinsics = intrinsics
         self.occlusion = occlusion
         self.wireframe = wireframe
         self.surface = surface
@@ -95,7 +76,32 @@ final class ConeEntity: GeometryEntity {
         addChild(surface)
         addChild(outline)
         
-        update(block: { _ in })
+        #if SUPPORT_DEBUG_GESTURE
+        let meshPoints = Submesh.generateConicalSurface(topRadius: intrinsics.topRadius,
+                                                        bottomRadius: intrinsics.bottomRadius,
+                                                        length: intrinsics.length,
+                                                        subdivision: .radial(intrinsics.subdivision)).positions
+        components.set(CollisionComponent(shapes: [.generateConvex(from: meshPoints)]))
+        components.set(InputTargetComponent())
+        components.set(DebugGestureComponent())
+        #endif
+    }
+    
+    convenience init(topRadius: Float,
+                     bottomRadius: Float,
+                     length: Float,
+                     outlineWidth: Float = 0.005,
+                     shape: Shape = .volume,
+                     subdivision: ConeSubdivision = .both(36, 2)) {
+        self.init()
+        update { intrinsics in
+            intrinsics.topRadius = topRadius
+            intrinsics.bottomRadius = bottomRadius
+            intrinsics.length = length
+            intrinsics.outlineWidth = outlineWidth
+            intrinsics.shape = shape
+            intrinsics.subdivision = subdivision
+        }
     }
     
     @MainActor
@@ -105,65 +111,84 @@ final class ConeEntity: GeometryEntity {
         block(&intrinsics)
         
         guard intrinsics != self.intrinsics else { return }
+        defer { self.intrinsics = intrinsics }
         
-        let topRadius = intrinsics.topRadius
-        let bottomRadius = intrinsics.bottomRadius
-        let height = intrinsics.height
-        let outlineWidth = intrinsics.outlineWidth
-        let shape = intrinsics.shape
+        updateModelEntities(intrinsics, occlusion, wireframe, surface, outline)
         
-        if topRadius != self.intrinsics.topRadius ||
-            bottomRadius != self.intrinsics.bottomRadius ||
-            height != self.intrinsics.height ||
-            shape != self.intrinsics.shape {
-            switch intrinsics.shape {
-            case .volume:
-                occlusion.model?.mesh = .generateCone(topRadius: topRadius - 0.0001, bottomRadius: bottomRadius - 0.0001,
-                                                      height: height - 0.0002)
-                let mesh = MeshResource.generateCone(topRadius: topRadius, bottomRadius: bottomRadius, height: height)
-                wireframe.model?.mesh = mesh
-                surface.model?.mesh = mesh
-                let diff = bottomRadius - topRadius
-                let length = sqrt(height * height + diff * diff)
-                let radialRatio = height / length
-                let lateralRatio = diff / length
-                let radiusOutline = radialRatio * outlineWidth
-                let heightOutline = lateralRatio * outlineWidth
-                outline.model?.mesh = .generateCone(topRadius: topRadius + radiusOutline,
-                                                    bottomRadius: bottomRadius + radiusOutline,
-                                                    height: height + heightOutline,
-                                                    useClockwiseTriangleWinding: true)
-            case .surface:
-                occlusion.model?.mesh = .generateVolumetricConicalSurface(topRadius: topRadius - 0.0001,
-                                                                          bottomRadius: bottomRadius - 0.0001,
-                                                                          height: height,
-                                                                          thickness: 0.0001)
-                let mesh = MeshResource.generateConicalSurface(topRadius: topRadius, bottomRadius: bottomRadius, height: height)
-                wireframe.model?.mesh = mesh
-                surface.model?.mesh = mesh
-                let diff = bottomRadius - topRadius
-                let length = sqrt(height * height + diff * diff)
-                let radialRatio = height / length
-                let lateralRatio = diff / length
-                let radiusOutline = radialRatio * outlineWidth
-                let heightOutline = lateralRatio * outlineWidth * 2
-                let slope = height / diff
-                let outlineTopRadius = topRadius - radiusOutline
-                let exceededHeight = outlineTopRadius > 0 ? 0 : -outlineTopRadius * slope
-                let outlineBottomRadius = bottomRadius + radiusOutline
-                outline.model?.mesh = .generateVolumetricConicalSurface(topRadius: max(0, outlineTopRadius),
-                                                                        bottomRadius: outlineBottomRadius,
-                                                                        height: height + heightOutline - exceededHeight,
-                                                                        thickness: radiusOutline * 2,
-                                                                        useClockwiseTriangleWinding: true)
-                outline.transform.translation = .init(0, -0.5 * exceededHeight, 0)
-            }
-        }
+        #if SUPPORT_DEBUG_GESTURE
+        let meshPoints = Submesh.generateConicalSurface(topRadius: intrinsics.topRadius,
+                                                        bottomRadius: intrinsics.bottomRadius,
+                                                        length: intrinsics.length,
+                                                        subdivision: .radial(intrinsics.subdivision)).positions
+        components.set(CollisionComponent(shapes: [.generateConvex(from: meshPoints)]))
+        #endif
+    }
+    
+    override func enableOutline(_ visible: Bool) {
+        occlusion.isEnabled = visible
+        wireframe.isEnabled = visible
+        outline.isEnabled = visible
+    }
+}
+
+fileprivate func updateModelEntities(
+    _ intrinsics: ConeEntity.Intrinsics,
+    _ occlusion: ModelEntity,
+    _ wireframe: ModelEntity,
+    _ surface: ModelEntity,
+    _ outline: ModelEntity
+) {
+    
+    let topRadius = intrinsics.topRadius
+    let bottomRadius = intrinsics.bottomRadius
+    let length = intrinsics.length
+    let outlineWidth = intrinsics.outlineWidth
+    let shape = intrinsics.shape
+    let subdivision = intrinsics.subdivision
+    
+    switch shape {
+    case .volume:
         
-        if intrinsics.outlineWidth != self.intrinsics.outlineWidth {
-            outline.transform.scale = 1.0 + outlineWidth * .init(1, 2, 1)
-        }
+        occlusion.model?.mesh = .generateCone(topRadius: topRadius,
+                                              bottomRadius: bottomRadius,
+                                              length: length,
+                                              padding: -coneOcclusionDepth,
+                                              subdivision: .radial(subdivision))
         
-        self.intrinsics = intrinsics
+        let surfaceMesh = MeshResource.generateCone(topRadius: topRadius,
+                                                    bottomRadius: bottomRadius,
+                                                    length: length,
+                                                    subdivision: subdivision)
+        wireframe.model?.mesh = surfaceMesh
+        surface.model?.mesh = surfaceMesh
+        
+        outline.model?.mesh = MeshResource.generateCone(topRadius: topRadius,
+                                                        bottomRadius: bottomRadius,
+                                                        length: length,
+                                                        padding: outlineWidth,
+                                                        subdivision: .radial(subdivision),
+                                                        insideOut: true)
+        
+    case .surface:
+        
+        occlusion.model?.mesh = .generateVolumetricConicalSurface(topRadius: topRadius,
+                                                                  bottomRadius: bottomRadius,
+                                                                  length: length,
+                                                                  padding: -coneOcclusionDepth,
+                                                                  subdivision: .radial(subdivision))
+        
+        let surfaceMesh = MeshResource.generateConicalSurface(topRadius: topRadius,
+                                                              bottomRadius: bottomRadius,
+                                                              length: length,
+                                                              subdivision: subdivision)
+        wireframe.model?.mesh = surfaceMesh
+        surface.model?.mesh = surfaceMesh
+        
+        outline.model?.mesh = .generateVolumetricConicalSurface(topRadius: topRadius,
+                                                                bottomRadius: bottomRadius,
+                                                                length: length,
+                                                                padding: outlineWidth,
+                                                                subdivision: .radial(subdivision),
+                                                                insideOut: true)
     }
 }

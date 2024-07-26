@@ -8,78 +8,60 @@
 import Foundation
 import RealityKit
 
+fileprivate let cylinderOcclusionDepth: Float = 0.0001
+fileprivate let occlusionMaterials = [OcclusionMaterial()]
+fileprivate let wireframeMaterials = {
+    var material = UnlitMaterial(color: .black)
+    material.triangleFillMode = .lines
+    return [material]
+}()
+fileprivate let surfaceMaterials = [UnlitMaterial(color: .purple.withAlphaComponent(0.2))]
+fileprivate let outlineMaterials = [UnlitMaterial(color: .black)]
+
 @MainActor
 final class CylinderEntity: GeometryEntity {
     
-    enum Shape: Equatable {
+    enum Shape: Equatable, Hashable, CaseIterable {
         case volume
         case surface
     }
     
     struct Intrinsics: Equatable {
         var radius: Float
-        var height: Float
+        var length: Float
         var outlineWidth: Float
         var shape: Shape
-        init(radius: Float = 1, height: Float = 1, outlineWidth: Float = 0.005, shape: Shape = .volume) {
+        var subdivision: CylinderSubdivision
+        init(radius: Float = 1,
+             length: Float = 1,
+             outlineWidth: Float = 0.005,
+             shape: Shape = .volume,
+             subdivision: ConeSubdivision = .both(36, 3)) {
             self.radius = radius
-            self.height = height
+            self.length = length
             self.outlineWidth = outlineWidth
             self.shape = shape
+            self.subdivision = subdivision
         }
     }
-    private(set) var intrinsics = Intrinsics()
+    private(set) var intrinsics: Intrinsics
     
     private let occlusion: ModelEntity
     private let wireframe: ModelEntity
     private let surface: ModelEntity
     private let outline: ModelEntity
     
-    convenience init(radius: Float, height: Float, outlineWidth: Float = 0.005, shape: Shape = .volume) {
-        self.init()
-        update { intrinsics in
-            intrinsics.radius = radius
-            intrinsics.height = height
-            intrinsics.outlineWidth = outlineWidth
-            intrinsics.shape = shape
-        }
-    }
-    
-    override func enableOutline(_ visible: Bool) {
-        occlusion.isEnabled = visible
-        wireframe.isEnabled = visible
-        outline.isEnabled = visible
-    }
-    
     required init() {
         
-        let occlusion = {
-            let mesh = MeshResource.generateCylinder(radius: Float(1 - 0.0001), height: Float(1 - 0.0002))
-            let material = OcclusionMaterial()
-            return ModelEntity(mesh: mesh, materials: [material])
-        }()
+        let intrinsics = Intrinsics()
+        let dummy = MeshResource.generatePlane(width: 1, height: 1)
+        let occlusion = ModelEntity(mesh: dummy, materials: occlusionMaterials)
+        let wireframe = ModelEntity(mesh: dummy, materials: wireframeMaterials)
+        let surface = ModelEntity(mesh: dummy, materials: surfaceMaterials)
+        let outline = ModelEntity(mesh: dummy, materials: outlineMaterials)
+        updateModelEntities(intrinsics, occlusion, wireframe, surface, outline)
         
-        let wireframe = {
-            let mesh = MeshResource.generateCylinder(radius: 1, height: 1)
-            var material = UnlitMaterial(color: .black)
-            material.triangleFillMode = .lines
-            return ModelEntity(mesh: mesh, materials: [material])
-        }()
-        
-        let surface = {
-            let mesh = MeshResource.generateCylinder(radius: 1, height: 1)
-            let material = UnlitMaterial(color: .purple.withAlphaComponent(0.2))
-            return ModelEntity(mesh: mesh, materials: [material])
-        }()
-        
-        let outline = {
-            let mesh = MeshResource.generateCylinder(radius: 1, height: 1, useClockwiseTriangleWinding: true)
-            let material = UnlitMaterial(color: .black)
-            let model = ModelEntity(mesh: mesh, materials: [material])
-            model.transform = Transform(scale: .init(repeating: 1.0 + 0.005))
-            return model
-        }()
-        
+        self.intrinsics = intrinsics
         self.occlusion = occlusion
         self.wireframe = wireframe
         self.surface = surface
@@ -91,7 +73,30 @@ final class CylinderEntity: GeometryEntity {
         addChild(surface)
         addChild(outline)
         
-        update(block: { _ in })
+        #if SUPPORT_DEBUG_GESTURE
+        let meshPoints = Submesh.generateCylindricalSurface(
+            radius: 0.5,
+            length: 1.0,
+            subdivision: .radial(intrinsics.subdivision)).positions
+        components.set(CollisionComponent(shapes: [.generateConvex(from: meshPoints)]))
+        components.set(InputTargetComponent())
+        components.set(DebugGestureComponent())
+        #endif
+    }
+    
+    convenience init(radius: Float,
+                     length: Float,
+                     outlineWidth: Float = 0.005,
+                     shape: Shape = .volume,
+                     subdivision: ConeSubdivision = .both(36, 3)) {
+        self.init()
+        update { intrinsics in
+            intrinsics.radius = radius
+            intrinsics.length = length
+            intrinsics.outlineWidth = outlineWidth
+            intrinsics.shape = shape
+            intrinsics.subdivision = subdivision
+        }
     }
     
     @MainActor
@@ -101,41 +106,128 @@ final class CylinderEntity: GeometryEntity {
         block(&intrinsics)
         
         guard intrinsics != self.intrinsics else { return }
+        defer { self.intrinsics = intrinsics }
         
         let radius = intrinsics.radius
-        let height = intrinsics.height
+        let length = intrinsics.length
         let outlineWidth = intrinsics.outlineWidth
+        let shape = intrinsics.shape
+        let subdivision = intrinsics.subdivision
         
-        let scale = simd_float3(radius, height, radius)
-        let outlineScale = simd_float3(radius + outlineWidth, height + outlineWidth * 2, radius + outlineWidth)
-        
-        occlusion.transform.scale = scale
-        wireframe.transform.scale = scale
-        surface.transform.scale = scale
-        outline.transform.scale = outlineScale
-        
-        if intrinsics.shape != self.intrinsics.shape {
-            switch intrinsics.shape {
-            case .volume:
-                occlusion.model?.mesh = .generateCylinder(radius: Float(1 - 0.0001), height: Float(1 - 0.0002))
-                let mesh = MeshResource.generateCylinder(radius: 1, height: 1)
-                wireframe.model?.mesh = mesh
-                surface.model?.mesh = mesh
-                outline.model?.mesh = .generateCylinder(radius: 1, height: 1, useClockwiseTriangleWinding: true)
-                
-            case .surface:
-                occlusion.model?.mesh = .generateVolumetricCylindricalSurface(radius: radius - 0.0001, height: height, thickness: 0.0001)
-                let mesh = MeshResource.generateCylindricalSurface(radius: radius, height: height)
-                wireframe.model?.mesh = mesh
-                surface.model?.mesh = mesh
-                outline.model?.mesh = .generateVolumetricCylindricalSurface(radius: radius, height: height, thickness: outlineWidth, useClockwiseTriangleWinding: true)
-                occlusion.transform.scale = .one
-                wireframe.transform.scale = .one
-                surface.transform.scale = .one
-                outline.transform.scale = .one
-            }
+        guard shape == self.intrinsics.shape &&
+        subdivision == self.intrinsics.subdivision else {
+            updateModelEntities(intrinsics, occlusion, wireframe, surface, outline)
+            return
         }
         
-        self.intrinsics = intrinsics
+        let baseScale = simd_float3(radius, length, radius)
+        
+        switch shape {
+        case .volume:
+            
+            occlusion.scale = baseScale - cylinderOcclusionDepth * .init(1, 2, 1)
+            wireframe.scale = baseScale
+            surface.scale = baseScale
+            outline.scale = baseScale + outlineWidth * .init(1, 2, 1)
+            
+        case .surface:
+            
+            occlusion.model?.mesh = .generateVolumetricCylindricalSurface(
+                radius: radius - cylinderOcclusionDepth - 0.00001,
+                length: length,
+                padding: cylinderOcclusionDepth,
+                subdivision: .radial(subdivision)
+            )
+            occlusion.scale = .one
+            
+            wireframe.scale = baseScale
+            surface.scale = baseScale
+            
+            outline.model?.mesh = .generateVolumetricCylindricalSurface(
+                radius: radius,
+                length: length,
+                padding: outlineWidth,
+                subdivision: .radial(subdivision),
+                insideOut: true)
+            outline.scale = .one
+        }
+        
+        #if SUPPORT_DEBUG_GESTURE
+        let meshPoints = Submesh.generateCylindricalSurface(
+            radius: radius,
+            length: length,
+            subdivision: .radial(subdivision)).positions
+        components.set(CollisionComponent(shapes: [.generateConvex(from: meshPoints)]))
+        #endif
+    }
+    
+    override func enableOutline(_ visible: Bool) {
+        occlusion.isEnabled = visible
+        wireframe.isEnabled = visible
+        outline.isEnabled = visible
+    }
+}
+
+fileprivate func updateModelEntities(
+    _ intrinsics: CylinderEntity.Intrinsics,
+    _ occlusion: ModelEntity,
+    _ wireframe: ModelEntity,
+    _ surface: ModelEntity,
+    _ outline: ModelEntity
+) {
+    
+    let radius = intrinsics.radius
+    let length = intrinsics.length
+    let outlineWidth = intrinsics.outlineWidth
+    let shape = intrinsics.shape
+    let subdivision = intrinsics.subdivision
+    
+    switch shape {
+    case .volume:
+        
+        let submesh = Submesh.generateCylinder(radius: 1.0, length: 1.0,
+                                               subdivision: subdivision)
+        let mesh = MeshResource.generate(from: submesh)
+        let baseScale = simd_float3(radius, length, radius)
+        let weights = simd_float3(1, 2, 1)
+        
+        occlusion.model?.mesh = mesh
+        occlusion.scale = baseScale - cylinderOcclusionDepth * weights
+        
+        wireframe.model?.mesh = mesh
+        wireframe.scale = baseScale
+        
+        surface.model?.mesh = mesh
+        surface.scale = baseScale
+        
+        outline.model?.mesh = .generate(from: submesh.inverted)
+        outline.scale = baseScale + outlineWidth * weights
+    
+    case .surface:
+        
+        occlusion.model?.mesh = .generateVolumetricCylindricalSurface(
+            radius: radius - cylinderOcclusionDepth - 0.00001,
+            length: length,
+            padding: cylinderOcclusionDepth,
+            subdivision: .radial(subdivision)
+        )
+        occlusion.scale = .one
+        
+        let surfaceMesh = MeshResource.generateCylindricalSurface(
+            radius: 1.0, length: 1.0, subdivision: subdivision)
+        
+        wireframe.model?.mesh = surfaceMesh
+        wireframe.scale = .init(radius, length, radius)
+        
+        surface.model?.mesh = surfaceMesh
+        surface.scale = wireframe.scale
+        
+        outline.model?.mesh = .generateVolumetricCylindricalSurface(
+            radius: radius,
+            length: length,
+            padding: outlineWidth,
+            subdivision: .radial(subdivision),
+            insideOut: true)
+        outline.scale = .one
     }
 }
