@@ -7,7 +7,6 @@
 
 import Foundation
 import RealityKit
-import SwiftUI
 
 @MainActor
 class GeometryEntity: Entity {
@@ -41,7 +40,7 @@ extension GeometryEntity {
         }()
         case let .torus(_, torus, inliers, _): {
             let (begin, delta) = torus.calcAngleRange(from: inliers)
-            if delta >= .degrees(270) {
+            if delta >= .radians(fromDegrees: 270) {
                 return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius) as GeometryEntity
             }
             return TorusEntity(meanRadius: torus.meanRadius, tubeRadius: torus.tubeRadius, tubeBegin: begin, tubeAngle: delta, shape: .surface)
@@ -67,7 +66,7 @@ fileprivate func angle(_ a: simd_float3, _ b: simd_float3, _ c: simd_float3 = .i
 import FindSurface_visionOS
 
 extension Torus {
-    func calcAngleRange(from inliers: [simd_float3]) -> (begin: Angle, delta: Angle) {
+    func calcAngleRange(from inliers: [simd_float3]) -> (begin: Float, delta: Float) {
         
         let projected = inliers.map { point in
             normalize(simd_float3(point.x, 0, point.z))
@@ -75,7 +74,7 @@ extension Torus {
         var projectedCenter = projected.reduce(.zero, +) / Float(projected.count)
         
         if length(projectedCenter) < 0.1 {
-            return (begin: .zero, delta: .degrees(360))
+            return (begin: .zero, delta: .twoPi)
         }
         projectedCenter = normalize(projectedCenter)
         
@@ -86,11 +85,11 @@ extension Torus {
         }
         
         guard let (beginAngle, endAngle) = angles.minAndMax() else {
-            return (begin: .zero, delta: .degrees(360))
+            return (begin: .zero, delta: .twoPi)
         }
         
-        let begin = Angle(radians: Double(beginAngle + baseAngle))
-        let end = Angle(radians: Double(endAngle + baseAngle))
+        let begin = beginAngle + baseAngle
+        let end = endAngle + baseAngle
         let delta = end - begin
         
         return (begin: begin, delta: delta)

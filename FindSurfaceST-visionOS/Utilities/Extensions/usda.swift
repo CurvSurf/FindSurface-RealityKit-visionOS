@@ -557,12 +557,12 @@ extension TorusEntity: USDAExportable {
             USDCustomDataField(varname: "tubeRadius", value: tubeRadius),
             USDCustomDataField(varname: "center", value: center),
             USDCustomDataField(varname: "axis", value: axis),
-            USDCustomDataField(varname: "tubeAngle", value: Float(tubeAngle.radians))
+            USDCustomDataField(varname: "tubeAngle", value: tubeAngle)
         ], instanceable: true, specifyApiSchemas: true)
         
         return USDXForm(name: name, metadata: metadata) {
-            let deltaAngle = tubeAngle.radians < 0 ? -tubeAngle : tubeAngle
-            let toricSurface = if deltaAngle.degrees > 270 {
+            let deltaAngle = abs(tubeAngle)
+            let toricSurface = if deltaAngle > .radians(fromDegrees: 270) {
                 Submesh.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius)
             } else {
                 Submesh.generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius, tubeBegin: tubeBegin, tubeAngle: tubeAngle)

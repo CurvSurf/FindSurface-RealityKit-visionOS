@@ -1,13 +1,12 @@
 //
 //  Submesh.swift
-//  FindSurfaceRT-visionOS
+//  FindSurfaceST-visionOS
 //
 //  Created by CurvSurf-SGKim on 7/18/24.
 //
 
 import Foundation
 import simd
-import SwiftUI
 
 enum Winding {
     case counterClockwise
@@ -1093,14 +1092,24 @@ enum TorusSubdivision: Equatable {
     }
 }
 
+fileprivate let _twoPi: Float = 2.0 * .pi
+fileprivate let _toDegrees: Float = 180.0 / .pi
+fileprivate let _toRadians: Float = .pi / 180.0
+
+extension Float {
+    static var twoPi: Float { _twoPi }
+    static func radians(fromDegrees degrees: Float) -> Float { degrees * _toRadians }
+    static func degrees(fromRadians radians: Float) -> Float { radians * _toDegrees }
+}
+
 // Torus
 extension Submesh {
     
-    private static func generateAngleSteps(beginAngle: Angle, endAngle: Angle, subdivision: Int) -> [Angle] {
-        let angleStep = 360 / Float(subdivision)
+    private static func generateAngleSteps(beginAngle: Float, endAngle: Float, subdivision: Int) -> [Float] {
+        let angleStep = .twoPi / Float(subdivision)
         
-        let lowerBound = Float(beginAngle.degrees)
-        let upperBound = Float(endAngle.degrees)
+        let lowerBound = beginAngle
+        let upperBound = endAngle
         
         var angles = [lowerBound]
         
@@ -1124,19 +1133,20 @@ extension Submesh {
             angles.append(upperBound)
         }
         
-        return angles.map { Angle(degrees: Double($0)) }
+        return angles
     }
+
     
     static func generateToricSurface(meanRadius: Float, tubeRadius: Float,
-                                     tubeBegin: Angle = .degrees(0),
-                                     tubeAngle: Angle = .degrees(360),
+                                     tubeBegin: Float = .zero,
+                                     tubeAngle: Float = .twoPi,
                                      subdivision: TorusSubdivision = .both(36, 36)) -> Submesh {
         
         let tcount = subdivision.toroidal
         let pcount = subdivision.poloidal
         
 #if SUPPORT_DEBUG_GESTURE && !DEBUG
-        guard meanRadius >= 0 && tubeRadius >= 0 && tubeAngle.degrees >= 0,
+        guard meanRadius >= 0 && tubeRadius >= 0 && tubeAngle >= 0,
               tcount >= 3 && pcount >= 3 else {
             print("\(#function) returns a temporary submesh.")
             return generateToricSurface(meanRadius: 1, tubeRadius: 1, subdivision: .none)
@@ -1144,13 +1154,13 @@ extension Submesh {
 #else
         precondition(meanRadius >= 0)
         precondition(tubeRadius >= 0)
-        precondition(tubeAngle.degrees >= 0)
+        precondition(tubeAngle >= 0)
         precondition(tcount >= 3)
         precondition(pcount >= 3)
 #endif
         
-        let tubeBegin = Angle(degrees: fmod(tubeBegin.degrees.truncatingRemainder(dividingBy: 360) + 360, 360))
-        let tubeEnd = Angle(radians: tubeBegin.radians + tubeAngle.radians)
+        let tubeBegin = fmod(tubeBegin.truncatingRemainder(dividingBy: .twoPi) + .twoPi, .twoPi)
+        let tubeEnd = tubeBegin + tubeAngle
         let angles = generateAngleSteps(beginAngle: tubeBegin, endAngle: tubeEnd,
                                         subdivision: tcount)
         let angleCount = angles.count
@@ -1168,16 +1178,15 @@ extension Submesh {
         var triangleIndices = [UInt32]()
         triangleIndices.reserveCapacity(indexCount)
         
-        for tAngle in angles {
-            var tratio = Float(tAngle.degrees) / 360
+        for tangle in angles {
+            var tratio = tangle / .twoPi
             if tratio > 1.0 {
                 tratio -= 1.0
             }
-            let tangle = Float(tAngle.radians)
             
             for pindex in 0...pcount {
                 let pratio = Float(pindex) / Float(pcount)
-                let pangle = 2.0 * .pi * pratio
+                let pangle = .twoPi * pratio
                 
                 let tubeDirection = simd_float3(angle: tangle, axis: .y)
                 let tubeCenter = meanRadius * tubeDirection
@@ -1211,17 +1220,17 @@ extension Submesh {
     
     static func generateTorus(meanRadius: Float,
                               tubeRadius: Float,
-                              tubeBegin: Angle = .degrees(0),
-                              tubeAngle: Angle = .degrees(360),
+                              tubeBegin: Float = .zero,
+                              tubeAngle: Float = .twoPi,
                               padding: Float = 0.0,
                               subdivision: TorusSubdivision = .both(36, 36)) -> Submesh {
         
-        let tubeAngle = tubeAngle.degrees > 360 ? Angle(degrees: 360) : tubeAngle.degrees < 0 ? Angle(degrees: 0) : tubeAngle
+        let tubeAngle = min(max(tubeAngle, .zero), .twoPi)
         let tubeEnd = tubeBegin + tubeAngle
         
         guard padding == 0 else {
             let tubeRadius = max(tubeRadius + padding, 0)
-            let angleOffset = tubeAngle.degrees == 360 ? .zero : Angle(radians: Double(padding / meanRadius))
+            let angleOffset = tubeAngle == .twoPi ? .zero : (padding / meanRadius)
             let tubeBegin = tubeBegin - angleOffset
             let tubeAngle = tubeAngle + angleOffset * 2
             return generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius,
@@ -1234,7 +1243,7 @@ extension Submesh {
                                            subdivision: subdivision)
         surface.texcoords = .init(surface.texcoords.lazy.scaled(y: 0.5).translated(y: 0.5))
         
-        guard tubeAngle.degrees < 360 else {
+        guard tubeAngle < .twoPi else {
             return surface
         }
         
@@ -1242,26 +1251,26 @@ extension Submesh {
         var endCover = beginCover
         
         beginCover.texcoords.scale(y: 0.5)
-        let beginOrientation = simd_quatf(from: .init(-1, 0, 0), to: .init(angle: Float(tubeBegin.radians), axis: .y))
+        let beginOrientation = simd_quatf(from: .init(-1, 0, 0), to: .init(angle: tubeBegin, axis: .y))
         beginCover.rotate(beginOrientation)
-        beginCover.translate(.init(angle: Float(tubeBegin.radians), radius: meanRadius, axis: .y))
+        beginCover.translate(.init(angle: tubeBegin, radius: meanRadius, axis: .y))
         
         endCover.texcoords = .init(endCover.texcoords.lazy.scaled(0.5).translated(x: 0.5))
-        let endOrientation = simd_quatf(from: .init(1, 0, 0), to: .init(angle: Float(tubeEnd.radians), axis: .y))
+        let endOrientation = simd_quatf(from: .init(1, 0, 0), to: .init(angle: tubeEnd, axis: .y))
         endCover.rotate(endOrientation)
-        endCover.translate(.init(angle: Float(tubeEnd.radians), radius: meanRadius, axis: .y))
+        endCover.translate(.init(angle: tubeEnd, radius: meanRadius, axis: .y))
         
         return surface + beginCover + endCover
     }
     
     static func generateVolumetricToricSurface(meanRadius: Float,
                                                tubeRadius: Float,
-                                               tubeBegin: Angle = .degrees(0),
-                                               tubeAngle: Angle = .degrees(360),
+                                               tubeBegin: Float = .zero,
+                                               tubeAngle: Float = .twoPi,
                                                padding: Float,
                                                subdivision: TorusSubdivision = .both(36, 36)) -> Submesh {
         
-        var tubeAngle = tubeAngle.degrees > 360 ? Angle(degrees: 360) : tubeAngle.degrees < 0 ? Angle(degrees: 0) : tubeAngle
+        var tubeAngle = min(max(tubeAngle, .zero), .twoPi)
         
         guard padding >= 0 else {
             let padding = -padding
@@ -1276,12 +1285,12 @@ extension Submesh {
         
         let outerTubeRadius = tubeRadius + padding
         let innerTubeRadius = tubeRadius - padding
-        let angleOffset = Angle(radians: Double(padding / meanRadius))
+        let angleOffset = padding / meanRadius
         let tubeBegin = tubeBegin - angleOffset
         tubeAngle = tubeAngle + angleOffset * 2
         let tubeEnd = tubeBegin + tubeAngle
         
-        guard tubeAngle.degrees < 360 else {
+        guard tubeAngle < .twoPi else {
             
             return generateTorus(meanRadius: meanRadius, tubeRadius: tubeRadius,
                                  tubeBegin: tubeBegin, tubeAngle: tubeAngle,
@@ -1306,14 +1315,14 @@ extension Submesh {
         var endCover = beginCover
         
         beginCover.texcoords.scale(y: 0.5)
-        let beginOrientation = simd_quatf(from: .init(-1, 0, 0), to: .init(angle: Float(tubeBegin.radians), axis: .y))
+        let beginOrientation = simd_quatf(from: .init(-1, 0, 0), to: .init(angle: tubeBegin, axis: .y))
         beginCover.rotate(beginOrientation)
-        beginCover.translate(.init(angle: Float(tubeBegin.radians), radius: meanRadius, axis: .y))
+        beginCover.translate(.init(angle: tubeBegin, radius: meanRadius, axis: .y))
         
         endCover.texcoords = .init(endCover.texcoords.lazy.scaled(0.5).translated(x: 0.5))
-        let endOrientation = simd_quatf(from: .init(1, 0, 0), to: .init(angle: Float(tubeEnd.radians), axis: .y))
+        let endOrientation = simd_quatf(from: .init(1, 0, 0), to: .init(angle: tubeEnd, axis: .y))
         endCover.rotate(endOrientation)
-        endCover.translate(.init(angle: Float(tubeEnd.radians), radius: meanRadius, axis: .y))
+        endCover.translate(.init(angle: tubeEnd, radius: meanRadius, axis: .y))
         
         return outerSurface + innerSurface + beginCover + endCover
     }

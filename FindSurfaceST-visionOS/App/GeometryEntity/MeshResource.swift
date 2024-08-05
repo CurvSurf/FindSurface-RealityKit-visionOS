@@ -10,11 +10,6 @@ import RealityKit
 import simd
 import Algorithms
 import ARKit
-import SwiftUI
-
-import Foundation
-import RealityKit
-import SwiftUI
 
 extension MeshResource {
     
@@ -165,8 +160,8 @@ extension MeshResource {
     static func generateTorus(name: String = "",
                               meanRadius: Float,
                               tubeRadius: Float,
-                              tubeBegin: Angle = .zero,
-                              tubeAngle: Angle = .degrees(360),
+                              tubeBegin: Float = .zero,
+                              tubeAngle: Float = .twoPi,
                               padding: Float = 0.0,
                               subdivision: TorusSubdivision = .both(36, 36),
                               insideOut: Bool = false) -> MeshResource {
@@ -183,8 +178,8 @@ extension MeshResource {
     static func generateToricSurface(name: String = "",
                                      meanRadius: Float,
                                      tubeRadius: Float,
-                                     tubeBegin: Angle = .zero,
-                                     tubeAngle: Angle = .degrees(360),
+                                     tubeBegin: Float = .zero,
+                                     tubeAngle: Float = .twoPi,
                                      subdivision: TorusSubdivision = .both(36, 36),
                                      insideOut: Bool = false) -> MeshResource {
         
@@ -199,8 +194,8 @@ extension MeshResource {
     static func generateVolumetricToricSurface(name: String = "",
                                                meanRadius: Float,
                                                tubeRadius: Float,
-                                               tubeBegin: Angle = .zero,
-                                               tubeAngle: Angle = .degrees(360),
+                                               tubeBegin: Float = .zero,
+                                               tubeAngle: Float = .twoPi,
                                                padding: Float,
                                                subdivision: TorusSubdivision = .both(36, 36),
                                                insideOut: Bool = false) -> MeshResource {

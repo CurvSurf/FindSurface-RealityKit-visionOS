@@ -8,7 +8,6 @@
 import Foundation
 import RealityKit
 import Algorithms
-import SwiftUI
 
 fileprivate let torusOcclusionDepth: Float = 0.0001
 fileprivate let occlusionMaterials = [OcclusionMaterial()]
@@ -31,15 +30,15 @@ final class TorusEntity: GeometryEntity {
     struct Intrinsics: Equatable {
         var meanRadius: Float
         var tubeRadius: Float
-        var tubeBegin: Angle
-        var tubeAngle: Angle
+        var tubeBegin: Float
+        var tubeAngle: Float
         var outlineWidth: Float
         var shape: Shape
         var subdivision: TorusSubdivision
         init(meanRadius: Float = 1,
              tubeRadius: Float = 1,
-             tubeBegin: Angle = .zero,
-             tubeAngle: Angle = .degrees(360),
+             tubeBegin: Float = .zero,
+             tubeAngle: Float = .twoPi,
              outlineWidth: Float = 0.005,
              shape: Shape = .volume,
              subdivision: TorusSubdivision = .both(36, 36)) {
@@ -94,8 +93,8 @@ final class TorusEntity: GeometryEntity {
     
     convenience init(meanRadius: Float,
                      tubeRadius: Float,
-                     tubeBegin: Angle = .zero,
-                     tubeAngle: Angle = .degrees(360),
+                     tubeBegin: Float = .zero,
+                     tubeAngle: Float = .twoPi,
                      outlineWidth: Float = 0.005,
                      shape: Shape = .volume,
                      subdivision: TorusSubdivision = .both(36, 36)) {
