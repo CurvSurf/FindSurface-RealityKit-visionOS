@@ -21,7 +21,11 @@ After starting the app, the floating panels (below) will appear on your right si
 This panels provide you ways to control the app's behavior and information about geometries you've found. With the panels, you can perform the following actions:
 
 - Tap your right middle finger and thumb together will bring the panel near your hand.
-- The eye button at the top right corner of the Controls window hides or shows the meshes around your environment. This feature allows users to interact with windows by hiding the meshes when the window is buried inside it. However, while the meshes are hidden, interactions that rely on the mesh (such as invoking FindSurface, seed radius gesture, etc.) are disabled.
+- The eye button at the top right corner of the Controls window hides or shows the meshes around your environment. 
+
+   - If the mesh entities obscure UI components, they will intercept all gesture events, such as spatial taps. Although we've provided a way to reposition some `ViewAttachmentEntity` objects, like the Controls window, using a custom gesture (e.g., tapping your right middle finger and thumb together), system windows like the Share window cannot be repositioned in `visionOS` in the same way. Consequently, if these windows are buried within the meshes, they become inaccessible for interaction. This feature, therefore, allows users to temporarily hide the meshes in such situations, enabling interaction with the windows or repositioning them to an accessible area (e.g., dragging the handle at the bottom of the window).
+  > **NOTE**: While the meshes are hidden, interactions that rely on the mesh (such as invoking FindSurface, seed radius gesture, etc.) are disabled.
+
 - The button at the top right corner of the Controls window hides or shows the Results window.
 - The button at the top right corner of the Results window hides all panels. You can bring them back with the gesture mentioned above.
 - Shape icons: In order, they represent plane, sphere, cylinder, cone, and torus. Choose one of these to specify the type of shape to be found using FindSurface.
