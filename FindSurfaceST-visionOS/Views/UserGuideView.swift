@@ -125,5 +125,6 @@ extension ImageProvider where Self == ResourceImageProvider {
         .glassBackgroundEffect()
     
     UserGuideView()
+        .environment(ScenePhaseTracker())
         .glassBackgroundEffect()
 }
