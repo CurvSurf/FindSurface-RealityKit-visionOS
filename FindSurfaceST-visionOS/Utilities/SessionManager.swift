@@ -19,8 +19,8 @@ final class SessionManager {
         HandTrackingProvider.isSupported
     }
     
-    private var worldSensingAuthorizationStatus = ARKitSession.AuthorizationStatus.notDetermined
-    private var handTrackingAuthorizationStatus = ARKitSession.AuthorizationStatus.notDetermined
+    private(set) var worldSensingAuthorizationStatus = ARKitSession.AuthorizationStatus.notDetermined
+    private(set) var handTrackingAuthorizationStatus = ARKitSession.AuthorizationStatus.notDetermined
     
     private var allRequiredAuthorizationsAreGranted: Bool {
         worldSensingAuthorizationStatus == .allowed &&
